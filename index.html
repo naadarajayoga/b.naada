@@ -9,7 +9,6 @@
   <link rel="icon" href="favicon.png" type="image/png">
 
   <style>
-    /* ===== RESET ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; background: #fefefe; }
 
@@ -19,8 +18,8 @@
       text-align: center;
       padding: 100px 20px 60px;
     }
-    header img {
-      width: 120px;
+    header img.logo {
+      width: 150px;
       margin-bottom: 20px;
     }
     header h1 { font-size: 3rem; color: #222; margin-bottom: 15px; }
@@ -78,10 +77,6 @@
       transform: translateY(-5px);
       box-shadow: 0 6px 15px rgba(0,0,0,0.12);
     }
-    .highlight img {
-      width: 50px;
-      margin-bottom: 10px;
-    }
 
     /* ===== YOUTUBE ===== */
     .videos {
@@ -125,23 +120,6 @@
     }
     .contact-form button:hover { background: #fed6e3; }
 
-    /* ===== FLOATING BUTTONS ===== */
-    .floating-buttons {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .floating-buttons a img {
-      width: 45px;
-      border-radius: 50%;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      transition: transform 0.3s;
-    }
-    .floating-buttons a img:hover { transform: scale(1.1); }
-
     /* ===== FOOTER ===== */
     footer {
       background: #f4f4f4;
@@ -149,9 +127,7 @@
       padding: 20px;
       font-size: 0.9rem;
     }
-    .footer-links {
-      margin-bottom: 10px;
-    }
+    .footer-links { margin-bottom: 10px; }
     .footer-links a {
       margin: 0 10px;
       text-decoration: none;
@@ -159,7 +135,6 @@
     }
     .footer-links a:hover { color: #222; }
 
-    /* ===== RESPONSIVE ===== */
     @media(max-width: 768px) {
       header h1 { font-size: 2.2rem; }
       .about { flex-direction: column; text-align: center; }
@@ -171,7 +146,7 @@
 
   <!-- ===== HERO ===== -->
   <header>
-    <img src="logo.png" alt="Naada Raja Yoga Logo">
+    <img src="file_00000000c07861faa7c8262545ca455e.png" alt="Naada Raja Yoga Logo" class="logo">
     <h1>Naada Raja Yoga</h1>
     <p>Elevate your body & mind with personalized yoga practice</p>
     <a href="#contact" class="cta-button">Book a Session</a>
@@ -198,21 +173,9 @@
   <section id="highlights">
     <h2>What I Offer</h2>
     <div class="highlights">
-      <div class="highlight">
-        <img src="icons/flexibility.png" alt="Flexibility">
-        <h3>Flexibility & Strength</h3>
-        <p>Improve your physical strength and flexibility through guided practice.</p>
-      </div>
-      <div class="highlight">
-        <img src="icons/oneonone.png" alt="One-on-One">
-        <h3>Personalized Sessions</h3>
-        <p>Get customized yoga plans that suit your body, schedule, and goals.</p>
-      </div>
-      <div class="highlight">
-        <img src="icons/progress.png" alt="Progress">
-        <h3>Steady Progress</h3>
-        <p>Daily monitoring and adjustments for consistent growth.</p>
-      </div>
+      <div class="highlight">Improve Flexibility & Strength</div>
+      <div class="highlight">Personalized One-on-One Online Sessions</div>
+      <div class="highlight">Daily Performance Monitoring</div>
     </div>
   </section>
 
@@ -220,9 +183,9 @@
   <section id="videos">
     <h2>Watch My Practice</h2>
     <div class="videos">
-      <iframe src="https://www.youtube.com/embed/VIDEO_ID1" frameborder="0" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/VIDEO_ID2" frameborder="0" allowfullscreen></iframe>
-      <iframe src="https://www.youtube.com/embed/VIDEO_ID3" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/SYvQXu5onF0" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/KwHA5qyFzXY" frameborder="0" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/4JhofpR7DEY" frameborder="0" allowfullscreen></iframe>
     </div>
   </section>
 
@@ -241,12 +204,6 @@
       <button type="submit">Send Message</button>
     </form>
   </section>
-
-  <!-- ===== FLOATING BUTTONS ===== -->
-  <div class="floating-buttons">
-    <a href="https://wa.me/your-number" target="_blank"><img src="icons/whatsapp.png" alt="WhatsApp"></a>
-    <a href="https://instagram.com/yourhandle" target="_blank"><img src="icons/instagram.png" alt="Instagram"></a>
-  </div>
 
   <!-- ===== FOOTER ===== -->
   <footer>
