@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,301 +9,238 @@
   <!-- Favicon -->
   <link rel="icon" href="favicon.png" type="image/png">
 
-  <!-- PayPal SDK -->
-  <script 
-    src="https://www.paypal.com/sdk/js?client-id=BAApzcZuTe3ypLit4fxNQwdx62PVgNgfdaFeYbSHBcb1Eeip0AEk7DgtyJoQE7wzzljrbt94NSBUXEigdU&components=hosted-buttons&disable-funding=venmo&currency=USD">
-  </script>
-
   <style>
     /* ===== RESET ===== */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
+      font-family: Arial, sans-serif;
       line-height: 1.6;
       color: #333;
-      background: #fefefe;
+      background: #fafafa;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin-bottom: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: #fff;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header img.logo {
+      height: 50px;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
     }
 
     /* ===== HERO ===== */
-    header {
-      background: linear-gradient(135deg, #a8edea, #fed6e3);
+    .hero {
+      background: url('cover.jpg') no-repeat center center/cover;
+      color: white;
       text-align: center;
-      padding: 120px 20px 80px;
-    }
-    header h1 {
-      font-size: 3rem;
-      margin-bottom: 15px;
-      color: #222;
-    }
-    header p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: auto;
+      padding: 100px 20px;
     }
 
-    /* ===== SECTION GENERAL ===== */
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+    }
+
+    /* ===== SECTION ===== */
     section {
-      padding: 80px 20px;
+      padding: 60px 20px;
       max-width: 1000px;
       margin: auto;
     }
-    section h2 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #444;
-      font-size: 2rem;
-    }
-    section p { line-height: 1.8; }
 
     /* ===== ABOUT ===== */
     .about-container {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 30px;
-      max-width: 900px;
-      margin: auto;
-    }
-    .about-container img {
-      width: 300px;
-      max-width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-    }
-    .about-container .grid {
-      flex: 1;
-      min-width: 250px;
-    }
-
-    /* MOBILE FIX */
-    @media (max-width: 768px) {
-      .about-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .about-container img {
-        margin-bottom: 20px;
-      }
-      .about-container .grid {
-        width: 100%;
-      }
-    }
-
-    /* ===== HIGHLIGHTS ===== */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      margin-top: 40px;
-    }
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 25px;
-      text-align: center;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      transition: 0.3s;
-      font-size: 1.1rem;
-    }
-    .card:hover { transform: translateY(-5px); }
-
-    /* ===== PROGRAM SECTION ===== */
-    .offer-single {
-      background: white;
-      border-radius: 12px;
-      padding: 40px;
-      max-width: 500px;
-      margin: 40px auto 0;
-      text-align: center;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-    }
-    .offer-single h3 {
-      font-size: 1.6rem;
-      margin-bottom: 15px;
-      color: #333;
-    }
-    .offer-single p {
-      margin-bottom: 20px;
-      font-size: 1.1rem;
-      color: #555;
-    }
-
-    /* ===== SHORTS CAROUSEL ===== */
-    #shorts {
-      padding: 80px 20px;
-      text-align: center;
-    }
-    .shorts-carousel {
-      display: flex;
-      overflow-x: auto;
-      scroll-behavior: smooth;
       gap: 20px;
-      padding: 10px;
     }
-    .shorts-carousel::-webkit-scrollbar { display: none; }
-    .short {
-      flex: 0 0 auto;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: transform 0.3s;
+
+    .about-container img {
+      width: 250px;
+      border-radius: 10px;
     }
-    .short:hover { transform: scale(1.05); }
+
+    .about-container .grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .about-container .card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
     /* ===== CONTACT ===== */
     .contact {
       text-align: center;
-      margin-bottom: 50px;
-    }
-    .contact p { margin-bottom: 15px; font-size: 1.1rem; }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-    }
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 20px;
-      border-radius: 25px;
-      font-weight: bold;
-      text-decoration: none;
-      text-align: center;
-      transition: 0.3s;
-      color: white;
+      background: #f0f0f0;
+      padding: 40px 20px;
+      border-radius: 10px;
     }
 
-    /* WhatsApp Button */
-    .whatsapp { background: #25D366; }
-    /* Instagram Button */
-    .instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
-
-    /* ===== FIXED CONTACT BUTTONS ===== */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
-    .fixed-contact {
-      position: fixed;
-      bottom: 15px;
-      right: 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      z-index: 1000;
-    }
-    .fixed-contact a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 18px;
-      border-radius: 50px;
-      font-weight: bold;
-      text-decoration: none;
-      color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      animation: float 2s ease-in-out infinite;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .fixed-contact a:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    .contact p {
+      margin-bottom: 15px;
+      font-size: 1.1rem;
     }
 
-    /* ===== ICON STYLING ===== */
-    .icon {
+    .contact a {
       display: inline-block;
-      width: 20px;
-      height: 20px;
+      margin: 10px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      background: #25d366;
+      color: white;
+      font-weight: bold;
     }
-    .icon svg { width: 100%; height: 100%; fill: white; }
+
+    .contact a.instagram {
+      background: #e4405f;
+    }
+
+    /* ===== OFFERINGS ===== */
+    .offerings {
+      display: grid;
+      gap: 20px;
+    }
+
+    .offer-single {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    .offer-single h3 {
+      margin-bottom: 10px;
+    }
+
+    /* ===== PAYPAL FIX ===== */
+    #paypal-container-UTBAB8G3VA98N {
+      max-width: 280px;
+      margin: 0 auto;
+    }
+
+    #paypal-container-UTBAB8G3VA98N iframe {
+      max-width: 100% !important;
+    }
 
     /* ===== FOOTER ===== */
     footer {
-      background: #333;
-      color: white;
       text-align: center;
       padding: 20px;
+      background: #222;
+      color: #fff;
+      margin-top: 40px;
     }
 
-    /* ===== MOBILE FIX ===== */
-    @media (max-width: 768px) {
+    /* ===== RESPONSIVE ===== */
+    @media(max-width: 768px) {
       .about-container {
         flex-direction: column;
-        align-items: center;
         text-align: center;
       }
-      .about-container img { margin-bottom: 20px; }
-      .about-container .grid { width: 100%; }
+
+      .about-container img {
+        width: 200px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-  <!-- HERO -->
+  <!-- HEADER -->
   <header>
+    <img src="logo.png" alt="Naada Raja Yoga Logo" class="logo">
     <h1>Naada Raja Yoga</h1>
-    <p>Elevate your body & mind with personalized yoga practice</p>
   </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Welcome to Naada Raja Yoga</h1>
+    <p>Transform your mind, body, and spirit through yoga.</p>
+  </section>
 
   <!-- ABOUT -->
   <section>
-  <h2>About Me</h2>
-  <div class="about-container">
-    <img src="me.jpg" alt="Yoga Teacher">
-    <div class="grid">
-      <div class="card">Over 10 Years of Teaching Experience</div>
-      <div class="card">Guiding Students in Flexibility, Strength & Inner Balance</div>
-      <div class="card">Personalized One-on-One Online Sessions</div>
-      <div class="card">Daily Monitoring to Ensure Steady Improvement</div>
-    </div>
-  </div>
-</section>
-
-  <!-- SHORTS CAROUSEL -->
-  <section id="shorts">
-    <h2>YouTube Shorts</h2>
-    <div class="shorts-carousel">
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/SYvQXu5onF0" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/KwHA5qyFzXY" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/4JhofpR7DEY" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/niu5uo0cnfg" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/gO_dfy0N-sM" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/R5niWehGQD8" frameborder="0" allowfullscreen></iframe></div>
-    </div>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <h2>Join a Program</h2>
-    <div class="offer-single">
-      <h3>One-on-One Yoga Session</h3>
-      <p>Personalized online session tailored to your body & goals.</p>
-      <div id="paypal-container-UTBAB8G3VA98N"></div>
-      <script>
-        paypal.HostedButtons({
-          hostedButtonId: "UTBAB8G3VA98N",
-        }).render("#paypal-container-UTBAB8G3VA98N")
-      </script>
-    </div>
-    <div class="contact">
-      <p>🕙 10:30 AM – 2:00 PM IST</p>
-      <div class="social-links">
-        <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">WhatsApp</a>
-        <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">Instagram</a>
+    <h2>About Me</h2>
+    <div class="about-container">
+      <img src="me.jpg" alt="Yoga Teacher">
+      <div class="grid">
+        <div class="card">
+          Over 10 Years of Teaching Experience
+        </div>
+        <div class="card">
+          Guiding Students in Flexibility, Strength & Inner Balance
+        </div>
+        <div class="card">
+          Personalized One-on-One Online Sessions
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FIXED CONTACT BUTTONS -->
-  <div class="fixed-contact">
-    <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">WhatsApp</a>
-    <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">Instagram</a>
-  </div>
+  <!-- CONTACT -->
+  <section class="contact">
+    <h2>Contact</h2>
+    <p>Contact me before joining.</p>
+    <a href="https://wa.me/1234567890">WhatsApp</a>
+    <a href="https://instagram.com/yourprofile" class="instagram">Instagram</a>
+  </section>
+
+  <!-- JOIN A PROGRAM -->
+  <section>
+    <h2>Join a Program</h2>
+    <div class="offerings">
+      <div class="offer-single">
+        <h3>One-on-One Yoga Session</h3>
+        <div id="paypal-container-UTBAB8G3VA98N"></div>
+        <script src="https://www.paypal.com/sdk/js?client-id=sb&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+        <script>
+          paypal.HostedButtons({
+            hostedButtonId: "UTBAB8G3VA98N",
+          }).render("#paypal-container-UTBAB8G3VA98N")
+        </script>
+      </div>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer>
@@ -310,4 +248,5 @@
   </footer>
 
 </body>
+
 </html>
