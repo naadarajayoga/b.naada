@@ -37,7 +37,7 @@
 
     /* ===== SECTION GENERAL ===== */
     section {
-      padding: 80px 20px; /* increased padding for breathing space */
+      padding: 80px 20px;
       max-width: 1000px;
       margin: auto;
     }
@@ -55,7 +55,7 @@
     .about-container {
       display: flex;
       flex-wrap: wrap;
-      align-items: center;
+      align-items: flex-start;
       gap: 30px;
       max-width: 900px;
       margin: auto;
@@ -65,11 +65,26 @@
       max-width: 100%;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      flex-shrink: 0;
     }
-    .about-container p {
+    .about-container .grid {
       flex: 1;
       min-width: 250px;
-      text-align: justify;
+    }
+
+    /* MOBILE FIX */
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .about-container img {
+        margin-bottom: 20px;
+      }
+      .about-container .grid {
+        width: 100%;
+      }
     }
 
     /* ===== HIGHLIGHTS ===== */
@@ -123,6 +138,7 @@
       display: flex;
       justify-content: center;
       gap: 15px;
+      flex-wrap: wrap;
     }
     .social-links a {
       display: inline-flex;
@@ -202,17 +218,17 @@
 
   <!-- ABOUT -->
   <section>
-  <h2>About Me</h2>
-  <div class="about-container">
-    <img src="me.jpg" alt="Yoga Teacher">
-    <div class="grid">
-      <div class="card">Over 10 Years of Teaching Experience</div>
-      <div class="card">Guiding Students in Flexibility, Strength & Inner Balance</div>
-      <div class="card">Personalized One-on-One Online Sessions</div>
-      <div class="card">Daily Monitoring to Ensure Steady Improvement</div>
+    <h2>About Me</h2>
+    <div class="about-container">
+      <img src="me.jpg" alt="Yoga Teacher">
+      <div class="grid">
+        <div class="card">Over 10 Years of Teaching Experience</div>
+        <div class="card">Guiding Students in Flexibility, Strength & Inner Balance</div>
+        <div class="card">Personalized One-on-One Online Sessions</div>
+        <div class="card">Daily Monitoring to Ensuring Steady Improvement</div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- WHAT I OFFER -->
   <section>
