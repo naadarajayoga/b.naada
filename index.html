@@ -42,7 +42,7 @@
 
     /* ===== SECTION GENERAL ===== */
     section {
-      padding: 80px 20px;
+      padding: 80px 20px; /* increased padding for breathing space */
       max-width: 1000px;
       margin: auto;
     }
@@ -68,18 +68,25 @@
       max-width: 100%;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      flex-shrink: 0;
-    }
-    .about-container p {
-      flex: 1;
-      min-width: 250px;
-      text-align: justify;
     }
     .about-container .grid {
       flex: 1;
       min-width: 250px;
-      display: grid;
-      gap: 20px;
+    }
+
+    /* MOBILE FIX */
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .about-container img {
+        margin-bottom: 20px;
+      }
+      .about-container .grid {
+        width: 100%;
+      }
     }
 
     /* ===== HIGHLIGHTS ===== */
@@ -244,17 +251,17 @@
 
   <!-- ABOUT -->
   <section>
-    <h2>About Me</h2>
-    <div class="about-container">
-      <img src="me.jpg" alt="Yoga Teacher">
-      <div class="grid">
-        <div class="card">Over 10 Years of Teaching Experience</div>
-        <div class="card">Guiding Students in Flexibility, Strength & Inner Balance</div>
-        <div class="card">Personalized One-on-One Online Sessions</div>
-        <div class="card">Daily Monitoring to Ensuring Steady Improvement</div>
-      </div>
+  <h2>About Me</h2>
+  <div class="about-container">
+    <img src="me.jpg" alt="Yoga Teacher">
+    <div class="grid">
+      <div class="card">Over 10 Years of Teaching Experience</div>
+      <div class="card">Guiding Students in Flexibility, Strength & Inner Balance</div>
+      <div class="card">Personalized One-on-One Online Sessions</div>
+      <div class="card">Daily Monitoring to Ensure Steady Improvement</div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- JOIN A PROGRAM -->
   <section>
