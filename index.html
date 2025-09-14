@@ -39,10 +39,14 @@
     section h2 { text-align: center; margin-bottom: 25px; color: #444; font-size: 1.9rem; }
     section p { line-height: 1.8; }
 
-    .about-container { display: flex; flex-wrap: wrap; align-items: center; gap: 30px; max-width: 900px; margin: auto; }
+    .about-container { 
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 30px; max-width: 900px; margin: auto; text-align: center;
+    }
     .about-container img {
       width: 260px; max-width: 100%; border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      margin: auto;
     }
     .about-container .grid { flex: 1; min-width: 250px; }
 
@@ -110,6 +114,17 @@
     .icon svg { width: 100%; height: 100%; }
 
     footer { background: #333; color: white; text-align: center; padding: 15px; font-size: 0.9rem; }
+
+    /* Mobile fix: center image and stack nicely */
+    @media (max-width: 768px) {
+      .about-container {
+        flex-direction: column;
+        text-align: center;
+      }
+      .about-container img {
+        margin: 0 auto;
+      }
+    }
   </style>
 </head>
 <body>
