@@ -14,7 +14,10 @@
   </script>
 
   <style>
+    /* Reset + no horizontal scroll */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+    html, body { width: 100%; overflow-x: hidden; }
+    img { max-width: 100%; height: auto; display: block; }
 
     body { line-height: 1.6; color: #333; background: #fefefe; }
 
@@ -25,6 +28,7 @@
     .branding {
       display: flex; align-items: center; justify-content: center; gap: 15px;
       max-width: 1000px; margin: auto; text-align: center;
+      flex-wrap: wrap;
     }
     .branding img { width: 70px; height: auto; }
     .branding h1 {
@@ -39,10 +43,14 @@
     section h2 { text-align: center; margin-bottom: 25px; color: #444; font-size: 1.9rem; }
     section p { line-height: 1.8; }
 
-    .about-container { display: flex; flex-wrap: wrap; align-items: center; gap: 30px; max-width: 900px; margin: auto; }
+    .about-container { 
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+      gap: 30px; max-width: 900px; margin: auto; text-align: center;
+    }
     .about-container img {
-      width: 260px; max-width: 100%; border-radius: 12px;
+      width: 260px; border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      margin: auto;
     }
     .about-container .grid { flex: 1; min-width: 250px; }
 
@@ -50,6 +58,7 @@
     .card {
       background: white; border-radius: 12px; padding: 20px; text-align: center;
       box-shadow: 0 6px 15px rgba(0,0,0,0.1); transition: 0.3s; font-size: 1rem;
+      word-wrap: break-word;
     }
     .card:hover { transform: translateY(-5px); }
 
@@ -63,12 +72,15 @@
     #shorts { padding: 60px 20px; text-align: center; }
     .shorts-carousel {
       display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 15px; padding: 10px;
+      max-width: 100%;
     }
     .shorts-carousel::-webkit-scrollbar { display: none; }
     .short {
       flex: 0 0 auto; border-radius: 12px; overflow: hidden;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.3s;
+      max-width: 250px;
     }
+    .short iframe { display: block; width: 100%; height: 450px; }
     .short:hover { transform: scale(1.05); }
 
     .contact { text-align: center; margin-bottom: 30px; }
@@ -103,6 +115,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       animation: float 2s ease-in-out infinite;
       transition: transform 0.3s, box-shadow 0.3s;
+      max-width: 90vw;
     }
     .fixed-contact a:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
 
@@ -110,6 +123,13 @@
     .icon svg { width: 100%; height: 100%; }
 
     footer { background: #333; color: white; text-align: center; padding: 15px; font-size: 0.9rem; }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .about-container { flex-direction: column; text-align: center; }
+      .about-container img { margin: 0 auto; }
+      .branding { flex-direction: column; }
+    }
   </style>
 </head>
 <body>
@@ -138,12 +158,12 @@
   <section id="shorts">
     <h2>YouTube Shorts</h2>
     <div class="shorts-carousel">
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/SYvQXu5onF0" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/KwHA5qyFzXY" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/4JhofpR7DEY" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/niu5uo0cnfg" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/gO_dfy0N-sM" frameborder="0" allowfullscreen></iframe></div>
-      <div class="short"><iframe width="250" height="450" src="https://www.youtube.com/embed/R5niWehGQD8" frameborder="0" allowfullscreen></iframe></div>
+      <div class="short"><iframe src="https://www.youtube.com/embed/SYvQXu5onF0" frameborder="0" allowfullscreen></iframe></div>
+      <div class="short"><iframe src="https://www.youtube.com/embed/KwHA5qyFzXY" frameborder="0" allowfullscreen></iframe></div>
+      <div class="short"><iframe src="https://www.youtube.com/embed/4JhofpR7DEY" frameborder="0" allowfullscreen></iframe></div>
+      <div class="short"><iframe src="https://www.youtube.com/embed/niu5uo0cnfg" frameborder="0" allowfullscreen></iframe></div>
+      <div class="short"><iframe src="https://www.youtube.com/embed/gO_dfy0N-sM" frameborder="0" allowfullscreen></iframe></div>
+      <div class="short"><iframe src="https://www.youtube.com/embed/R5niWehGQD8" frameborder="0" allowfullscreen></iframe></div>
     </div>
   </section>
 
@@ -154,22 +174,18 @@
         <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
           <span class="icon">
             <!-- Official WhatsApp Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-              <path fill="#FFF" d="M380.9 97.1C339-3.1 256.5-8.1 
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M380.9 97.1C339-3.1 256.5-8.1 
               186.5 31.9 116.5 71.9 53 168.7 94.9 268.9c21.5 52.5 
               61.5 99.3 113.6 125.5l-15.3 53.4c-2.9 10.1 7.1 
               18.8 16.5 13.9l58.7-31.5c60.4 8.4 119.4-14.3 
               162.3-59.9 67.1-70.8 70.5-182.1 
-              8.2-253.2z"/>
-            </svg>
-          </span>
-          WhatsApp
+              8.2-253.2z"/></svg>
+          </span> WhatsApp
         </a>
         <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
           <span class="icon">
             <!-- Instagram Icon -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-              <path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
               25.7-57.3 57.3s25.7 57.3 57.3 57.3 
               57.3-25.7 57.3-57.3-25.7-57.3-57.3-57.3zm124.7-41c0 
               16.5-13.5 30-30 30s-30-13.5-30-30 
@@ -183,10 +199,8 @@
               186 0 36.2-.1 68.2-9.8 
               94.2-35.8 26-26 35.7-58 
               35.8-94.2.1-37.2.1-148.8 
-              0-186z"/>
-            </svg>
-          </span>
-          Instagram
+              0-186z"/></svg>
+          </span> Instagram
         </a>
       </div>
     </div>
@@ -205,25 +219,21 @@
   <div class="fixed-contact">
     <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
       <span class="icon">
-        <!-- Official WhatsApp Floating Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-          <path fill="#FFF" d="M380.9 97.1C339-3.1 256.5-8.1 
+        <!-- WhatsApp Floating Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M380.9 97.1C339-3.1 256.5-8.1 
           186.5 31.9 116.5 71.9 53 168.7 
           94.9 268.9c21.5 52.5 61.5 99.3 
           113.6 125.5l-15.3 53.4c-2.9 
           10.1 7.1 18.8 16.5 13.9l58.7-31.5c60.4 
           8.4 119.4-14.3 162.3-59.9 
           67.1-70.8 70.5-182.1 
-          8.2-253.2z"/>
-        </svg>
-      </span>
-      WhatsApp
+          8.2-253.2z"/></svg>
+      </span> WhatsApp
     </a>
     <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
       <span class="icon">
         <!-- Instagram Floating Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-          <path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
           25.7-57.3 57.3s25.7 57.3 57.3 
           57.3 57.3-25.7 57.3-57.3-25.7-57.3-57.3-57.3zm124.7-41c0 
           16.5-13.5 30-30 30s-30-13.5-30-30 
@@ -237,10 +247,8 @@
           186 0 36.2-.1 68.2-9.8 
           94.2-35.8 26-26 35.7-58 
           35.8-94.2.1-37.2.1-148.8 
-          0-186z"/>
-        </svg>
-      </span>
-      Instagram
+          0-186z"/></svg>
+      </span> Instagram
     </a>
   </div>
 
