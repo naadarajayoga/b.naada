@@ -14,9 +14,8 @@
   </script>
 
   <style>
-    /* Reset + no horizontal scroll */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-    html, body { width: 100%; overflow-x: hidden; }
+    html, body { width: 100%; }
     img { max-width: 100%; height: auto; display: block; }
 
     body { line-height: 1.6; color: #333; background: #fefefe; }
@@ -93,6 +92,7 @@
       display: inline-flex; align-items: center; gap: 8px;
       padding: 10px 18px; border-radius: 25px; font-weight: bold;
       text-decoration: none; color: white; transition: 0.3s;
+      max-width: 100%;
     }
 
     .whatsapp { background: #25D366; }
@@ -107,6 +107,7 @@
     .fixed-contact {
       position: fixed; bottom: 15px; right: 15px;
       display: flex; flex-direction: column; gap: 10px; z-index: 1000;
+      max-width: calc(100% - 20px);
     }
     .fixed-contact a {
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -115,7 +116,7 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       animation: float 2s ease-in-out infinite;
       transition: transform 0.3s, box-shadow 0.3s;
-      max-width: 90vw;
+      width: 100%;
     }
     .fixed-contact a:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
 
@@ -129,6 +130,8 @@
       .about-container { flex-direction: column; text-align: center; }
       .about-container img { margin: 0 auto; }
       .branding { flex-direction: column; }
+      .fixed-contact { right: 10px; left: 10px; align-items: flex-end; }
+      .fixed-contact a { width: auto; }
     }
   </style>
 </head>
@@ -173,7 +176,7 @@
       <div class="social-links">
         <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
           <span class="icon">
-            <!-- Official WhatsApp Icon -->
+            <!-- WhatsApp Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M380.9 97.1C339-3.1 256.5-8.1 
               186.5 31.9 116.5 71.9 53 168.7 94.9 268.9c21.5 52.5 
               61.5 99.3 113.6 125.5l-15.3 53.4c-2.9 10.1 7.1 
@@ -219,7 +222,7 @@
   <div class="fixed-contact">
     <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
       <span class="icon">
-        <!-- WhatsApp Floating Icon -->
+        <!-- WhatsApp Floating -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M380.9 97.1C339-3.1 256.5-8.1 
           186.5 31.9 116.5 71.9 53 168.7 
           94.9 268.9c21.5 52.5 61.5 99.3 
@@ -232,7 +235,7 @@
     </a>
     <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
       <span class="icon">
-        <!-- Instagram Floating Icon -->
+        <!-- Instagram Floating -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
           25.7-57.3 57.3s25.7 57.3 57.3 
           57.3 57.3-25.7 57.3-57.3-25.7-57.3-57.3-57.3zm124.7-41c0 
