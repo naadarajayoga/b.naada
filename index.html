@@ -97,6 +97,7 @@
     .instagram {
       background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
     }
+    .email { background: #D44638; }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
@@ -120,6 +121,8 @@
     .icon svg { width: 100%; height: 100%; }
 
     footer { background: #333; color: white; text-align: center; padding: 15px; font-size: 0.9rem; }
+    .footer-links { margin-top: 10px; display: flex; justify-content: center; gap: 15px; }
+    .footer-links a { color: white; display: inline-block; width: 20px; height: 20px; }
 
     /* ✅ Mobile fix */
     @media (max-width: 768px) {
@@ -182,7 +185,6 @@
       <div class="social-links">
         <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
           <span class="icon">
-            <!-- ✅ Official WhatsApp Circular Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
               <path fill="#25D366" d="M224 0C100.3 0 0 100.3 0 224c0 39.5 10.3 77.5 
               29.9 111.2L16 496l164.1-43.1C205.6 466.4 
@@ -203,7 +205,6 @@
         </a>
         <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
           <span class="icon">
-            <!-- Instagram Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
               <path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
               25.7-57.3 57.3s25.7 57.3 57.3 57.3 
@@ -224,6 +225,22 @@
           </span>
           Instagram
         </a>
+        <a href="mailto:yoga@naadaraja.com" target="_blank" class="email">
+          <span class="icon">
+            <!-- Email Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+              <path fill="#fff" d="M502.3 190.8L327.4 338c-15.9 13.1-39.1 13.1-55 
+              0L9.7 190.8C3.9 186.5 0 179.3 0 
+              171.6V400c0 26.5 21.5 48 48 
+              48h416c26.5 0 48-21.5 
+              48-48V171.6c0-7.7-3.9-14.9-9.7-18.8zM464 
+              64H48C21.5 64 0 85.5 0 
+              112v25.6l224 184c15.9 13.1 39.1 
+              13.1 55 0l224-184V112c0-26.5-21.5-48-48-48z"/>
+            </svg>
+          </span>
+          Email
+        </a>
       </div>
     </div>
 
@@ -240,7 +257,6 @@
   <div class="fixed-contact">
     <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
       <span class="icon">
-        <!-- ✅ Official WhatsApp Floating Circular Icon -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <path fill="#25D366" d="M224 0C100.3 0 0 100.3 0 224c0 39.5 10.3 77.5 
           29.9 111.2L16 496l164.1-43.1C205.6 466.4 
@@ -261,7 +277,6 @@
     </a>
     <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
       <span class="icon">
-        <!-- Instagram Floating Icon -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           <path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
           25.7-57.3 57.3s25.7 57.3 57.3 
@@ -282,10 +297,66 @@
       </span>
       Instagram
     </a>
+    <a href="mailto:yoga@naadaraja.com" target="_blank" class="email">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path fill="#fff" d="M502.3 190.8L327.4 338c-15.9 13.1-39.1 13.1-55 
+          0L9.7 190.8C3.9 186.5 0 179.3 0 
+          171.6V400c0 26.5 21.5 48 48 
+          48h416c26.5 0 48-21.5 
+          48-48V171.6c0-7.7-3.9-14.9-9.7-18.8zM464 
+          64H48C21.5 64 0 85.5 0 
+          112v25.6l224 184c15.9 13.1 39.1 
+          13.1 55 0l224-184V112c0-26.5-21.5-48-48-48z"/>
+        </svg>
+      </span>
+      Email
+    </a>
   </div>
 
   <footer>
     <p>&copy; 2025 Naada Raja Yoga. All rights reserved.</p>
+    <div class="footer-links">
+      <a href="http://wa.me/+919539342026" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path fill="#25D366" d="M224 0C100.3 0 0 100.3 0 224c0 39.5 10.3 77.5 
+          29.9 111.2L16 496l164.1-43.1C205.6 466.4 
+          214.7 468 224 468c123.7 0 224-100.3 
+          224-224S347.7 0 224 0z"/>
+        </svg>
+      </a>
+      <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+          <path fill="#FFF" d="M224 202.7c-31.6 0-57.3 
+          25.7-57.3 57.3s25.7 57.3 57.3 
+          57.3 57.3-25.7 57.3-57.3-25.7-57.3-57.3-57.3zm124.7-41c0 
+          16.5-13.5 30-30 30s-30-13.5-30-30 
+          13.5-30 30-30 30 13.5 30 
+          30zm71.3 41c-.1-36.2-9.8-68.2-35.8-94.2-26-26-58-35.7-94.2-35.8-37.2-.1-148.8-.1-186 
+          0-36.2.1-68.2 9.8-94.2 
+          35.8-26 26-35.7 58-35.8 
+          94.2-.1 37.2-.1 148.8 0 186 0 36.2 
+          9.8 68.2 35.8 94.2 26 26 58 
+          35.7 94.2 35.8 37.2.1 148.8.1 
+          186 0 36.2-.1 68.2-9.8 
+          94.2-35.8 26-26 35.7-58 
+          35.8-94.2.1-37.2.1-148.8 
+          0-186z"/>
+        </svg>
+      </a>
+      <a href="mailto:yoga@naadaraja.com" target="_blank">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+          <path fill="#fff" d="M502.3 190.8L327.4 338c-15.9 13.1-39.1 13.1-55 
+          0L9.7 190.8C3.9 186.5 0 179.3 0 
+          171.6V400c0 26.5 21.5 48 48 
+          48h416c26.5 0 48-21.5 
+          48-48V171.6c0-7.7-3.9-14.9-9.7-18.8zM464 
+          64H48C21.5 64 0 85.5 0 
+          112v25.6l224 184c15.9 13.1 39.1 
+          13.1 55 0l224-184V112c0-26.5-21.5-48-48-48z"/>
+        </svg>
+      </a>
+    </div>
   </footer>
 
 </body>
