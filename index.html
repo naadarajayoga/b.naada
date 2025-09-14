@@ -110,6 +110,17 @@
     .icon svg { width: 100%; height: 100%; }
 
     footer { background: #333; color: white; text-align: center; padding: 15px; font-size: 0.9rem; }
+
+    /* ✅ Fix: Center image in About section on mobile */
+    @media (max-width: 768px) {
+      .about-container {
+        justify-content: center;
+        text-align: center;
+      }
+      .about-container img {
+        margin: 0 auto;
+      }
+    }
   </style>
 </head>
 <body>
