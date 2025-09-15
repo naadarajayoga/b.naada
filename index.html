@@ -157,7 +157,22 @@
   <section id="shorts">
     <div style="text-align:center; margin-bottom:20px;">
       <a href="https://www.youtube.com/@NaadaRajaYoga" target="_blank" class="youtube-btn">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="#fff" d="M549.7..."/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="black" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- Red rounded rectangle with white border -->
+    <rect x="32" y="64" width="192" height="128" rx="28" ry="28"
+          fill="#FF0000" stroke="#FFFFFF" stroke-width="12"/>
+    <!-- White play button -->
+    <polygon points="108,96 172,128 108,160" fill="#FFFFFF"/>
+  </g>
+</svg>
+
         YouTube
       </a>
     </div>
@@ -197,13 +212,26 @@
       <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="black" flood-opacity="0.4"/>
     </filter>
   </defs>
+
   <g filter="url(#shadow)">
-    <!-- Outer green bubble with white border -->
-    <circle cx="128" cy="128" r="120" fill="#25D366" stroke="#FFFFFF" stroke-width="12"/>
+    <!-- Bubble with integrated rounded tail -->
+    <path
+      d="M128 16
+         a112 112 0 0 1 0 224
+         c-21 0-40-5-57-14l-38 10 10-37
+         c-11-18-17-39-17-61
+         a112 112 0 0 1 112-122z"
+      fill="#25D366"
+      stroke="#FFFFFF"
+      stroke-width="12"
+      stroke-linejoin="round"
+    />
+
     <!-- White handset -->
     <path fill="#FFF" d="M190.6 161.2c-3.1-1.5-18.4-9.1-21.3-10.2-2.9-1.1-5-1.5-7.1 1.6-2.1 3.1-8.1 10.2-9.9 12.3-1.8 2.1-3.6 2.3-6.7.8-3.1-1.5-13.1-4.8-25-15.1-9.2-8.2-15.4-18.3-17.2-21.4-1.8-3.1-.2-4.8 1.4-6.3 1.5-1.5 3.1-3.6 4.6-5.4 1.5-1.8 2-3.1 3.1-5.2 1-2.1.5-4-0.3-5.5-.8-1.5-7.1-17.1-9.7-23.5-2.6-6.2-5.2-5.4-7.1-5.5-1.8-.1-3.9-.1-6-.1s-5.5.8-8.4 4c-2.9 3.1-11 10.8-11 26.3s11.3 30.5 12.9 32.6c1.5 2.1 22.1 33.7 53.6 47.3 31.5 13.6 31.5 9.1 37.2 8.6 5.7-.5 18.4-7.5 21-14.7 2.6-7.2 2.6-13.4 1.8-14.7-.7-1.2-2.7-2-5.8-3.5z"/>
   </g>
 </svg>
+
 </span>
       +919539342026
     </a>
