@@ -381,7 +381,7 @@ footer .footer-links a {
   color: #bbb;
   text-decoration: none;
   font-size: 0.85rem;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 footer .footer-links a svg {
@@ -389,7 +389,7 @@ footer .footer-links a svg {
   height: 22px;
   fill: #bbb;
   margin-bottom: 5px;
-  transition: fill 0.3s ease;
+  transition: fill 0.3s ease, transform 0.3s ease;
 }
 
 footer .footer-links a:hover {
@@ -398,14 +398,15 @@ footer .footer-links a:hover {
 
 footer .footer-links a:hover svg {
   fill: #fff;
+  transform: scale(1.1);
 }
 
 footer .footer-links a.active {
-  color: #fff;
+  color: gold;
   font-weight: bold;
 }
 
 footer .footer-links a.active svg {
-  fill: #fff;
+  fill: gold;
 }
 </style>
