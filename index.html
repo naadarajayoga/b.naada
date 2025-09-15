@@ -158,45 +158,42 @@
       .render("#paypal-container-UTBAB8G3VA98N");
   </script>
 
-    <!-- ======================
-       FLOATING CONTACT BUTTONS
-       ====================== -->
-  <div class="fixed-contact" id="contactButtons">
-    <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-        <path d="M12 15.5l-7-7h14l-7 7z"/>
-      </svg>
-    </div>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Floating Contact Buttons</title>
+</head>
+<body>
 
+<!-- ======================
+     FLOATING CONTACT BUTTONS
+     ====================== -->
+<div class="fixed-contact-wrapper">
+  <!-- Contact Buttons -->
+  <div class="fixed-contact" id="contactButtons">
     <!-- WhatsApp -->
     <a href="https://wa.me/919539342026" target="_blank" class="whatsapp">
       <span class="icon">
         <!-- WhatsApp SVG -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <defs>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="black" flood-opacity="0.4"/>
-    </filter>
-  </defs>
-
-  <g filter="url(#shadow)">
-    <!-- Bubble with integrated rounded tail -->
-    <path
-      d="M128 16
-         a112 112 0 0 1 0 224
-         c-21 0-40-5-57-14l-38 10 10-37
-         c-11-18-17-39-17-61
-         a112 112 0 0 1 112-122z"
-      fill="#25D366"
-      stroke="#FFFFFF"
-      stroke-width="12"
-      stroke-linejoin="round"
-    />
-
-    <!-- White handset -->
-    <path fill="#FFF" d="M190.6 161.2c-3.1-1.5-18.4-9.1-21.3-10.2-2.9-1.1-5-1.5-7.1 1.6-2.1 3.1-8.1 10.2-9.9 12.3-1.8 2.1-3.6 2.3-6.7.8-3.1-1.5-13.1-4.8-25-15.1-9.2-8.2-15.4-18.3-17.2-21.4-1.8-3.1-.2-4.8 1.4-6.3 1.5-1.5 3.1-3.6 4.6-5.4 1.5-1.8 2-3.1 3.1-5.2 1-2.1.5-4-0.3-5.5-.8-1.5-7.1-17.1-9.7-23.5-2.6-6.2-5.2-5.4-7.1-5.5-1.8-.1-3.9-.1-6-.1s-5.5.8-8.4 4c-2.9 3.1-11 10.8-11 26.3s11.3 30.5 12.9 32.6c1.5 2.1 22.1 33.7 53.6 47.3 31.5 13.6 31.5 9.1 37.2 8.6 5.7-.5 18.4-7.5 21-14.7 2.6-7.2 2.6-13.4 1.8-14.7-.7-1.2-2.7-2-5.8-3.5z"/>
-  </g>
-</svg>
+          <defs>
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="black" flood-opacity="0.4"/>
+            </filter>
+          </defs>
+          <g filter="url(#shadow)">
+            <path
+              d="M128 16
+                a112 112 0 0 1 0 224
+                c-21 0-40-5-57-14l-38 10 10-37
+                c-11-18-17-39-17-61
+                a112 112 0 0 1 112-122z"
+              fill="#25D366" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round"/>
+            <path fill="#FFF" d="M190.6 161.2c-3.1-1.5-18.4-9.1-21.3-10.2-2.9-1.1-5-1.5-7.1 1.6-2.1 3.1-8.1 10.2-9.9 12.3-1.8 2.1-3.6 2.3-6.7.8-3.1-1.5-13.1-4.8-25-15.1-9.2-8.2-15.4-18.3-17.2-21.4-1.8-3.1-.2-4.8 1.4-6.3 1.5-1.5 3.1-3.6 4.6-5.4 1.5-1.8 2-3.1 3.1-5.2 1-2.1.5-4-0.3-5.5-.8-1.5-7.1-17.1-9.7-23.5-2.6-6.2-5.2-5.4-7.1-5.5-1.8-.1-3.9-.1-6-.1s-5.5.8-8.4 4c-2.9 3.1-11 10.8-11 26.3s11.3 30.5 12.9 32.6c1.5 2.1 22.1 33.7 53.6 47.3 31.5 13.6 31.5 9.1 37.2 8.6 5.7-.5 18.4-7.5 21-14.7 2.6-7.2 2.6-13.4 1.8-14.7-.7-1.2-2.7-2-5.8-3.5z"/>
+          </g>
+        </svg>
       </span>
       +91 95393 42026
     </a>
@@ -239,47 +236,77 @@
     </a>
   </div>
 
-  <style>
-    /* FLOATING CONTACT BUTTONS CSS (with animation) */
-    .fixed-contact {
-      position: fixed; bottom: 15px; left: 15px;
-      display: flex; flex-direction: column; gap: 10px;
-      transition: transform 0.4s ease, opacity 0.4s ease;
-    }
-    .fixed-contact.hide {
-      transform: translateY(200px);
-      opacity: 0;
-      pointer-events: none;
-    }
-    .fixed-contact a {
-      display: flex; align-items: center; gap: 8px;
-      padding: 10px 14px; border-radius: 999px; font-weight: 700;
-      text-decoration: none; color: #fff;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-    }
-    .whatsapp { background: #25D366; }
-    .instagram {
-      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-    }
-    .email { background: #D44638; }
-    .icon { width: 22px; height: 22px; display:inline-block; }
-    .toggle-contact {
-      width: 40px; height: 40px; background: #ccc; border-radius: 50%;
-      display:flex; align-items:center; justify-content:center;
-      cursor:pointer; transition: background 0.3s;
-    }
-    .toggle-contact.up svg { transform: rotate(180deg); transition: transform 0.3s; }
-  </style>
+  <!-- Toggle Button -->
+  <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 15.5l-7-7h14l-7 7z"/>
+    </svg>
+  </div>
+</div>
 
-  <script>
-    // FLOATING CONTACT BUTTONS JS (with smooth animation)
-    function toggleContacts() {
-      const contacts = document.getElementById('contactButtons');
-      const toggleBtn = document.getElementById('toggleBtn');
-      contacts.classList.toggle('hide');
-      toggleBtn.classList.toggle('up');
-    }
-  </script>
+<style>
+  /* WRAPPER so toggle stays in place */
+  .fixed-contact-wrapper {
+    position: fixed; bottom: 15px; left: 15px;
+    display: flex; flex-direction: column; align-items: flex-start;
+    gap: 10px;
+  }
+
+  /* CONTACT BUTTONS */
+  .fixed-contact {
+    display: flex; flex-direction: column; gap: 10px;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+  }
+  .fixed-contact.hide {
+    transform: translateY(150%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .fixed-contact a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 10px 14px; border-radius: 999px; font-weight: 700;
+    text-decoration: none; color: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  }
+  .whatsapp { background: #25D366; }
+  .instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+  }
+  .email { background: #D44638; }
+  .icon { width: 22px; height: 22px; display:inline-block; }
+
+  /* TOGGLE BUTTON */
+  .toggle-contact {
+    width: 40px; height: 40px; 
+    background: rgb(55,148,161); /* Updated button color */
+    border-radius: 50%; 
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; 
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .toggle-contact:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+  .toggle-contact svg {
+    width: 28px; height: 28px;  /* Bigger arrow */
+    fill: #FFFFFF; /* White arrow */
+    transition: transform 0.3s;
+  }
+  .toggle-contact.up svg { transform: rotate(180deg); }
+</style>
+
+<script>
+  // FLOATING CONTACT BUTTONS TOGGLE
+  function toggleContacts() {
+    const contacts = document.getElementById('contactButtons');
+    const toggleBtn = document.getElementById('toggleBtn');
+    contacts.classList.toggle('hide');
+    toggleBtn.classList.toggle('up');
+  }
+</script>
+
+</body>
+</html>
 
 
   <!-- ======================
