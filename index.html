@@ -20,7 +20,7 @@
 
     header {
       background: linear-gradient(135deg, #a8edea, #fed6e3);
-      padding: 25px 20px; /* reduced vertical padding */
+      padding: 25px 20px;
     }
     .branding {
       display: flex; align-items: center; justify-content: center; gap: 15px;
@@ -34,76 +34,39 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .branding p {
-      font-size: 1.1rem; color: #333;
-    }
+    .branding p { font-size: 1.1rem; color: #333; }
 
     section { padding: 20px 20px; max-width: 1000px; margin: auto; }
     section h2 { text-align: center; margin-bottom: 25px; color: #444; font-size: 1.9rem; }
-    section p { line-height: 1.8; }
 
     .about-container { 
-      display: flex; 
-      flex-wrap: wrap;
-      align-items: center; 
-      gap: 30px; 
-      max-width: 900px; 
-      margin: auto; 
+      display: flex; flex-wrap: wrap; align-items: center; gap: 30px; max-width: 900px; margin: auto; 
     }
     .about-container img {
-      width: 200px;
-      max-width: 100%; 
-      border-radius: 12px;
+      width: 200px; border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
     }
     .about-container .about-text { flex: 1; min-width: 250px; }
-    .about-text p {
-      margin-bottom: 18px;
-      font-size: 1.05rem;
-      color: #444;
-      line-height: 1.8;
-    }
+    .about-text p { margin-bottom: 18px; font-size: 1.05rem; color: #444; line-height: 1.8; }
 
     .offer-single {
       background: white; border-radius: 12px; padding: 30px; max-width: 500px;
       margin: 30px auto 0; text-align: center; box-shadow: 0 6px 20px rgba(0,0,0,0.12);
     }
-    .offer-single h3 { font-size: 1.5rem; margin-bottom: 12px; color: #333; }
-    .offer-single p { margin-bottom: 15px; font-size: 1.05rem; color: #555; }
 
-    .shorts-carousel {
-      display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 15px; padding: 10px;
-    }
+    .shorts-carousel { display: flex; overflow-x: auto; scroll-behavior: smooth; gap: 15px; padding: 10px; }
     .shorts-carousel::-webkit-scrollbar { display: none; }
-    .short {
-      flex: 0 0 auto; border-radius: 12px; overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.3s;
-    }
+    .short { flex: 0 0 auto; border-radius: 12px; overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.3s; }
     .short:hover { transform: scale(1.05); }
 
-    /* ✅ Only show horizontal scrollbar on PC */
     @media (min-width: 769px) {
       .shorts-carousel::-webkit-scrollbar { height: 8px; display: block; }
-      .shorts-carousel::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 4px;
-      }
-      .shorts-carousel::-webkit-scrollbar-thumb:hover {
-        background: #555;
-      }
+      .shorts-carousel::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+      .shorts-carousel::-webkit-scrollbar-thumb:hover { background: #555; }
     }
 
     .contact { text-align: center; margin-bottom: 30px; }
-    .contact p { margin-bottom: 12px; font-size: 1.05rem; }
-
-    .social-links {
-      display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
-    }
-    .social-links a {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border-radius: 25px; font-weight: bold;
-      text-decoration: none; color: white; transition: 0.3s;
-    }
 
     .whatsapp { background: #25D366; }
     .instagram {
@@ -120,22 +83,15 @@
     .youtube-btn:hover { background: #cc0000; }
     .youtube-btn svg { width: 24px; height: 24px; }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
-    }
+    @keyframes float { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-6px);} }
     .fixed-contact {
-      position: fixed; bottom: 60px; left: 15px; right: auto;
+      position: fixed; bottom: 15px; left: 15px;
       display: flex; flex-direction: column; gap: 10px; z-index: 1000;
-      transform: scale(0.8); /* reduce size to 80% */
       transform-origin: bottom left;
       transition: transform 0.4s ease, opacity 0.4s ease;
     }
-    .fixed-contact.hide {
-      transform: translateY(100px) scale(0.8);
-      opacity: 0;
-      pointer-events: none;
-    }
+    .fixed-contact.hide { transform: translateY(100px); opacity: 0.9; }
+
     .fixed-contact a {
       display: flex; align-items: center; justify-content: center; gap: 8px;
       padding: 12px 18px; border-radius: 50px; font-weight: bold;
@@ -144,44 +100,25 @@
       animation: float 2s ease-in-out infinite;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .fixed-contact a:hover { transform: translateY(-3px); box-shadow: 0 6px 14px rgba(0,0,0,0.25); }
+
+    .toggle-contact {
+      display: flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; background: #333; border-radius: 50%;
+      cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: background 0.3s;
+      margin-bottom: 5px;
+    }
+    .toggle-contact:hover { background: #555; }
+    .toggle-contact svg { width: 20px; height: 20px; fill: white; transition: transform 0.3s ease; }
+    .toggle-contact.up svg { transform: rotate(180deg); }
 
     .icon { display: inline-block; width: 22px; height: 22px; }
-    .icon svg { width: 100%; height: 100%; }
-
-    /* Toggle button */
-    .toggle-contact {
-      position: fixed;
-      bottom: 15px;
-      left: 15px;
-      background: #333;
-      color: white;
-      font-size: 22px;
-      padding: 10px 14px;
-      border-radius: 50%;
-      cursor: pointer;
-      z-index: 1100;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      transition: background 0.3s;
-      text-align: center;
-    }
-    .toggle-contact:hover {
-      background: #555;
-    }
 
     footer { background: #333; color: white; text-align: center; padding: 15px; font-size: 0.9rem; }
-    .footer-links { margin-top: 10px; display: flex; justify-content: center; gap: 15px; }
-    .footer-links a { color: white; display: inline-block; width: 20px; height: 20px; }
 
-    /* ✅ Mobile fix */
     @media (max-width: 768px) {
-      .about-container {
-        flex-direction: column;
-        text-align: center;
-      }
-      .about-container img {
-        margin: 0 auto;
-      }
+      .about-container { flex-direction: column; text-align: center; }
+      .about-container img { margin: 0 auto; }
       .about-text { text-align: center; }
     }
   </style>
@@ -251,10 +188,14 @@
     </div>
   </section>
 
-  <!-- Toggle Button -->
-  <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">↓</div>
-
   <div class="fixed-contact" id="contactButtons">
+    <!-- Toggle Button above WhatsApp -->
+    <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M12 15.5l-7-7h14l-7 7z"/>
+      </svg>
+    </div>
+
     <a href="http://wa.me/+919539342026" target="_blank" class="whatsapp">
       <span class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -275,6 +216,7 @@
       </span>
       +919539342026
     </a>
+
     <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
       <span class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -297,6 +239,7 @@
       </span>
       @naada.raja.yoga
     </a>
+
     <a href="mailto:yoga@naadaraja.com" target="_blank" class="email">
       <span class="icon">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -323,11 +266,7 @@
       const contacts = document.getElementById('contactButtons');
       const toggleBtn = document.getElementById('toggleBtn');
       contacts.classList.toggle('hide');
-      if (contacts.classList.contains('hide')) {
-        toggleBtn.textContent = "↑";
-      } else {
-        toggleBtn.textContent = "↓";
-      }
+      toggleBtn.classList.toggle('up');
     }
   </script>
 
