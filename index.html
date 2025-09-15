@@ -170,7 +170,14 @@
 <!-- ======================
      FLOATING CONTACT BUTTONS
      ====================== -->
-<div class="fixed-contact-wrapper">
+<div class="floating-group" id="floatingGroup">
+  <!-- Toggle Button (always at top of group) -->
+  <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+      <path d="M12 15.5l-7-7h14l-7 7z"/>
+    </svg>
+  </div>
+
   <!-- Contact Buttons -->
   <div class="fixed-contact" id="contactButtons">
     <!-- WhatsApp -->
@@ -235,32 +242,21 @@
       yoga@naadaraja.com
     </a>
   </div>
-
-  <!-- Toggle Button -->
-  <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-      <path d="M12 15.5l-7-7h14l-7 7z"/>
-    </svg>
-  </div>
 </div>
 
 <style>
-  /* WRAPPER so toggle stays in place */
-  .fixed-contact-wrapper {
-    position: fixed; bottom: 15px; left: 15px;
-    display: flex; flex-direction: column; align-items: flex-start;
+  /* Whole group that moves */
+  .floating-group {
+    position: fixed;
+    bottom: 15px; left: 15px;
+    display: flex; flex-direction: column;
     gap: 10px;
+    transition: transform 0.5s ease;
   }
 
   /* CONTACT BUTTONS */
   .fixed-contact {
     display: flex; flex-direction: column; gap: 10px;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
-  .fixed-contact.hide {
-    transform: translateY(150%);
-    opacity: 0;
-    pointer-events: none;
   }
   .fixed-contact a {
     display: flex; align-items: center; gap: 8px;
@@ -278,7 +274,7 @@
   /* TOGGLE BUTTON */
   .toggle-contact {
     width: 40px; height: 40px; 
-    background: rgb(55,148,161); /* Updated button color */
+    background: rgb(55,148,161);
     border-radius: 50%; 
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; 
@@ -288,19 +284,24 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.25);
   }
   .toggle-contact svg {
-    width: 28px; height: 28px;  /* Bigger arrow */
-    fill: #FFFFFF; /* White arrow */
+    width: 28px; height: 28px;  
+    fill: #FFFFFF;
     transition: transform 0.3s;
   }
   .toggle-contact.up svg { transform: rotate(180deg); }
+
+  /* When collapsed → slide group down (no fade, only motion) */
+  .floating-group.collapsed {
+    transform: translateY(calc(100% - 55px)); /* move group down */
+  }
 </style>
 
 <script>
-  // FLOATING CONTACT BUTTONS TOGGLE
   function toggleContacts() {
-    const contacts = document.getElementById('contactButtons');
+    const group = document.getElementById('floatingGroup');
     const toggleBtn = document.getElementById('toggleBtn');
-    contacts.classList.toggle('hide');
+    
+    group.classList.toggle('collapsed');
     toggleBtn.classList.toggle('up');
   }
 </script>
