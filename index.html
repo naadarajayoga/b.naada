@@ -122,13 +122,16 @@
     .shorts-carousel { display: flex; overflow-x: auto; gap: 15px; }
     .short { flex: 0 0 auto; width: 200px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
     .short iframe { width: 100%; aspect-ratio: 9 / 16; border: 0; }
+    
     .youtube-btn {
       display: inline-flex; align-items: center; gap: 10px;
       background: #FF0000; color: #fff; padding: 10px 18px;
       border-radius: 30px; font-weight: 700; font-size: 1.05rem;
+      text-decoration: none;
     }
     .youtube-btn:hover { background: #cc0000; }
     .youtube-btn svg { width: 22px; height: 22px; }
+    
   </style>
   <!-- No JS needed for shorts -->
 
@@ -170,16 +173,30 @@
       <span class="icon">
         <!-- WhatsApp SVG -->
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-          <defs>
-            <filter id="waShadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="black" flood-opacity="0.35"/>
-            </filter>
-          </defs>
-          <g filter="url(#waShadow)">
-            <path d="M128 16a112 112 0 1 0 0 224c-21 0-40-5-57-14l-38 10 10-37c-11-18-17-39-17-61A112 112 0 0 0 128 16z" fill="#25D366" stroke="#FFFFFF" stroke-width="8" stroke-linejoin="round"/>
-            <path fill="#fff" d="M190.6 161.2c-3.1-1.5-18.4-9.1-21.3-10.2-2.9-1.1-5-1.5-7.1 1.6-2.1 3.1-8.1 10.2-9.9 12.3-1.8 2.1-3.6 2.3-6.7.8-3.1-1.5-13.1-4.8-25-15.1-9.2-8.2-15.4-18.3-17.2-21.4-1.8-3.1-.2-4.8 1.4-6.3 1.5-1.5 3.1-3.6 4.6-5.4 1.5-1.8 2-3.1 3.1-5.2 1-2.1.5-4-0.3-5.5-.8-1.5-7.1-17.1-9.7-23.5-2.6-6.2-5.2-5.4-7.1-5.5-1.8-.1-3.9-.1-6-.1s-5.5.8-8.4 4c-2.9 3.1-11 10.8-11 26.3s11.3 30.5 12.9 32.6c1.5 2.1 22.1 33.7 53.6 47.3 31.5 13.6 31.5 9.1 37.2 8.6 5.7-.5 18.4-7.5 21-14.7 2.6-7.2 2.6-13.4 1.8-14.7-.7-1.2-2.7-2-5.8-3.5z"/>
-          </g>
-        </svg>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="4" flood-color="black" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <!-- Bubble with integrated rounded tail -->
+    <path
+      d="M128 16
+         a112 112 0 0 1 0 224
+         c-21 0-40-5-57-14l-38 10 10-37
+         c-11-18-17-39-17-61
+         a112 112 0 0 1 112-122z"
+      fill="#25D366"
+      stroke="#FFFFFF"
+      stroke-width="12"
+      stroke-linejoin="round"
+    />
+
+    <!-- White handset -->
+    <path fill="#FFF" d="M190.6 161.2c-3.1-1.5-18.4-9.1-21.3-10.2-2.9-1.1-5-1.5-7.1 1.6-2.1 3.1-8.1 10.2-9.9 12.3-1.8 2.1-3.6 2.3-6.7.8-3.1-1.5-13.1-4.8-25-15.1-9.2-8.2-15.4-18.3-17.2-21.4-1.8-3.1-.2-4.8 1.4-6.3 1.5-1.5 3.1-3.6 4.6-5.4 1.5-1.8 2-3.1 3.1-5.2 1-2.1.5-4-0.3-5.5-.8-1.5-7.1-17.1-9.7-23.5-2.6-6.2-5.2-5.4-7.1-5.5-1.8-.1-3.9-.1-6-.1s-5.5.8-8.4 4c-2.9 3.1-11 10.8-11 26.3s11.3 30.5 12.9 32.6c1.5 2.1 22.1 33.7 53.6 47.3 31.5 13.6 31.5 9.1 37.2 8.6 5.7-.5 18.4-7.5 21-14.7 2.6-7.2 2.6-13.4 1.8-14.7-.7-1.2-2.7-2-5.8-3.5z"/>
+  </g>
+</svg>
       </span>
       +91 95393 42026
     </a>
@@ -241,7 +258,9 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.18);
     }
     .whatsapp { background: #25D366; }
-    .instagram { background: #d6249f; }
+    .instagram {
+      background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    }
     .email { background: #D44638; }
     .icon { width: 22px; height: 22px; display:inline-block; }
     .toggle-contact {
