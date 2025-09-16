@@ -104,10 +104,16 @@
     /* Scoped ONLY to reviews section */
     .reviews-section {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      background: #fff; /* changed from ash to plain white */
       padding: 20px;
-      max-width: 500px;
+      max-width: 900px; /* wider on desktop */
       margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .reviews-section {
+        max-width: 95%; /* keep narrow on mobile */
+      }
     }
 
     .reviews-section h2 {
@@ -129,13 +135,13 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 4px; /* tighter */
+      margin-bottom: 4px;
     }
 
     .reviews-section .review-header a.title-link {
       text-decoration: none;
       color: #000;
-      font-size: 20px; /* bigger title */
+      font-size: 20px;
       font-weight: bold;
     }
 
@@ -157,12 +163,12 @@
 
     /* Rating block */
     .reviews-section .rating-block {
-      margin: 2px 0 16px; /* stars closer to title */
+      margin: 2px 0 16px;
     }
 
     .reviews-section .rating-block .stars {
       color: #FFD700;
-      font-size: 28px; /* bigger main stars */
+      font-size: 28px;
       line-height: 1;
     }
 
@@ -181,21 +187,25 @@
       position: relative;
     }
 
+    /* Reviewer name + stars inline */
+    .reviews-section .review-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
     .reviews-section .review-item h4 {
       margin: 0;
       font-size: 16px;
       font-weight: bold;
       color: #000;
-      display: inline-block;
-      text-decoration: none;
     }
 
-    .reviews-section .review-date {
-      font-size: 12px;
-      color: #000;
-      margin-bottom: 10px;
-      display: inline-block;
-      text-decoration: none;
+    .reviews-section .review-top .stars {
+      color: #FFD700;
+      font-size: 18px;
+      line-height: 1;
     }
 
     /* Remove underline globally */
@@ -203,10 +213,20 @@
       text-decoration: none !important;
     }
 
+    /* Collapsed text shows more but still toggles */
     .reviews-section .review-text {
       font-size: 14px;
       color: #333;
       line-height: 1.4;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 4; /* show 4 lines before Read more */
+      -webkit-box-orient: vertical;
+    }
+
+    .reviews-section .review-text.expanded {
+      -webkit-line-clamp: unset;
+      display: block;
     }
 
     .reviews-section .read-more {
@@ -258,17 +278,22 @@
 
       <!-- Review Item -->
       <div class="review-item">
-        <a href="https://maps.app.goo.gl/Gtk5X1QE4C4MGiKf9" target="_blank">
-          <h4>Uta Cheruti</h4>
-        </a>
-        <br>
-        <a href="https://maps.app.goo.gl/Gtk5X1QE4C4MGiKf9" target="_blank" class="review-date">
-          Sep 16, 2025
-        </a>
-        <div class="stars">★★★★★</div>
+        <div class="review-top">
+          <a href="https://maps.app.goo.gl/Gtk5X1QE4C4MGiKf9" target="_blank">
+            <h4>Uta Cheruti</h4>
+          </a>
+          <div class="stars">★★★★★</div>
+        </div>
+
         <p class="review-text" id="review-text">
           Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, 
-          built through many years of continuous practice and teaching, is felt in every class...
+          built through many years of continuous practice and teaching, is felt in every class. 
+          His deep experience and strong foundation make him not only an excellent coach but 
+          also someone who shares the spiritual side of yoga in a calm and authentic way. 
+          Living with MS and physical limitations, I deeply value how he adapts the exercises 
+          to my needs, brings in new ideas, and repeats key practices so I can build step by step. 
+          His teaching is gentle, clear, and motivating – practicing with Yadu has truly given me 
+          back strength, balance, and joy in yoga.
         </p>
         <span class="read-more" onclick="toggleReview(this)">Read more</span>
 
@@ -288,14 +313,12 @@
   <script>
     function toggleReview(el) {
       const reviewText = document.getElementById("review-text");
-      if (el.innerText === "Read more") {
-        reviewText.innerText =
-          "Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, built through many years of continuous practice and teaching, is felt in every class. His deep experience and strong foundation make him not only an excellent coach but also someone who shares the spiritual side of yoga in a calm and authentic way. Living with MS and physical limitations, I deeply value how he adapts the exercises to my needs, brings in new ideas, and repeats key practices so I can build step by step. His teaching is gentle, clear, and motivating – practicing with Yadu has truly given me back strength, balance, and joy in yoga.";
-        el.innerText = "Read less";
-      } else {
-        reviewText.innerText =
-          "Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, built through many years of continuous practice and teaching, is felt in every class...";
+      if (reviewText.classList.contains("expanded")) {
+        reviewText.classList.remove("expanded");
         el.innerText = "Read more";
+      } else {
+        reviewText.classList.add("expanded");
+        el.innerText = "Read less";
       }
     }
   </script>
