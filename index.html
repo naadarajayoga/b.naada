@@ -109,12 +109,6 @@
       margin: 0 auto;
     }
 
-    @media (max-width: 768px) {
-      .reviews-section {
-        max-width: 95%;
-      }
-    }
-
     .reviews-section h2 {
       font-size: 24px;
       margin-bottom: 20px;
@@ -130,19 +124,20 @@
       text-align: left;
     }
 
+    /* 🔹 Improved Header Layout */
     .review-header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      flex-wrap: wrap; /* allow wrapping if very narrow */
+      align-items: center;
       margin-bottom: 12px;
+      gap: 10px;
     }
 
     .title-rating {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
     }
 
     .title-link {
@@ -150,6 +145,7 @@
       color: #000;
       font-size: 20px;
       font-weight: bold;
+      line-height: 1.2;
     }
 
     .rating-link {
@@ -161,24 +157,24 @@
 
     .single-star {
       color: #FFD700;
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .rating-value {
-      font-size: 16px;
-      color: #000;
+      font-size: 15px;
       font-weight: bold;
+      color: #000;
     }
 
+    /* 🔹 Button Styling */
     .leave-review-btn {
-      display: inline-block;
       background: #0056ff;
       color: #fff;
-      padding: 6px 12px; /* reduced */
+      padding: 6px 12px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 13px; /* slightly smaller */
+      font-size: 13px;
       transition: background 0.2s;
       white-space: nowrap;
     }
@@ -187,25 +183,19 @@
       background: #003ecf;
     }
 
-    /* Mobile adjustments */
-    @media (max-width: 768px) {
-      .single-star {
-        font-size: 18px;
-      }
-      .rating-value {
-        font-size: 14px;
-      }
-    }
-
-    /* Very small phones: move rating under title */
+    /* 🔹 Responsive Fix for Very Small Phones */
     @media (max-width: 480px) {
-      .title-rating {
+      .review-header {
         flex-direction: column;
         align-items: flex-start;
-        gap: 2px;
+        gap: 6px;
+      }
+      .leave-review-btn {
+        align-self: flex-start; /* keep aligned with title */
       }
     }
 
+    /* 🔹 Review Item Styling */
     .review-item {
       border: 1px solid #eee;
       border-radius: 10px;
