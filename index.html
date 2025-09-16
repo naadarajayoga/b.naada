@@ -174,12 +174,13 @@
       display: inline-block;
       background: #0056ff;
       color: #fff;
-      padding: 8px 14px;
+      padding: 6px 12px; /* reduced */
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 13px; /* slightly smaller */
       transition: background 0.2s;
+      white-space: nowrap;
     }
 
     .leave-review-btn:hover {
@@ -193,6 +194,15 @@
       }
       .rating-value {
         font-size: 14px;
+      }
+    }
+
+    /* Very small phones: move rating under title */
+    @media (max-width: 480px) {
+      .title-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
       }
     }
 
