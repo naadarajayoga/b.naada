@@ -134,13 +134,15 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: wrap; /* allow wrapping if very narrow */
       margin-bottom: 12px;
     }
 
     .title-rating {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      flex-shrink: 1;
     }
 
     .title-link {
@@ -182,6 +184,16 @@
 
     .leave-review-btn:hover {
       background: #003ecf;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+      .single-star {
+        font-size: 18px;
+      }
+      .rating-value {
+        font-size: 14px;
+      }
     }
 
     .review-item {
