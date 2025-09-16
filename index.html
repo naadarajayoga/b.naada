@@ -130,12 +130,13 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
+      flex-wrap: nowrap; /* keep button on the right */
     }
 
     .title-rating {
       display: flex;
       align-items: center;
-      gap: 6px; /* tighter spacing between title and star */
+      gap: 6px; /* tighter spacing */
       flex-shrink: 1;
       flex-wrap: wrap;
     }
@@ -143,15 +144,16 @@
     .title-link {
       text-decoration: none;
       color: #000;
-      font-size: 20px;
+      font-size: 20px; /* stays the same on all screens */
       font-weight: bold;
       line-height: 1.2;
+      white-space: nowrap; /* prevents breaking */
     }
 
     .rating-link {
       display: flex;
       align-items: center;
-      gap: 2px; /* reduce gap on mobile */
+      gap: 2px;
       text-decoration: none;
     }
 
@@ -167,12 +169,12 @@
       color: #000;
     }
 
-    /* 🔹 Button */
+    /* 🔹 Pill-Shaped Button */
     .leave-review-btn {
       background: #0056ff;
       color: #fff;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 6px 18px;
+      border-radius: 999px; /* pill shape */
       text-decoration: none;
       font-weight: bold;
       font-size: 13px;
@@ -187,16 +189,13 @@
     /* 🔹 Mobile adjustments */
     @media (max-width: 480px) {
       .title-rating {
-        gap: 4px; /* reduce spacing further */
+        gap: 4px;
       }
       .rating-link .single-star {
         font-size: 16px;
       }
       .rating-link .rating-value {
         font-size: 14px;
-      }
-      .review-header {
-        flex-wrap: nowrap; /* keep button in top right */
       }
     }
 
@@ -290,7 +289,7 @@
           </a>
         </div>
 
-        <!-- Rate Us button -->
+        <!-- Pill-shaped Rate Us button -->
         <a href="https://g.page/r/CcV52-DSDxqlEAE/review" target="_blank" class="leave-review-btn">
           Rate Us
         </a>
