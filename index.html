@@ -124,20 +124,21 @@
       text-align: left;
     }
 
-    /* 🔹 Improved Header Layout */
+    /* 🔹 Header with inline layout */
     .review-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       margin-bottom: 12px;
-      gap: 10px;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .title-rating {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 1;
     }
 
     .title-link {
@@ -158,6 +159,7 @@
     .single-star {
       color: #FFD700;
       font-size: 18px;
+      line-height: 1;
     }
 
     .rating-value {
@@ -166,11 +168,11 @@
       color: #000;
     }
 
-    /* 🔹 Button Styling */
+    /* 🔹 Button */
     .leave-review-btn {
       background: #0056ff;
       color: #fff;
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
@@ -183,7 +185,7 @@
       background: #003ecf;
     }
 
-    /* 🔹 Responsive Fix for Very Small Phones */
+    /* 🔹 Mobile adjustments */
     @media (max-width: 480px) {
       .review-header {
         flex-direction: column;
@@ -191,11 +193,11 @@
         gap: 6px;
       }
       .leave-review-btn {
-        align-self: flex-start; /* keep aligned with title */
+        align-self: flex-start;
       }
     }
 
-    /* 🔹 Review Item Styling */
+    /* 🔹 Review Item */
     .review-item {
       border: 1px solid #eee;
       border-radius: 10px;
@@ -274,7 +276,7 @@
 
     <div class="review-card">
       <div class="review-header">
-        <!-- Title + rating -->
+        <!-- Title + rating inline -->
         <div class="title-rating">
           <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" class="title-link">
             Naada Raja Yoga
