@@ -101,18 +101,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reviews Section</title>
   <style>
-    /* Scoped ONLY to reviews section */
     .reviews-section {
       font-family: Arial, sans-serif;
-      background: #fff; /* changed from ash to plain white */
+      background: #fff;
       padding: 20px;
-      max-width: 900px; /* wider on desktop */
+      max-width: 900px;
       margin: 0 auto;
     }
 
     @media (max-width: 768px) {
       .reviews-section {
-        max-width: 95%; /* keep narrow on mobile */
+        max-width: 95%;
       }
     }
 
@@ -122,7 +121,7 @@
       text-align: center;
     }
 
-    .reviews-section .review-card {
+    .review-card {
       background: #fff;
       border-radius: 12px;
       padding: 20px;
@@ -131,21 +130,45 @@
       text-align: left;
     }
 
-    .reviews-section .review-header {
+    .review-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 4px;
+      margin-bottom: 12px;
     }
 
-    .reviews-section .review-header a.title-link {
+    .title-rating {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title-link {
       text-decoration: none;
       color: #000;
       font-size: 20px;
       font-weight: bold;
     }
 
-    .reviews-section .leave-review-btn {
+    .rating-link {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+
+    .single-star {
+      color: #FFD700;
+      font-size: 20px;
+    }
+
+    .rating-value {
+      font-size: 16px;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .leave-review-btn {
       display: inline-block;
       background: #0056ff;
       color: #fff;
@@ -157,28 +180,11 @@
       transition: background 0.2s;
     }
 
-    .reviews-section .leave-review-btn:hover {
+    .leave-review-btn:hover {
       background: #003ecf;
     }
 
-    /* Rating block */
-    .reviews-section .rating-block {
-      margin: 2px 0 16px;
-    }
-
-    .reviews-section .rating-block .stars {
-      color: #FFD700;
-      font-size: 28px;
-      line-height: 1;
-    }
-
-    .reviews-section .rating-summary {
-      font-size: 14px;
-      color: #555;
-      margin-top: 2px;
-    }
-
-    .reviews-section .review-item {
+    .review-item {
       border: 1px solid #eee;
       border-radius: 10px;
       padding: 15px;
@@ -187,49 +193,46 @@
       position: relative;
     }
 
-    /* Reviewer name + stars inline */
-    .reviews-section .review-top {
+    .review-top {
       display: flex;
       align-items: center;
       gap: 8px;
       margin-bottom: 8px;
     }
 
-    .reviews-section .review-item h4 {
+    .review-item h4 {
       margin: 0;
       font-size: 16px;
       font-weight: bold;
       color: #000;
     }
 
-    .reviews-section .review-top .stars {
+    .review-top .stars {
       color: #FFD700;
       font-size: 18px;
       line-height: 1;
     }
 
-    /* Remove underline globally */
     .reviews-section a {
       text-decoration: none !important;
     }
 
-    /* Collapsed text shows more but still toggles */
-    .reviews-section .review-text {
+    .review-text {
       font-size: 14px;
       color: #333;
       line-height: 1.4;
       overflow: hidden;
       display: -webkit-box;
-      -webkit-line-clamp: 4; /* show 4 lines before Read more */
+      -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
     }
 
-    .reviews-section .review-text.expanded {
+    .review-text.expanded {
       -webkit-line-clamp: unset;
       display: block;
     }
 
-    .reviews-section .read-more {
+    .read-more {
       color: #000;
       font-weight: bold;
       cursor: pointer;
@@ -237,7 +240,7 @@
       margin-top: 5px;
     }
 
-    .reviews-section .google-icon {
+    .google-icon {
       width: 24px;
       height: 24px;
       position: absolute;
@@ -247,33 +250,33 @@
       transition: transform 0.2s;
     }
 
-    .reviews-section .google-icon:hover {
+    .google-icon:hover {
       transform: scale(1.1);
     }
   </style>
 </head>
 <body>
 
-  <!-- ✅ Scoped reviews section -->
   <section class="reviews-section">
     <h2>Reviews</h2>
 
     <div class="review-card">
       <div class="review-header">
-        <!-- Title on left -->
-        <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" class="title-link">
-          Naada Raja Yoga
-        </a>
-        <!-- Leave review on right -->
+        <!-- Title + rating -->
+        <div class="title-rating">
+          <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" class="title-link">
+            Naada Raja Yoga
+          </a>
+          <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" class="rating-link">
+            <span class="single-star">★</span>
+            <span class="rating-value">5.0</span>
+          </a>
+        </div>
+
+        <!-- Leave review button -->
         <a href="https://g.page/r/CcV52-DSDxqlEAE/review" target="_blank" class="leave-review-btn">
           Leave a review
         </a>
-      </div>
-
-      <!-- Stars + Rating Summary grouped -->
-      <div class="rating-block">
-        <div class="stars">★★★★★</div>
-        <div class="rating-summary">5.0 rating · 1 review</div>
       </div>
 
       <!-- Review Item -->
