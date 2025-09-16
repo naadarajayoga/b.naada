@@ -94,10 +94,7 @@
   <!-- No JS needed for about -->
 
 
-    <!-- ======================
-       REVIEWS
-       ====================== -->
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -132,44 +129,47 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-bottom: 4px; /* tighter */
     }
 
-    .reviews-section .review-header a {
+    .reviews-section .review-header a.title-link {
       text-decoration: none;
-      color: #0056ff;
-      font-size: 18px;
+      color: #000;
+      font-size: 20px; /* bigger title */
       font-weight: bold;
-    }
-
-    .reviews-section .review-header a:hover {
-      text-decoration: underline;
-    }
-
-    .reviews-section .stars {
-      color: #FFD700;
-      font-size: 18px;
-    }
-
-    .reviews-section .rating-summary {
-      font-size: 14px;
-      color: #555;
-      margin: 5px 0 15px;
     }
 
     .reviews-section .leave-review-btn {
       display: inline-block;
       background: #0056ff;
       color: #fff;
-      padding: 10px 18px;
+      padding: 8px 14px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
-      margin-bottom: 20px;
+      font-size: 14px;
       transition: background 0.2s;
     }
 
     .reviews-section .leave-review-btn:hover {
       background: #003ecf;
+    }
+
+    /* Rating block */
+    .reviews-section .rating-block {
+      margin: 2px 0 16px; /* stars closer to title */
+    }
+
+    .reviews-section .rating-block .stars {
+      color: #FFD700;
+      font-size: 28px; /* bigger main stars */
+      line-height: 1;
+    }
+
+    .reviews-section .rating-summary {
+      font-size: 14px;
+      color: #555;
+      margin-top: 2px;
     }
 
     .reviews-section .review-item {
@@ -185,20 +185,22 @@
       margin: 0;
       font-size: 16px;
       font-weight: bold;
-      color: #0056ff;
+      color: #000;
       display: inline-block;
+      text-decoration: none;
     }
 
     .reviews-section .review-date {
       font-size: 12px;
-      color: #0056ff;
+      color: #000;
       margin-bottom: 10px;
       display: inline-block;
+      text-decoration: none;
     }
 
-    .reviews-section .review-item h4:hover,
-    .reviews-section .review-date:hover {
-      text-decoration: underline;
+    /* Remove underline globally */
+    .reviews-section a {
+      text-decoration: none !important;
     }
 
     .reviews-section .review-text {
@@ -208,7 +210,7 @@
     }
 
     .reviews-section .read-more {
-      color: #0056ff;
+      color: #000;
       font-weight: bold;
       cursor: pointer;
       display: inline-block;
@@ -238,15 +240,21 @@
 
     <div class="review-card">
       <div class="review-header">
-        <!-- Heading now links to Google Search -->
-        <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank">Naada Raja Yoga</a>
-        <span class="stars">★★★★★</span>
+        <!-- Title on left -->
+        <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" class="title-link">
+          Naada Raja Yoga
+        </a>
+        <!-- Leave review on right -->
+        <a href="https://g.page/r/CcV52-DSDxqlEAE/review" target="_blank" class="leave-review-btn">
+          Leave a review
+        </a>
       </div>
-      <div class="rating-summary">1 rating · 1 review</div>
-      <!-- Link to your Google Review Form -->
-      <a href="https://g.page/r/CcV52-DSDxqlEAE/review" target="_blank" class="leave-review-btn">
-        Leave a review
-      </a>
+
+      <!-- Stars + Rating Summary grouped -->
+      <div class="rating-block">
+        <div class="stars">★★★★★</div>
+        <div class="rating-summary">5.0 rating · 1 review</div>
+      </div>
 
       <!-- Review Item -->
       <div class="review-item">
@@ -264,7 +272,7 @@
         </p>
         <span class="read-more" onclick="toggleReview(this)">Read more</span>
 
-        <!-- Google multicolor SVG logo now links to Google Search -->
+        <!-- Google multicolor SVG logo links to Google Search -->
         <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" aria-label="View on Google">
           <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
             <path fill="#4285F4" d="M488 261.8c0-17.7-1.5-35.6-4.6-52.8H248v99.9h135.6c-5.9 31.8-23.6 58.7-50.5 76.6v63.5h81.7c47.9-44.1 73.2-109.1 73.2-187.2z"/>
@@ -294,8 +302,6 @@
 
 </body>
 </html>
-
-
 
 
   <!-- ======================
