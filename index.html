@@ -124,21 +124,20 @@
       text-align: left;
     }
 
-    /* 🔹 Header with inline layout */
+    /* 🔹 Header Layout */
     .review-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 12px;
-      gap: 12px;
-      flex-wrap: wrap;
     }
 
     .title-rating {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px; /* tighter spacing between title and star */
       flex-shrink: 1;
+      flex-wrap: wrap;
     }
 
     .title-link {
@@ -152,7 +151,7 @@
     .rating-link {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px; /* reduce gap on mobile */
       text-decoration: none;
     }
 
@@ -172,7 +171,7 @@
     .leave-review-btn {
       background: #0056ff;
       color: #fff;
-      padding: 6px 14px;
+      padding: 6px 12px;
       border-radius: 6px;
       text-decoration: none;
       font-weight: bold;
@@ -187,13 +186,17 @@
 
     /* 🔹 Mobile adjustments */
     @media (max-width: 480px) {
-      .review-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
+      .title-rating {
+        gap: 4px; /* reduce spacing further */
       }
-      .leave-review-btn {
-        align-self: flex-start;
+      .rating-link .single-star {
+        font-size: 16px;
+      }
+      .rating-link .rating-value {
+        font-size: 14px;
+      }
+      .review-header {
+        flex-wrap: nowrap; /* keep button in top right */
       }
     }
 
@@ -287,9 +290,9 @@
           </a>
         </div>
 
-        <!-- Leave review button -->
+        <!-- Rate Us button -->
         <a href="https://g.page/r/CcV52-DSDxqlEAE/review" target="_blank" class="leave-review-btn">
-          Leave a review
+          Rate Us
         </a>
       </div>
 
