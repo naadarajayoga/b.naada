@@ -392,14 +392,14 @@
   .short { flex: 0 0 auto; width: 200px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
   .short iframe { width: 100%; aspect-ratio: 9 / 16; border: 0; }
 
-  /* Button container (fix alignment) */
+  /* Button container */
   .btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 14px;
+    gap: 20px;  /* ✅ safe gap between buttons */
     margin-bottom: 14px;
-    flex-wrap: wrap; /* allows stacking on small screens */
+    flex-wrap: wrap; /* ✅ ensures stacking on mobile */
   }
 
   /* Shared button styles */
@@ -414,7 +414,7 @@
     font-size: 1.05rem;
     text-decoration: none;
     transition: background 0.3s ease;
-    white-space: nowrap; /* prevents breaking text */
+    white-space: nowrap;
   }
 
   /* YouTube button */
