@@ -97,54 +97,204 @@
     <!-- ======================
        REVIEWS
        ====================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reviews Section</title>
+  <style>
+    /* Scoped ONLY to reviews section */
+    .reviews-section {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .reviews-section h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .reviews-section .review-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .reviews-section .review-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .reviews-section .review-header a {
+      text-decoration: none;
+      color: #0056ff;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .reviews-section .review-header a:hover {
+      text-decoration: underline;
+    }
+
+    .reviews-section .stars {
+      color: #FFD700;
+      font-size: 18px;
+    }
+
+    .reviews-section .rating-summary {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0 15px;
+    }
+
+    .reviews-section .leave-review-btn {
+      display: inline-block;
+      background: #0056ff;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-bottom: 20px;
+      transition: background 0.2s;
+    }
+
+    .reviews-section .leave-review-btn:hover {
+      background: #003ecf;
+    }
+
+    .reviews-section .review-item {
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      background: #fff;
+      position: relative;
+    }
+
+    .reviews-section .review-item h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+      color: #0056ff;
+      display: inline-block;
+    }
+
+    .reviews-section .review-date {
+      font-size: 12px;
+      color: #0056ff;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+
+    .reviews-section .review-item h4:hover,
+    .reviews-section .review-date:hover {
+      text-decoration: underline;
+    }
+
+    .reviews-section .review-text {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.4;
+    }
+
+    .reviews-section .read-more {
+      color: #0056ff;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .reviews-section .google-icon {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .reviews-section .google-icon:hover {
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ✅ Scoped reviews section -->
   <section class="reviews-section">
     <h2>Reviews</h2>
-    <div class="reviews-container">
-      <div class="embedsocial-widget" data-ref="a68d0c38cb80391e874b9698b897ece3">
-        <a href="https://embedsocial.com/google-reviews-widget/" 
-           title="Add Google reviews on a website" 
-           target="_blank" 
-           class="powered-by-es es-slider">
-          <img src="https://embedsocial.com/cdn/icon/embedsocial-logo.webp" alt="EmbedSocial">
-          <span> Google reviews widget </span>
+
+    <div class="review-card">
+      <div class="review-header">
+        <!-- Heading now links to Google Search -->
+        <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank">Naada Raja Yoga</a>
+        <span class="stars">★★★★★</span>
+      </div>
+      <div class="rating-summary">1 rating · 1 review</div>
+      <!-- Link to your Google Review Form -->
+      <a href="https://g.page/r/CcV52-DSDxqlEAE/review" target="_blank" class="leave-review-btn">
+        Leave a review
+      </a>
+
+      <!-- Review Item -->
+      <div class="review-item">
+        <a href="https://maps.app.goo.gl/Gtk5X1QE4C4MGiKf9" target="_blank">
+          <h4>Uta Cheruti</h4>
+        </a>
+        <br>
+        <a href="https://maps.app.goo.gl/Gtk5X1QE4C4MGiKf9" target="_blank" class="review-date">
+          Sep 16, 2025
+        </a>
+        <div class="stars">★★★★★</div>
+        <p class="review-text" id="review-text">
+          Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, 
+          built through many years of continuous practice and teaching, is felt in every class...
+        </p>
+        <span class="read-more" onclick="toggleReview(this)">Read more</span>
+
+        <!-- Google multicolor SVG logo now links to Google Search -->
+        <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" aria-label="View on Google">
+          <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+            <path fill="#4285F4" d="M488 261.8c0-17.7-1.5-35.6-4.6-52.8H248v99.9h135.6c-5.9 31.8-23.6 58.7-50.5 76.6v63.5h81.7c47.9-44.1 73.2-109.1 73.2-187.2z"/>
+            <path fill="#34A853" d="M248 492c68.4 0 125.9-22.7 167.9-61.5l-81.7-63.5c-22.7 15.2-51.8 24.3-86.2 24.3-66.2 0-122.3-44.7-142.4-104.9H20.1v65.9C62.6 429.3 148.2 492 248 492z"/>
+            <path fill="#FBBC05" d="M105.6 286.4c-5.1-15.2-8-31.5-8-48.4s2.9-33.2 8-48.4V123.7H20.1C7.2 152.7 0 186.1 0 221.6s7.2 68.9 20.1 97.9l85.5-65.1z"/>
+            <path fill="#EA4335" d="M248 97.6c37.2 0 70.7 12.8 97.1 37.8l72.6-72.6C373.9 24.3 316.4 0 248 0 148.2 0 62.6 62.7 20.1 155.2l85.5 65.1C125.7 142.3 181.8 97.6 248 97.6z"/>
+          </svg>
         </a>
       </div>
     </div>
   </section>
 
-  <style>
-    /* REVIEWS CSS */
-    .reviews-section {
-      padding: 30px 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    .reviews-section h2 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #444;
-    }
-    .reviews-container {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-      background: #fff;
-      padding: 10px;
-    }
-  </style>
-
   <script>
-    (function(d, s, id) {
-      var js;
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "https://embedsocial.com/cdn/aht.js";
-      d.getElementsByTagName("head")[0].appendChild(js);
-    }(document, "script", "EmbedSocialWidgetScript"));
+    function toggleReview(el) {
+      const reviewText = document.getElementById("review-text");
+      if (el.innerText === "Read more") {
+        reviewText.innerText =
+          "Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, built through many years of continuous practice and teaching, is felt in every class. His deep experience and strong foundation make him not only an excellent coach but also someone who shares the spiritual side of yoga in a calm and authentic way. Living with MS and physical limitations, I deeply value how he adapts the exercises to my needs, brings in new ideas, and repeats key practices so I can build step by step. His teaching is gentle, clear, and motivating – practicing with Yadu has truly given me back strength, balance, and joy in yoga.";
+        el.innerText = "Read less";
+      } else {
+        reviewText.innerText =
+          "Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, built through many years of continuous practice and teaching, is felt in every class...";
+        el.innerText = "Read more";
+      }
+    }
   </script>
+
+</body>
+</html>
+
 
 
 
