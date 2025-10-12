@@ -5,13 +5,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Naada Raja Yoga</title>
 
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.png" type="image/png">
+  <!--------- 
+  Basic SEO
+  ---------->
+  <meta name="description" content="Explore our journey with glimpses on YouTube and Instagram, and enjoy personalized daily progress with our online classes">
 
-  <!-- PayPal SDK -->
-  <script 
-    src="https://www.paypal.com/sdk/js?client-id=BAApzcZuTe3ypLit4fxNQwdx62PVgNgfdaFeYbSHBcb1Eeip0AEk7DgtyJoQE7wzzljrbt94NSBUXEigdU&components=hosted-buttons&disable-funding=venmo&currency=USD">
-  </script>
+  <!-------------------------------
+  Open Graph / WhatsApp / Facebook 
+  ------------------------------->
+  <meta property="og:title" content="" />
+  <meta property="og:description" content="Explore our journey with glimpses on YouTube and Instagram, and enjoy personalized daily progress with our online classes" />
+  <meta property="og:image" content="https://naadaraja.com/images/og-image.jpg" />
+  <meta property="og:url" content="" />
+  <meta property="og:type" content="website" />
+  <meta property="og:logo" content="/favicon.ico/512.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+
+  <!----------------------------------------- 
+  Twitter Card (for Twitter & some messengers) 
+  ------------------------------------------->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Naada Raja Yoga" />
+  <meta name="twitter:description" content="Explore our journey with glimpses on YouTube and Instagram, and enjoy personalized daily progress with our online classes" />
+  <meta name="twitter:image" content="https://naadaraja.com/images/og-image.jpg" />
+
+  <!------------------- 
+  Google Search Console 
+  ------------------>
+  <meta name="google-site-verification" content="W0zqaLuExgFbg_t58wQ8JXb9fGRj9A6i-bqKTtTx2_A" />
+  <meta name="google-site-verification" content="S88cprs1l7mpUIybcZRL_3RjfPz3cZdoxuslnUlnRMI" />
+  
+
+  <!-------
+  Manifest 
+  --------->
+  <link rel="manifest" href="/manifest.json">
+
+  <!------------ 
+  Favicon Basics 
+  -------------->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico/16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico/32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon.ico/48.png">
+
+  <!-- Apple Touch Icon (for iOS Home Screen) -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico/180.png">
+
+  <!-- Android / PWA -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon.ico/192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon.ico/512.png">
+
+  <!-- Theme colors -->
+  <meta name="theme-color" content="#000000"> <!-- matches manifest.json -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <!-- Windows Tile -->
+  <meta name="msapplication-TileImage" content="/favicon.ico/144.png">
+  <meta name="msapplication-TileColor" content="#ffffff">
+
+
+
 
   <!-- Global Reset -->
   <style>
@@ -20,47 +77,35 @@
     body { line-height: 1.6; color: #333; background: #fefefe; }
     img { max-width: 100%; display: block; }
   </style>
-</head>
-<body>
+ 
+<!----------------------
+Header (loaded from common file) 
+------------------------------>
+ <div id="header">
+  <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    fetch("/header.html") // Root folder path
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Header failed to load: " + response.status);
+        }
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById("header").innerHTML = data;
+      })
+      .catch(error => {
+        console.error("Error loading header:", error);
+      });
+  });
+</script>
+ </div>
 
-  <!-- ======================
-       HEADER
-       ====================== -->
-  <header>
-    <div class="branding">
-      <img src="Naada Raja Yoga Logo.png" alt="Naada Raja Yoga Logo">
-      <div class="branding-text">
-        <h1>Naada Raja Yoga</h1>
-        <p>Personalized Yoga Journey</p>
-      </div>
-    </div>
-  </header>
-
-  <style>
-    /* HEADER CSS */
-    header {
-      background: linear-gradient(135deg, #a8edea, #fed6e3);
-      padding: 25px 20px;
-    }
-    .branding {
-      display: flex; align-items: center; justify-content: center; gap: 15px;
-      max-width: 1000px; margin: 0 auto;
-    }
-    .branding img { width: 90px; height: auto; }
-    .branding-text { display: flex; flex-direction: column; align-items: flex-start; }
-    .branding h1 {
-      font-size: 2rem; font-weight: 700;
-      background: linear-gradient(135deg, #008080, #800080);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .branding p { font-size: 1.05rem; color: #333; }
-  </style>
-  <!-- No JS needed for header -->
-
+ 
   <!-- ======================
        ABOUT
        ====================== -->
+
   <section class="about-section">
     <div class="about-container">
       <img src="me.jpg" alt="Yoga Teacher">
@@ -77,7 +122,7 @@
         </p>
         <p>
           In addition to my independent teaching, I have also worked in Arvada hospitals, including two years at PNNM
-          Arvada College Cheruthuruthi, where I taught yoga to BAMS students, integrating yogic practices into their medical education.
+          Ayurveda College Cheruthuruthi, where I taught yoga to BAMS students, integrating yogic practices into their medical education.
         </p>
       </div>
     </div>
@@ -99,13 +144,12 @@
       .about-text { text-align: center; }
     }
   </style>
-  <!-- No JS needed for about -->
 
-
-  <!-- ======================
-       REVIEWS
-       ====================== -->
-  <!DOCTYPE html>
+<!-- ======================
+        REVIEWS
+====================== -->
+       
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -116,7 +160,7 @@
       font-family: Arial, sans-serif;
       background: #fff;
       padding: 20px;
-      max-width: 900px;
+      max-width:1000px;
       margin: 0 auto;
     }
 
@@ -250,7 +294,7 @@
       line-height: 1.4;
       overflow: hidden;
       display: -webkit-box;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 2; /* default to 4 lines */
       -webkit-box-orient: vertical;
     }
 
@@ -306,7 +350,7 @@
         </a>
       </div>
 
-      <!-- Review Item -->
+      <!-- Review Item 1 -->
       <div class="review-item">
         <div class="review-top">
           <a href="https://maps.app.goo.gl/Gtk5X1QE4C4MGiKf9" target="_blank">
@@ -315,7 +359,7 @@
           <div class="stars">★★★★★</div>
         </div>
 
-        <p class="review-text" id="review-text">
+        <p class="review-text" id="review-text-1">
           Yadu has been my yoga teacher for some time, and his lifelong dedication to yoga, 
           built through many years of continuous practice and teaching, is felt in every class. 
           His deep experience and strong foundation make him not only an excellent coach but 
@@ -325,7 +369,7 @@
           His teaching is gentle, clear, and motivating – practicing with Yadu has truly given me 
           back strength, balance, and joy in yoga.
         </p>
-        <span class="read-more" onclick="toggleReview(this)">Read more</span>
+        <span class="read-more" onclick="toggleReview(this, 'review-text-1')">Read more</span>
 
         <!-- Google multicolor SVG logo links to Google Search -->
         <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" aria-label="View on Google">
@@ -337,12 +381,42 @@
           </svg>
         </a>
       </div>
+
+      <!-- Review Item 2 -->
+      <div class="review-item">
+        <div class="review-top">
+          <a href="https://share.google/rovKD07fRX7Bj9DkR" target="_blank">
+            <h4>Raji ks</h4>
+          </a>
+          <div class="stars">★★★★★</div>
+        </div>
+
+        <p class="review-text" id="review-text-2">
+          I thoroughly enjoyed the yoga session. The atmosphere was warm and welcoming, and the 
+          instructions were incredibly clear, helping me understand exactly what I could do. I’ve 
+          been practicing since 2008 and I eventually became a district champion. The session was 
+          well-tailored to my needs, and I felt that every part of my body was taken care of. 
+          Overall, it was a fantastic experience, and I would definitely recommend it.
+        </p>
+        <span class="read-more" onclick="toggleReview(this, 'review-text-2')">Read more</span>
+
+        <!-- Google multicolor SVG logo links to Google Search -->
+        <a href="https://www.google.com/search?q=naada+raja+yoga" target="_blank" aria-label="View on Google">
+          <svg class="google-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+            <path fill="#4285F4" d="M488 261.8c0-17.7-1.5-35.6-4.6-52.8H248v99.9h135.6c-5.9 31.8-23.6 58.7-50.5 76.6v63.5h81.7c47.9-44.1 73.2-109.1 73.2-187.2z"/>
+            <path fill="#34A853" d="M248 492c68.4 0 125.9-22.7 167.9-61.5l-81.7-63.5c-22.7 15.2-51.8 24.3-86.2 24.3-66.2 0-122.3-44.7-142.4-104.9H20.1v65.9C62.6 429.3 148.2 492 248 492z"/>
+            <path fill="#FBBC05" d="M105.6 286.4c-5.1-15.2-8-31.5-8-48.4s2.9-33.2 8-48.4V123.7H20.1C7.2 152.7 0 186.1 0 221.6s7.2 68.9 20.1 97.9l85.5-65.1z"/>
+            <path fill="#EA4335" d="M248 97.6c37.2 0 70.7 12.8 97.1 37.8l72.6-72.6C373.9 24.3 316.4 0 248 0 148.2 0 62.6 62.7 20.1 155.2l85.5 65.1C125.7 142.3 181.8 97.6 248 97.6z"/>
+          </svg>
+        </a>
+      </div>
+
     </div>
   </section>
 
   <script>
-    function toggleReview(el) {
-      const reviewText = document.getElementById("review-text");
+    function toggleReview(el, id) {
+      const reviewText = document.getElementById(id);
       if (reviewText.classList.contains("expanded")) {
         reviewText.classList.remove("expanded");
         el.innerText = "Read more";
@@ -357,9 +431,7 @@
 </html>
 
 
-  <!-- ======================
-       SHORTS / YOUTUBE
-       ====================== -->
+<!-- SHORTS / YOUTUBE -->
 <section id="shorts">
   <div class="btn-container">
     <a href="https://www.youtube.com/@NaadaRajaYoga" target="_blank" class="youtube-btn">
@@ -369,41 +441,128 @@
       </svg>
       YouTube
     </a>
-
-    <a href="https://programs.naadaraja.com" target="_blank" class="enroll-btn">
-      Enroll Now
+    <a href="https://naadaraja.com/courses" target="_blank" class="enroll-btn">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+        <path d="M320 96a64 64 0 1 0 0-128 64 64 0 1 0 0 128zM528 352h-56l-41-82c-6-12-19-18-32-14s-21 16-19 29l20 99H240l20-99c2-13-5-25-19-29s-26 2-32 14l-41 82H112c-27 0-48 21-48 48s21 48 48 48h416c27 0 48-21 48-48s-21-48-48-48z"/>
+      </svg>
+      Courses
     </a>
   </div>
 
   <div class="shorts-carousel">
-    <div class="short"><iframe src="https://www.youtube.com/embed/SYvQXu5onF0" allowfullscreen></iframe></div>
-    <div class="short"><iframe src="https://www.youtube.com/embed/KwHA5qyFzXY" allowfullscreen></iframe></div>
-    <div class="short"><iframe src="https://www.youtube.com/embed/4JhofpR7DEY" allowfullscreen></iframe></div>
-    <div class="short"><iframe src="https://www.youtube.com/embed/niu5uo0cnfg" allowfullscreen></iframe></div>
-    <div class="short"><iframe src="https://www.youtube.com/embed/gO_dfy0N-sM" allowfullscreen></iframe></div>
-    <div class="short"><iframe src="https://www.youtube.com/embed/R5niWehGQD8" allowfullscreen></iframe></div>
+    <div class="short">
+      <iframe src="https://www.youtube.com/embed/SYvQXu5onF0?autoplay=0" allowfullscreen></iframe>
+    </div>
+    <div class="short">
+      <iframe src="https://www.youtube.com/embed/KwHA5qyFzXY?autoplay=0" allowfullscreen></iframe>
+    </div>
+    <div class="short">
+      <iframe src="https://www.youtube.com/embed/4JhofpR7DEY?autoplay=0" allowfullscreen></iframe>
+    </div>
+    <div class="short">
+      <iframe src="https://www.youtube.com/embed/niu5uo0cnfg?autoplay=0" allowfullscreen></iframe>
+    </div>
+    <div class="short">
+      <iframe src="https://www.youtube.com/embed/gO_dfy0N-sM?autoplay=0" allowfullscreen></iframe>
+    </div>
+    <div class="short">
+      <iframe src="https://www.youtube.com/embed/R5niWehGQD8?autoplay=0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Carousel Indicators -->
+  <div class="carousel-indicators">
+    <span class="indicator active" data-index="0"></span>
+    <span class="indicator" data-index="1"></span>
+    <span class="indicator" data-index="2"></span>
+    <span class="indicator" data-index="3"></span>
+    <span class="indicator" data-index="4"></span>
+    <span class="indicator" data-index="5"></span>
   </div>
 </section>
 
 <style>
   /* SHORTS CSS */
-  #shorts { padding: 20px; max-width: 1000px; margin: 0 auto; }
-  .shorts-carousel { display: flex; overflow-x: auto; gap: 15px; }
-  .short { flex: 0 0 auto; width: 200px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-  .short iframe { width: 100%; aspect-ratio: 9 / 16; border: 0; }
+  #shorts {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .shorts-carousel {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 15px;
+    scroll-behavior: smooth;
+  }
+
+  .short {
+    flex: 0 0 auto;
+    width: 200px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .short:hover {
+    transform: translateY(-8px) scale(1.05);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    overflow: hidden;
+  }
+
+  .short iframe {
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    border: 0;
+  }
+
+  .play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    opacity: 0;
+  }
+
+  .short:hover .play-overlay {
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 1;
+  }
+
+  .play-overlay svg {
+    width: 48px;
+    height: 48px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
 
   /* Button container */
   .btn-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 70px;  /* ✅ safe gap between buttons */
+    gap: 70px;
     margin-bottom: 14px;
-    flex-wrap: wrap; /* ✅ ensures stacking on mobile */
+    flex-wrap: wrap;
   }
 
   /* Shared button styles */
-  .youtube-btn, .enroll-btn {
+  .youtube-btn,
+  .enroll-btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -413,299 +572,282 @@
     font-weight: 700;
     font-size: 1.05rem;
     text-decoration: none;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
     white-space: nowrap;
   }
 
   /* YouTube button */
-  .youtube-btn { background: #FF0000; }
-  .youtube-btn:hover { background: #cc0000; }
-  .youtube-btn svg { width: 22px; height: 22px; }
+  .youtube-btn {
+    background: #FF0000;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+  }
+
+  .youtube-btn:hover {
+    background: #cc0000;
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.4);
+    transform: translateY(-2px);
+  }
+
+  .youtube-btn svg {
+    width: 22px;
+    height: 22px;
+  }
 
   /* Enroll button */
-  .enroll-btn { background: #0073e6; }
-  .enroll-btn:hover { background: #005bb5; }
-</style>
-
-
-  
-<!-- ======================
-     FLOATING CONTACT BUTTONS
-     ====================== -->
-<div class="floating-wrapper" id="floatingWrapper">
-  <div class="floating-inner">
-    <div class="floating-group" id="floatingGroup">
-      <!-- Toggle Button -->
-      <div class="toggle-contact" id="toggleBtn" onclick="toggleContacts()">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M12 15.5l-7-7h14l-7 7z"/>
-        </svg>
-      </div>
-
-      <!-- Contact Buttons -->
-      <div class="fixed-contact" id="contactButtons">
-        <!-- WhatsApp -->
-        <a href="https://wa.me/919539342026" target="_blank" class="whatsapp">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-              <g>
-                <path
-                  d="M128 16
-                    a112 112 0 0 1 0 224
-                    c-21 0-40-5-57-14l-38 10 10-37
-                    c-11-18-17-39-17-61
-                    a112 112 0 0 1 112-122z"
-                  fill="#25D366" stroke="#FFFFFF" stroke-width="12" stroke-linejoin="round"/>
-                <path fill="#FFF" d="M190.6 161.2c-3.1-1.5-18.4-9.1-21.3-10.2-2.9-1.1-5-1.5-7.1 1.6-2.1 3.1-8.1 10.2-9.9 12.3-1.8 2.1-3.6 2.3-6.7.8-3.1-1.5-13.1-4.8-25-15.1-9.2-8.2-15.4-18.3-17.2-21.4-1.8-3.1-.2-4.8 1.4-6.3 1.5-1.5 3.1-3.6 4.6-5.4 1.5-1.8 2-3.1 3.1-5.2 1-2.1.5-4-0.3-5.5-.8-1.5-7.1-17.1-9.7-23.5-2.6-6.2-5.2-5.4-7.1-5.5-1.8-.1-3.9-.1-6-.1s-5.5.8-8.4 4c-2.9 3.1-11 10.8-11 26.3s11.3 30.5 12.9 32.6c1.5 2.1 22.1 33.7 53.6 47.3 31.5 13.6 31.5 9.1 37.2 8.6 5.7-.5 18.4-7.5 21-14.7 2.6-7.2 2.6-13.4 1.8-14.7-.7-1.2-2.7-2-5.8-3.5z"/>
-              </g>
-            </svg>
-          </span>
-          +91 95393 42026
-        </a>
-
-        <!-- Instagram -->
-        <a href="https://www.instagram.com/naada.raja.yoga/" target="_blank" class="instagram">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-              <defs>
-                <linearGradient id="instaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stop-color="#f58529"/>
-                  <stop offset="30%" stop-color="#dd2a7b"/>
-                  <stop offset="60%" stop-color="#8134af"/>
-                  <stop offset="100%" stop-color="#515bd4"/>
-                </linearGradient>
-              </defs>
-              <g>
-                <rect x="20" y="20" width="216" height="216" rx="48" fill="url(#instaGradient)" stroke="#fff" stroke-width="8"/>
-                <circle cx="128" cy="128" r="48" fill="none" stroke="#fff" stroke-width="12"/>
-                <circle cx="176" cy="80" r="10" fill="#fff"/>
-              </g>
-            </svg>
-          </span>
-          @naada.raja.yoga
-        </a>
-
-        <!-- Email -->
-        <a href="mailto:yoga@naadaraja.com" target="_blank" class="email">
-          <span class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-              <path fill="#fff" d="M502.3 190.8L327.4 338c-15.9 13.1-39.1 13.1-55 0L9.7 190.8C3.9 186.5 0 179.3 0 171.6V400c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V171.6c0-7.7-3.9-14.9-9.7-18.8zM464 64H48C21.5 64 0 85.5 0 112v25.6l224 184c15.9 13.1 39.1 13.1 55 0l224-184V112c0-26.5-21.5-48-48-48z"/>
-            </svg>
-          </span>
-          yoga@naadaraja.com
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<style>
-  /* Wrapper handles slide up/down */
-  .floating-wrapper {
-    position: fixed;
-    bottom: 15px; left: 15px;
-    transition: transform 0.5s ease;
-  }
-  .floating-wrapper.collapsed {
-    transform: translateY(calc(100% - 35px));
+  .enroll-btn {
+    background: #003ecf;
+    box-shadow: 0 4px 12px rgba(0, 62, 207, 0.3);
   }
 
-  /* Inner wrapper handles floating animation */
-  .floating-inner {
-    animation: floatGroup 4s ease-in-out infinite;
+  .enroll-btn:hover {
+    background: #002a99;
+    box-shadow: 0 6px 16px rgba(0, 62, 207, 0.4);
+    transform: translateY(-2px);
   }
 
-  @keyframes floatGroup {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); } /* stronger motion */
+  .enroll-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: #fff;
   }
 
-  /* Group structure */
-  .floating-group {
-    display: flex; flex-direction: column;
-    gap: 10px;
+  /* Carousel Indicators */
+  .carousel-indicators {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
   }
 
-  /* CONTACT BUTTONS */
-  .fixed-contact {
-    display: flex; flex-direction: column; gap: 10px;
+  .indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
-  .fixed-contact a {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 14px; border-radius: 999px; font-weight: 700;
-    text-decoration: none; color: #fff;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  }
-  .whatsapp { background: #25D366; }
-  .instagram {
-    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
-  }
-  .email { background: #D44638; }
-  .icon { width: 22px; height: 22px; display:inline-block; }
 
-  /* TOGGLE BUTTON */
-  .toggle-contact {
-    width: 40px; height: 40px; 
-    background: rgb(55,148,161);
-    border-radius: 50%; 
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; 
-    transition: transform 0.3s, box-shadow 0.3s;
+  .indicator.active {
+    background: #FF0000;
+    width: 28px;
+    border-radius: 5px;
   }
-  .toggle-contact:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+
+  .indicator:hover {
+    background: #999;
   }
-  .toggle-contact svg {
-    width: 28px; height: 28px;  
-    fill: #FFFFFF;
-    transition: transform 0.3s;
+
+  /* Show indicators on mobile only */
+  @media (max-width: 768px) {
+    .carousel-indicators {
+      display: flex;
+    }
+
+    /* Hide scrollbar on mobile */
+    .shorts-carousel {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .shorts-carousel::-webkit-scrollbar {
+      display: none;
+    }
   }
-  .toggle-contact.up svg { transform: rotate(180deg); }
 </style>
 
 <script>
-  function toggleContacts() {
-    const wrapper = document.getElementById('floatingWrapper');
-    const toggleBtn = document.getElementById('toggleBtn');
+  const carousel = document.querySelector('.shorts-carousel');
+  const indicators = document.querySelectorAll('.indicator');
+
+  carousel.addEventListener('scroll', () => {
+    const scrollPosition = carousel.scrollLeft;
+    const cardWidth = 215; // 200px + 15px gap
+    const activeIndex = Math.round(scrollPosition / cardWidth);
     
-    wrapper.classList.toggle('collapsed');
-    toggleBtn.classList.toggle('up');
-  }
+    indicators.forEach((indicator, index) => {
+      indicator.classList.toggle('active', index === activeIndex);
+    });
+  });
+
+  indicators.forEach(indicator => {
+    indicator.addEventListener('click', () => {
+      const index = parseInt(indicator.dataset.index);
+      const cardWidth = 215;
+      carousel.scrollLeft = index * cardWidth;
+    });
+  });
 </script>
 
-</body>
-</html>
 
-<form><script src="https://checkout.razorpay.com/v1/payment-button.js" data-payment_button_id="pl_RIRoLfT2Ui9TkZ" async> </script> </form>
+<!-- ==========================
+     Navbar (always visible)
+     ========================== -->
+<nav class="bottom-navbar" id="site-navbar" role="navigation" aria-label="Main navigation">
+  <a class="nav-item" href="https://naadaraja.com/contact" aria-label="Contact">
+    <!-- phone / contact SVG -->
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M6.6 10.2a15.05 15.05 0 006.2 6.2l1.8-1.8a1 1 0 01.9-.24c1 .25 2 .38 3 .38a1 1 0 011 1v3a1 1 0 01-1 1C9.2 23 1 14.8 1 3a1 1 0 011-1h3a1 1 0 011 1c0 1.1.13 2.1.38 3a1 1 0 01-.24.9L6.6 10.2z"/>
+    </svg>
+    <span>Contact</span>
+  </a>
 
-<!-- ======================
-     FOOTER
-====================== -->
-<footer>
-  <div class="footer-links">
-    <!-- Home -->
-    <a href="https://naadaraja.com" title="Home">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+  <a class="nav-item active" href="https://naadaraja.com" aria-label="Home">
+    <!-- home SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
         <path d="M541 229.16l-61-52.06V56c0-13.25-10.75-24-24-24h-72c-13.25 
-        0-24 10.75-24 24v24l-103.64-88.39c-12.28-10.48-30.32-10.48-42.6 
-        0L35 229.16c-10.3 8.8-11.4 24.1-2.6 34.4l10.6 12.4c8.8 
-        10.3 24.1 11.4 34.4 2.6L96 234.6V456c0 13.3 10.7 24 
-        24 24h112c13.3 0 24-10.7 
-        24-24V344h64v112c0 13.3 10.7 24 24 
-        24h112c13.3 0 24-10.7 
-        24-24V234.6l18.6 16.56c10.3 8.8 
-        25.6 7.7 34.4-2.6l10.6-12.4c8.8-10.3 
-        7.7-25.6-2.6-34.4z"/>
+        0-24 10.75-24 24v24L314.4 43c-15.9-13.6-39.3-13.6-55.2 
+        0L35 229.2c-9.9 8.4-11.1 23.3-2.7 33.2s23.3 11.1 33.2 
+        2.7L96 232.1V456c0 30.9 25.1 56 56 56h96V360h80v152h96c30.9 
+        0 56-25.1 56-56V232l30.6 26c9.9 8.4 24.8 7.1 33.2-2.7 
+        8.4-9.9 7.1-24.8-2.7-33.2z"/>
       </svg>
-      Home
-    </a>
+    <span>Home</span>
+  </a>
 
-    <!-- Products -->
-    <a href="https://naadaraja.com/products" title="Products">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
-        <path d="M128 0c-17.7 0-32 14.3-32 32V480c0 17.7 
-        14.3 32 32 32H512c17.7 0 32-14.3 
-        32-32V32c0-17.7-14.3-32-32-32H128zm80 
-        96h224c8.8 0 16 7.2 
-        16 16s-7.2 16-16 16H208c-8.8 0-16-7.2-16-16s7.2-16 
-        16-16zm0 96h224c8.8 0 16 7.2 
-        16 16s-7.2 16-16 16H208c-8.8 0-16-7.2-16-16s7.2-16 
-        16-16zm0 96h224c8.8 0 16 7.2 
-        16 16s-7.2 16-16 16H208c-8.8 0-16-7.2-16-16s7.2-16 
-        16-16z"/>
-      </svg>
-      Products
-    </a>
+  <a class="nav-item" href="https://naadaraja.com/courses" aria-label="Courses">
+    <!-- grid / programs SVG -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+      <path d="M320 96a64 64 0 1 0 0-128 64 64 0 1 0 0 128zM528 352h-56l-41-82c-6-12-19-18-32-14s-21 16-19 29l20 99H240l20-99c2-13-5-25-19-29s-26 2-32 14l-41 82H112c-27 0-48 21-48 48s21 48 48 48h416c27 0 48-21 48-48s-21-48-48-48z"/>
+    </svg>
+    <span>Courses</span>
+  </a>
+</nav>
 
-    <!-- Contacts -->
-    <a href="https://naadaraja.com/contacts" title="Contacts">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M502.3 190.8c3.9-12.4-3.1-25.8-15.5-29.7L327.4 
-        94.5c-12.4-3.9-25.8 3.1-29.7 15.5l-19.7 
-        62.4c-3.9 12.4 3.1 25.8 15.5 
-        29.7l71.6 22.4c-16.3 46.7-52.6 83-99.3 
-        99.3l-22.4-71.6c-3.9-12.4-17.3-19.4-29.7-15.5l-62.4 
-        19.7c-12.4 3.9-19.4 17.3-15.5 
-        29.7l66.7 212.1c3.9 12.4 17.3 19.4 
-        29.7 15.5l212.1-66.7c12.4-3.9 
-        19.4-17.3 15.5-29.7l-19.7-62.4c-3.9-12.4-17.3-19.4-29.7-15.5l-71.6 
-        22.4c-10.1-29-10.1-61 0-90l71.6 
-        22.4c12.4 3.9 25.8-3.1 29.7-15.5l19.7-62.4z"/>
-      </svg>
-      Contacts
-    </a>
+<style>
 
-    <!-- Terms and Conditions -->
-    <a href="https://naadaraja.com/terms" title="Terms and Conditions">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path d="M64 0C28.7 0 0 28.7 0 64V448c0 
-        35.3 28.7 64 64 64H384c35.3 0 
-        64-28.7 64-64V128L320 0H64zM256 
-        64v96h96v288H96V64H256z"/>
-      </svg>
-      Terms and Conditions
-    </a>
 
-    <!-- Cancellations and Refunds -->
-    <a href="https://naadaraja.com/refunds" title="Cancellations and Refunds">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-        <path d="M256 8C119 8 8 119 8 256s111 248 
-        248 248 248-111 248-248S393 8 256 
-        8zm0 48c110.5 0 200 89.5 200 
-        200s-89.5 200-200 
-        200S56 366.5 56 256 
-        145.5 56 256 56zm93.1 
-        128.9c-12.5-12.5-32.8-12.5-45.3 
-        0L224 264.7V176c0-17.7-14.3-32-32-32s-32 
-        14.3-32 32v160c0 17.7 14.3 32 
-        32 32h160c17.7 0 32-14.3 
-        32-32s-14.3-32-32-32H247.3l79.8-79.8c12.5-12.5 
-        12.5-32.8 0-45.3z"/>
-      </svg>
-      Cancellations and Refunds
-    </a>
 
-    <!-- Privacy Policy -->
-    <a href="https://naadaraja.com/privacy" title="Privacy Policy">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path d="M224 0C100.3 0 0 100.3 0 
-        224c0 97.2 69.6 178.6 160 198.4V512h128v-89.6c90.4-19.8 
-        160-101.2 160-198.4C448 100.3 347.7 
-        0 224 0zm0 128a64 64 0 110 128 
-        64 64 0 010-128z"/>
-      </svg>
-      Privacy Policy
-    </a>
+/* ==========================
+   Navbar CSS
+   ========================== */
+.bottom-navbar {
+  --bar-h: 55px;
+  --bg: #2C3E50;
+  --text: #fff;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--bar-h);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px; /* spacing between items */
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  z-index: 9999;
+}
+
+.bottom-navbar .nav-item {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.bottom-navbar svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  fill: currentColor;
+}
+.bottom-navbar .nav-item.active {
+  color: #FFD700; /* gold highlight */
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .bottom-navbar { padding: 8px 12px; gap: 20px; justify-content: space-between; }
+  .bottom-navbar .nav-item { font-size: 13px; gap: 8px; }
+}
+</style>
+
+
+
+<!-- ==========================
+     Peek Footer (scroll reveal, ultra-compact)
+     ========================== -->
+<footer class="peek-footer" id="site-footer" aria-label="Site footer">
+  <!-- tiny spacer: just enough to allow reveal -->
+  <div class="peek-footer__spacer" aria-hidden="true"></div>
+
+  <!-- Hidden content: revealed when scrolling -->
+  <div class="peek-footer__hidden" role="region" aria-label="Footer expanded links">
+    <nav class="footer-links" aria-label="Footer links">
+      <a href="https://naadaraja.com/privacy">Privacy Policy</a>
+      <a href="https://naadaraja.com/terms">Terms &amp; Conditions</a>
+      <a href="https://naadaraja.com/refund">Refund Policy</a>
+    </nav>
   </div>
 </footer>
 
 <style>
-  footer {
-    background: #111;
-    padding: 20px;
-    text-align: center;
-  }
-  .footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 25px;
-  }
-  .footer-links a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: color 0.3s ease;
-  }
-  .footer-links a:hover {
-    color: #f39c12;
-  }
-  .footer-links svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-  }
+/* ==========================
+   Footer CSS (ultra-compact)
+   ========================== */
+.peek-footer {
+  --bar-h: 64px; /* navbar height */
+  --bg: #ffffff;
+  --text: #000000;
+  --muted: #bdbdbd;
+  --max-w: 1100px;
+  display: block;
+  width: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  line-height: 1.2;
+  position: relative;
+}
+
+/* minimal spacer */
+.peek-footer__spacer {
+  height: 4px; /* minimal scroll allowance */
+  width: 100%;
+}
+
+.peek-footer__hidden {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 10px 18px; /* slightly tighter */
+  padding-bottom: calc(var(--bar-h) + 2px); /* clears navbar, almost no gap */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.footer-links {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  padding: 4px 6px; /* slightly tighter link padding */
+  border-radius: 6px;
+}
+
+.footer-links a:hover,
+.footer-links a:focus {
+  color: var(--text);
+  text-decoration: underline;
+  outline: none;
+}
+
+@media (max-width: 520px) {
+  .footer-links { gap: 10px; }
+}
 </style>
+
+
+
