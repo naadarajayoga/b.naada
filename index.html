@@ -522,7 +522,7 @@ BUTTONS SECTION
 </section>
 
 <!-------------------- 
-YOUTUBE SHORTS SECTION (full session - copy & paste)
+YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
 --------------------->
 
 <section id="shorts">
@@ -733,10 +733,13 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
         display: none;
       }
     }
+
+    /* Unmute button base (desktop hidden by default; shown on mobile via script when needed) */
+    .yt-unmute-btn { display: none; }
   </style>
 
   <script>
-    // YOUTUBE SHORTS SECTION JAVASCRIPT
+    // YOUTUBE SHORTS SECTION JAVASCRIPT (desktop indicator + basic scroll indicator)
     const carousel = document.querySelector('.shorts-carousel');
     const indicators = document.querySelectorAll('.indicator');
 
@@ -760,7 +763,7 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
   </script>
 </section>
 
-<!-- Single JS block to implement autoplay-on-visible / swipe behavior using YouTube IFrame API -->
+<!-- Single JS block to implement mobile-only autoplay / unmute button behavior using YouTube IFrame API -->
 <script>
 (() => {
   /* Config */
@@ -771,18 +774,20 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
     loop: true                   // loop from last -> first
   };
 
-  /* Helpers & state (no globals exported) */
+  /* State & elements */
   const carousel = document.querySelector('.shorts-carousel');
   const container = document.querySelector('#shorts');
   if (!carousel || !container) return;
   const iframeEls = Array.from(carousel.querySelectorAll('iframe'));
-  const players = []; // entries: { player, userInteracted, lastProgrammaticActionAt, mutedByFallback }
+  const players = []; // { player, userInteracted, mutedByFallback, userUnmuted, unmuteBtn, lastProgrammaticActionAt }
   let containerVisible = false;
   let activeIndex = 0;
   let scrollRaf = null;
   let settleTimer = null;
   let YTready = false;
   let apiLoadAttempted = false;
+
+  const isMobile = () => window.matchMedia('(max-width:768px)').matches;
 
   /* Ensure iframe src has required params (minimal change if not present) */
   iframeEls.forEach(iframe => {
@@ -798,7 +803,7 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
     }
   });
 
-  /* Load YouTube IFrame API dynamically with graceful fallback */
+  /* Load YouTube IFrame API dynamically (graceful if fails) */
   function loadYouTubeAPI() {
     if (apiLoadAttempted) return Promise.resolve();
     apiLoadAttempted = true;
@@ -807,15 +812,49 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
       const s = document.createElement('script');
       s.src = "https://www.youtube.com/iframe_api";
       s.async = true;
-      s.onload = () => { /* actual ready signalled via onYouTubeIframeAPIReady */ };
       s.onerror = () => resolve();
       document.head.appendChild(s);
       window.onYouTubeIframeAPIReady = () => { YTready = true; resolve(); };
-      setTimeout(() => resolve(), 3000); // safety timeout
+      setTimeout(() => resolve(), 3000);
     });
   }
 
-  /* Create YT players for each iframe */
+  /* Create overlay unmute button (visible only on mobile and when autoplay falls back to muted) */
+  function createUnmuteButton(i, card) {
+    if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'yt-unmute-btn';
+    btn.textContent = 'Unmute';
+    Object.assign(btn.style, {
+      position: 'absolute',
+      right: '10px',
+      bottom: '12px',
+      zIndex: 9999,
+      padding: '6px 10px',
+      fontSize: '13px',
+      borderRadius: '8px',
+      border: 'none',
+      background: 'rgba(0,0,0,0.6)',
+      color: '#fff',
+      backdropFilter: 'blur(4px)',
+      cursor: 'pointer',
+      display: 'none'
+    });
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const rec = players[i];
+      if (!rec || !rec.player) return;
+      try { rec.player.unMute(); } catch (e) { /* ignore */ }
+      rec.mutedByFallback = false;
+      rec.userUnmuted = true;
+      btn.style.display = 'none';
+    });
+    card.appendChild(btn);
+    return btn;
+  }
+
+  /* Create players and per-card unmute buttons */
   function createPlayers() {
     if (!YTready || !window.YT || !window.YT.Player) return;
     iframeEls.forEach((iframe, i) => {
@@ -826,76 +865,72 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
           onReady: () => { /* noop */ }
         }
       });
+      const card = iframe.closest('.short') || iframe.parentElement;
+      const btn = createUnmuteButton(i, card);
       players[i] = {
         player: p,
         userInteracted: false,
-        lastProgrammaticActionAt: 0,
-        mutedByFallback: false
+        mutedByFallback: false,
+        userUnmuted: false,
+        unmuteBtn: btn,
+        lastProgrammaticActionAt: 0
       };
 
-      // Detect explicit user interaction (tap/pointerdown on the card) and set flag
-      const card = iframe.closest('.short');
+      // Mark pointerdown as explicit user interaction to respect intent
       if (card) {
         card.addEventListener('pointerdown', () => {
           players[i].userInteracted = true;
         }, { capture: true });
       }
-
-      // Detect manual unmute via click on iframe (best-effort)
-      iframe.addEventListener('load', () => {
-        // We cannot reliably detect unmute via iframe clicks cross-origin; rely on onStateChange and userInteracted flags
-      });
     });
   }
 
-  /* Handle YT state changes */
+  /* Player state change handler */
   function onPlayerStateChange(index, ev) {
     const st = ev.data;
     const rec = players[index];
     if (!rec) return;
     const now = Date.now();
-    const progWindow = 600; // ms window to consider state change programmatic
-    const isProg = (now - (rec.lastProgrammaticActionAt || 0)) < progWindow;
-
-    // If not programmatic, mark this as user interaction
+    const isProg = (now - (rec.lastProgrammaticActionAt || 0)) < 600;
     if (!isProg) {
       if (st === YT.PlayerState.PLAYING || st === YT.PlayerState.PAUSED) {
         rec.userInteracted = true;
       }
     }
-
-    // On ended -> go to next and play
     if (st === YT.PlayerState.ENDED) {
       goToNextCardAndPlay(index);
     }
   }
 
-  /* Try play with unmute-first attempt and fallback to muted autoplay */
-  function attemptPlay(index) {
+  /* Play helpers with unmute-first attempt and fallback to muted autoplay */
+  function attemptPlayIfMobile(index) {
+    if (!isMobile()) return;
     const rec = players[index];
-    if (!rec || !rec.player || typeof rec.player.playVideo !== 'function') return;
+    if (!rec || !rec.player) return;
     const player = rec.player;
     rec.lastProgrammaticActionAt = Date.now();
 
-    // Respect manual user interaction (if they paused/acted) - do not auto-play
+    // Respect user interaction: don't override an intentional pause/play
     if (rec.userInteracted) {
       const st = safeGetState(player);
       if (st !== YT.PlayerState.PLAYING) return;
     }
 
-    const tryUnmuted = config.autoplayUnmuteDefault && !rec.mutedByFallback;
+    const tryUnmuted = config.autoplayUnmuteDefault && !rec.mutedByFallback && !rec.userUnmuted;
     const attemptUnmuted = () => {
       try { player.unMute(); } catch (e) { /* ignore */ }
       rec.lastProgrammaticActionAt = Date.now();
       safePlayWithDetection(player).then(played => {
         if (!played) {
-          // fallback: mute + play
+          // fallback to muted autoplay
           rec.mutedByFallback = true;
           try { player.mute(); } catch (e) { /* ignore */ }
           rec.lastProgrammaticActionAt = Date.now();
           safePlayOnce(player);
+          if (rec.unmuteBtn) rec.unmuteBtn.style.display = '';
         } else {
           rec.mutedByFallback = false;
+          if (rec.unmuteBtn) rec.unmuteBtn.style.display = 'none';
         }
       });
     };
@@ -906,10 +941,11 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
       rec.lastProgrammaticActionAt = Date.now();
       safePlayOnce(player);
       rec.mutedByFallback = true;
+      if (rec.unmuteBtn) rec.unmuteBtn.style.display = '';
     }
   }
 
-  /* Play detection: resolves true if player reaches PLAYING within timeout */
+  /* Play detection */
   function safePlayWithDetection(player, timeout = 1200) {
     return new Promise(resolve => {
       safePlayOnce(player);
@@ -928,8 +964,8 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
     try { player.playVideo(); } catch (e) { /* ignore */ }
   }
 
-  function safePause(index) {
-    const rec = players[index];
+  function safePauseIndex(i) {
+    const rec = players[i];
     if (!rec || !rec.player) return;
     rec.lastProgrammaticActionAt = Date.now();
     try { rec.player.pauseVideo(); } catch (e) { /* ignore */ }
@@ -939,61 +975,56 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
     try { return player.getPlayerState(); } catch (e) { return -1; }
   }
 
-  /* Determine active card index using carousel width assumption & scroll-snap */
+  /* Compute active index (assumes each mobile card = carousel width, using scroll-snap) */
   function computeActiveIndex() {
-    const cardW = carousel.offsetWidth || carousel.clientWidth || carousel.getBoundingClientRect().width || 1;
+    const cardW = carousel.offsetWidth || carousel.clientWidth || 1;
     const idx = Math.round(carousel.scrollLeft / cardW);
     return Math.min(Math.max(idx, 0), iframeEls.length - 1);
   }
 
-  /* Called after scroll settles */
+  /* Scroll settled handler */
   function onScrollSettled() {
     const idx = computeActiveIndex();
     if (idx === activeIndex) return;
-    // pause previous
-    if (players[activeIndex] && players[activeIndex].player) safePause(activeIndex);
+    if (players[activeIndex]) safePauseIndex(activeIndex);
     activeIndex = idx;
-    // Only auto-play if container visible enough
-    if (containerVisible) {
+    if (containerVisible && isMobile()) {
       const rec = players[activeIndex];
-      if (rec && !rec.userInteracted) attemptPlay(activeIndex);
+      if (rec && !rec.userInteracted) attemptPlayIfMobile(activeIndex);
     }
   }
 
-  /* Scroll listener with settle debounce */
+  /* Scroll listener with debounce/settle */
   function onScroll() {
     if (scrollRaf) cancelAnimationFrame(scrollRaf);
     scrollRaf = requestAnimationFrame(() => {
       clearTimeout(settleTimer);
-      settleTimer = setTimeout(() => {
-        onScrollSettled();
-      }, config.scrollSettleMs);
+      settleTimer = setTimeout(onScrollSettled, config.scrollSettleMs);
     });
   }
 
-  /* IntersectionObserver to watch container visibility >= threshold */
+  /* IntersectionObserver watching container visibility >= threshold */
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      const ratio = e.intersectionRatio;
       const prev = containerVisible;
-      containerVisible = ratio >= config.visibilityThreshold;
+      containerVisible = e.intersectionRatio >= config.visibilityThreshold;
       if (containerVisible && !prev) {
-        // container became visible -> compute active card and try play after settle
+        // container entered visible area
         setTimeout(() => {
           activeIndex = computeActiveIndex();
-          const rec = players[activeIndex];
-          if (rec && !rec.userInteracted) attemptPlay(activeIndex);
+          if (isMobile()) {
+            const rec = players[activeIndex];
+            if (rec && !rec.userInteracted) attemptPlayIfMobile(activeIndex);
+          }
         }, config.scrollSettleMs);
       } else if (!containerVisible && prev) {
-        // container left visibility -> pause all
-        players.forEach((rec, i) => {
-          if (rec && rec.player) safePause(i);
-        });
+        // container left visible area -> pause all
+        players.forEach((r, i) => { if (r) safePauseIndex(i); });
       }
     });
   }, { threshold: [config.visibilityThreshold] });
 
-  /* On video ended -> scroll to next (or loop) and play */
+  /* On video ended -> go to next (loop if enabled) */
   function goToNextCardAndPlay(fromIndex) {
     let next = fromIndex + 1;
     if (next >= iframeEls.length) {
@@ -1003,10 +1034,11 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
     const cardW = carousel.offsetWidth || carousel.clientWidth || 1;
     activeIndex = next;
     carousel.scrollTo({ left: next * cardW, behavior: 'smooth' });
-    // play after a short delay for smooth scroll
     setTimeout(() => {
-      const rec = players[next];
-      if (rec && !rec.userInteracted) attemptPlay(next);
+      if (isMobile()) {
+        const rec = players[next];
+        if (rec && !rec.userInteracted) attemptPlayIfMobile(next);
+      }
     }, Math.max(config.scrollSettleMs, 240));
   }
 
@@ -1017,26 +1049,24 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
   (async () => {
     await loadYouTubeAPI();
     if (!YTready) {
-      // Graceful fallback: leave iframes unchanged if API fails to load
+      // graceful fallback: do nothing; iframes remain normal embeds
       return;
     }
     createPlayers();
-
-    // observe visibility
     io.observe(container);
 
-    // initial index and attempt initial play if visible
+    // initial index
     activeIndex = computeActiveIndex();
-    if (containerVisible) {
+    if (containerVisible && isMobile()) {
       const rec = players[activeIndex];
-      if (rec && !rec.userInteracted) attemptPlay(activeIndex);
+      if (rec && !rec.userInteracted) attemptPlayIfMobile(activeIndex);
     }
 
-    // Cleanup: destroy players if carousel removed to avoid leaks
+    // cleanup if removed
     const mo = new MutationObserver(() => {
       if (!document.body.contains(container)) {
         players.forEach((rec) => {
-          try { if (rec && rec.player && rec.player.destroy) rec.player.destroy(); } catch (e) { /* ignore */ }
+          try { if (rec && rec.player && rec.player.destroy) rec.player.destroy(); } catch (e) {}
         });
         io.disconnect();
         mo.disconnect();
@@ -1044,13 +1074,15 @@ YOUTUBE SHORTS SECTION (full session - copy & paste)
     });
     mo.observe(document.body, { childList: true, subtree: true });
 
-    // destroy on pagehide to be safe
     window.addEventListener('pagehide', () => {
       players.forEach((rec) => {
-        try { if (rec && rec.player && rec.player.destroy) rec.player.destroy(); } catch (e) { /* ignore */ }
+        try { if (rec && rec.player && rec.player.destroy) rec.player.destroy(); } catch (e) {}
       });
     });
   })();
+
+  // Small debug helper (no global exposure)
+  console.debug('Shorts script active — mobile autoplay only; unmute buttons added per card when needed.');
 })();
 </script>
 
