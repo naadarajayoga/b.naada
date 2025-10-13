@@ -734,12 +734,12 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
       }
     }
 
-    /* Unmute button base (desktop hidden by default; shown on mobile via script when needed) */
+    /* Unmute button base */
     .yt-unmute-btn { display: none; }
   </style>
 
   <script>
-    // YOUTUBE SHORTS SECTION JAVASCRIPT (desktop indicator + basic scroll indicator)
+    // YOUTUBE SHORTS SECTION JAVASCRIPT
     const carousel = document.querySelector('.shorts-carousel');
     const indicators = document.querySelectorAll('.indicator');
 
@@ -763,15 +763,14 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
   </script>
 </section>
 
-<!-- Single JS block to implement mobile-only autoplay / unmute button behavior using YouTube IFrame API -->
+<!-- Single JS block to implement user-initiated-first-play then autoplay-next-with-sound (if allowed) -->
 <script>
 (() => {
   /* Config */
   const config = {
-    autoplayUnmuteDefault: true, // try unmuted autoplay first, fallback to muted if blocked
-    visibilityThreshold: 0.6,    // portion of #shorts visible required to enable auto-play
-    scrollSettleMs: 180,         // wait after scroll settles before auto-play
-    loop: true                   // loop from last -> first
+    visibilityThreshold: 0.6,
+    scrollSettleMs: 180,
+    loop: true
   };
 
   /* State & elements */
@@ -779,17 +778,18 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
   const container = document.querySelector('#shorts');
   if (!carousel || !container) return;
   const iframeEls = Array.from(carousel.querySelectorAll('iframe'));
-  const players = []; // { player, userInteracted, mutedByFallback, userUnmuted, unmuteBtn, lastProgrammaticActionAt }
+  const players = []; // { player, userInteracted, userUnmuted, mutedByAutoplay, unmuteBtn, lastProgrammaticActionAt }
   let containerVisible = false;
   let activeIndex = 0;
   let scrollRaf = null;
   let settleTimer = null;
   let YTready = false;
   let apiLoadAttempted = false;
+  let userHasInitiatedPlay = false; // first play must be by user gesture
 
   const isMobile = () => window.matchMedia('(max-width:768px)').matches;
 
-  /* Ensure iframe src has required params (minimal change if not present) */
+  /* Ensure iframe src has required params (minimal change) */
   iframeEls.forEach(iframe => {
     try {
       const u = new URL(iframe.src, location.href);
@@ -803,7 +803,7 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     }
   });
 
-  /* Load YouTube IFrame API dynamically (graceful if fails) */
+  /* Load YouTube IFrame API dynamically (graceful fallback) */
   function loadYouTubeAPI() {
     if (apiLoadAttempted) return Promise.resolve();
     apiLoadAttempted = true;
@@ -819,7 +819,7 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     });
   }
 
-  /* Create overlay unmute button (visible only on mobile and when autoplay falls back to muted) */
+  /* Create overlay unmute button */
   function createUnmuteButton(i, card) {
     if (getComputedStyle(card).position === 'static') card.style.position = 'relative';
     const btn = document.createElement('button');
@@ -845,8 +845,8 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
       ev.stopPropagation();
       const rec = players[i];
       if (!rec || !rec.player) return;
-      try { rec.player.unMute(); } catch (e) { /* ignore */ }
-      rec.mutedByFallback = false;
+      try { rec.player.unMute(); } catch (e) {}
+      rec.mutedByAutoplay = false;
       rec.userUnmuted = true;
       btn.style.display = 'none';
     });
@@ -854,7 +854,7 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     return btn;
   }
 
-  /* Create players and per-card unmute buttons */
+  /* Create players and attach handlers */
   function createPlayers() {
     if (!YTready || !window.YT || !window.YT.Player) return;
     iframeEls.forEach((iframe, i) => {
@@ -870,13 +870,13 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
       players[i] = {
         player: p,
         userInteracted: false,
-        mutedByFallback: false,
         userUnmuted: false,
+        mutedByAutoplay: false,
         unmuteBtn: btn,
         lastProgrammaticActionAt: 0
       };
 
-      // Mark pointerdown as explicit user interaction to respect intent
+      // Mark pointerdown as explicit user interaction to respect intent (and to allow user-gesture chain)
       if (card) {
         card.addEventListener('pointerdown', () => {
           players[i].userInteracted = true;
@@ -892,67 +892,70 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     if (!rec) return;
     const now = Date.now();
     const isProg = (now - (rec.lastProgrammaticActionAt || 0)) < 600;
-    if (!isProg) {
-      if (st === YT.PlayerState.PLAYING || st === YT.PlayerState.PAUSED) {
-        rec.userInteracted = true;
-      }
+
+    // If the player started playing NOT due to a programmatic call -> user initiated play
+    if (st === YT.PlayerState.PLAYING && !isProg) {
+      userHasInitiatedPlay = true;
+      rec.userInteracted = true;
+      // Hide unmute if user played (they likely unmuted via controls)
+      if (rec.unmuteBtn) rec.unmuteBtn.style.display = 'none';
     }
+
+    // If paused by user (not programmatic), mark interaction
+    if (st === YT.PlayerState.PAUSED && !isProg) {
+      rec.userInteracted = true;
+    }
+
+    // On ended -> advance to next (only if userHasInitiatedPlay true)
     if (st === YT.PlayerState.ENDED) {
-      goToNextCardAndPlay(index);
+      goToNextCardAndAutoplay(index);
     }
   }
 
-  /* Play helpers with unmute-first attempt and fallback to muted autoplay */
-  function attemptPlayIfMobile(index) {
-    if (!isMobile()) return;
+  /* Attempt programmatic play with sound-first attempt; fallback to muted if browser blocks */
+  async function programmaticPlay(index) {
     const rec = players[index];
     if (!rec || !rec.player) return;
-    const player = rec.player;
     rec.lastProgrammaticActionAt = Date.now();
 
-    // Respect user interaction: don't override an intentional pause/play
-    if (rec.userInteracted) {
-      const st = safeGetState(player);
-      if (st !== YT.PlayerState.PLAYING) return;
+    // If user manually unmuted earlier, keep that
+    if (rec.userUnmuted) {
+      try { rec.player.unMute(); } catch (e) {}
+      rec.mutedByAutoplay = false;
+      if (rec.unmuteBtn) rec.unmuteBtn.style.display = 'none';
+      try { rec.player.playVideo(); } catch (e) {}
+      return;
     }
 
-    const tryUnmuted = config.autoplayUnmuteDefault && !rec.mutedByFallback && !rec.userUnmuted;
-    const attemptUnmuted = () => {
-      try { player.unMute(); } catch (e) { /* ignore */ }
+    // First try unmuted play (because userHasInitiatedPlay implies gesture chain)
+    try {
+      try { rec.player.unMute(); } catch (e) {}
       rec.lastProgrammaticActionAt = Date.now();
-      safePlayWithDetection(player).then(played => {
-        if (!played) {
-          // fallback to muted autoplay
-          rec.mutedByFallback = true;
-          try { player.mute(); } catch (e) { /* ignore */ }
-          rec.lastProgrammaticActionAt = Date.now();
-          safePlayOnce(player);
-          if (rec.unmuteBtn) rec.unmuteBtn.style.display = '';
-        } else {
-          rec.mutedByFallback = false;
-          if (rec.unmuteBtn) rec.unmuteBtn.style.display = 'none';
-        }
-      });
-    };
+      const success = await safePlayWithDetection(rec.player, 1200);
+      if (success) {
+        rec.mutedByAutoplay = false;
+        if (rec.unmuteBtn) rec.unmuteBtn.style.display = 'none';
+        return;
+      }
+    } catch (e) { /* continue to fallback */ }
 
-    if (tryUnmuted) attemptUnmuted();
-    else {
-      try { player.mute(); } catch (e) { /* ignore */ }
-      rec.lastProgrammaticActionAt = Date.now();
-      safePlayOnce(player);
-      rec.mutedByFallback = true;
-      if (rec.unmuteBtn) rec.unmuteBtn.style.display = '';
-    }
+    // Fallback: mute and play (guarantees playback on many mobile browsers)
+    try { rec.player.mute(); } catch (e) {}
+    rec.mutedByAutoplay = true;
+    rec.lastProgrammaticActionAt = Date.now();
+    try { rec.player.playVideo(); } catch (e) {}
+    if (rec.unmuteBtn) rec.unmuteBtn.style.display = '';
   }
 
-  /* Play detection */
   function safePlayWithDetection(player, timeout = 1200) {
     return new Promise(resolve => {
-      safePlayOnce(player);
+      try { player.playVideo(); } catch (e) {}
       const start = Date.now();
       const check = () => {
-        const st = safeGetState(player);
-        if (st === YT.PlayerState.PLAYING) return resolve(true);
+        try {
+          const st = player.getPlayerState();
+          if (st === YT.PlayerState.PLAYING) return resolve(true);
+        } catch (e) { /* ignore */ }
         if (Date.now() - start > timeout) return resolve(false);
         requestAnimationFrame(check);
       };
@@ -960,41 +963,40 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     });
   }
 
-  function safePlayOnce(player) {
-    try { player.playVideo(); } catch (e) { /* ignore */ }
-  }
-
   function safePauseIndex(i) {
     const rec = players[i];
     if (!rec || !rec.player) return;
     rec.lastProgrammaticActionAt = Date.now();
-    try { rec.player.pauseVideo(); } catch (e) { /* ignore */ }
+    try { rec.player.pauseVideo(); } catch (e) {}
   }
 
   function safeGetState(player) {
     try { return player.getPlayerState(); } catch (e) { return -1; }
   }
 
-  /* Compute active index (assumes each mobile card = carousel width, using scroll-snap) */
+  /* When user scrolls and settles on desktop: pause previous playing (no auto-scroll) */
+  function onScrollSettled() {
+    const idx = computeActiveIndex();
+    if (idx === activeIndex) return;
+
+    // Pause previous if playing
+    const prev = activeIndex;
+    if (players[prev] && players[prev].player) {
+      const st = safeGetState(players[prev].player);
+      if (st === YT.PlayerState.PLAYING) safePauseIndex(prev);
+    }
+
+    activeIndex = idx;
+    // On desktop: NO automatic scrolling or playing when user scrolls manually
+  }
+
   function computeActiveIndex() {
     const cardW = carousel.offsetWidth || carousel.clientWidth || 1;
     const idx = Math.round(carousel.scrollLeft / cardW);
     return Math.min(Math.max(idx, 0), iframeEls.length - 1);
   }
 
-  /* Scroll settled handler */
-  function onScrollSettled() {
-    const idx = computeActiveIndex();
-    if (idx === activeIndex) return;
-    if (players[activeIndex]) safePauseIndex(activeIndex);
-    activeIndex = idx;
-    if (containerVisible && isMobile()) {
-      const rec = players[activeIndex];
-      if (rec && !rec.userInteracted) attemptPlayIfMobile(activeIndex);
-    }
-  }
-
-  /* Scroll listener with debounce/settle */
+  /* Scroll listener with settle debounce */
   function onScroll() {
     if (scrollRaf) cancelAnimationFrame(scrollRaf);
     scrollRaf = requestAnimationFrame(() => {
@@ -1003,29 +1005,11 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     });
   }
 
-  /* IntersectionObserver watching container visibility >= threshold */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      const prev = containerVisible;
-      containerVisible = e.intersectionRatio >= config.visibilityThreshold;
-      if (containerVisible && !prev) {
-        // container entered visible area
-        setTimeout(() => {
-          activeIndex = computeActiveIndex();
-          if (isMobile()) {
-            const rec = players[activeIndex];
-            if (rec && !rec.userInteracted) attemptPlayIfMobile(activeIndex);
-          }
-        }, config.scrollSettleMs);
-      } else if (!containerVisible && prev) {
-        // container left visible area -> pause all
-        players.forEach((r, i) => { if (r) safePauseIndex(i); });
-      }
-    });
-  }, { threshold: [config.visibilityThreshold] });
-
-  /* On video ended -> go to next (loop if enabled) */
-  function goToNextCardAndPlay(fromIndex) {
+  /* When a video ends, go to next and autoplay (muted only if necessary). Allowed only after user gesture */
+  function goToNextCardAndAutoplay(fromIndex) {
+    if (!userHasInitiatedPlay) return; // do not chain autoplay if user never started playback
+    if (!isMobile()) return; // only autoplay on mobile
+    
     let next = fromIndex + 1;
     if (next >= iframeEls.length) {
       if (config.loop) next = 0;
@@ -1035,34 +1019,46 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     activeIndex = next;
     carousel.scrollTo({ left: next * cardW, behavior: 'smooth' });
     setTimeout(() => {
-      if (isMobile()) {
-        const rec = players[next];
-        if (rec && !rec.userInteracted) attemptPlayIfMobile(next);
-      }
-    }, Math.max(config.scrollSettleMs, 240));
+      if (!containerVisible) return;
+      programmaticPlay(next);
+    }, Math.max(config.scrollSettleMs, 220));
   }
 
-  /* Attach scroll listener (passive for mobile performance) */
+  /* IntersectionObserver to detect visibility and pause when leaving */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      const prev = containerVisible;
+      containerVisible = e.intersectionRatio >= config.visibilityThreshold;
+      if (!containerVisible && prev) {
+        // Pause any playing videos
+        players.forEach((rec, i) => {
+          if (rec && rec.player) {
+            const st = safeGetState(rec.player);
+            if (st === YT.PlayerState.PLAYING) safePauseIndex(i);
+          }
+        });
+      }
+    });
+  }, { threshold: [config.visibilityThreshold] });
+
+  /* Attach scroll listener */
   carousel.addEventListener('scroll', onScroll, { passive: true });
 
-  /* Initialize: load API, create players, observe container, cleanup on removal */
+  /* Initialize players & behavior */
   (async () => {
     await loadYouTubeAPI();
     if (!YTready) {
-      // graceful fallback: do nothing; iframes remain normal embeds
+      // graceful fallback: do nothing - keep original iframes
       return;
     }
     createPlayers();
     io.observe(container);
-
-    // initial index
     activeIndex = computeActiveIndex();
-    if (containerVisible && isMobile()) {
-      const rec = players[activeIndex];
-      if (rec && !rec.userInteracted) attemptPlayIfMobile(activeIndex);
-    }
 
-    // cleanup if removed
+    // IMPORTANT: Do NOT autoplay the initial card. Only start autoplay chain after user plays a card.
+    // But if the user plays, subsequent nexts will attempt to play with sound-first, fallback to muted.
+
+    // Cleanup if removed
     const mo = new MutationObserver(() => {
       if (!document.body.contains(container)) {
         players.forEach((rec) => {
@@ -1081,11 +1077,56 @@ YOUTUBE SHORTS SECTION (copy & paste this session only - not full page)
     });
   })();
 
-  // Small debug helper (no global exposure)
-  console.debug('Shorts script active — mobile autoplay only; unmute buttons added per card when needed.');
+  /* -- Internal helpers placed below -- */
+
+  function createPlayers() {
+    // created above but re-declare here to ensure function scope for loader ordering
+    if (!YTready || !window.YT || !window.YT.Player) return;
+    iframeEls.forEach((iframe, i) => {
+      if (players[i] && players[i].player) return;
+      const p = new YT.Player(iframe, {
+        events: {
+          onStateChange: (ev) => onPlayerStateChange(i, ev),
+          onReady: () => { /* noop */ }
+        }
+      });
+      const card = iframe.closest('.short') || iframe.parentElement;
+      const btn = createUnmuteButton(i, card);
+      players[i] = {
+        player: p,
+        userInteracted: false,
+        userUnmuted: false,
+        mutedByAutoplay: false,
+        unmuteBtn: btn,
+        lastProgrammaticActionAt: 0
+      };
+
+      if (card) {
+        card.addEventListener('pointerdown', () => {
+          players[i].userInteracted = true;
+        }, { capture: true });
+        // If user clicks within card controls (e.g., native iframe play), we can't directly observe that click across origins,
+        // but onStateChange will catch PLAYING and mark userHasInitiatedPlay.
+      }
+    });
+  }
+
+  function loadYouTubeAPI() {
+    if (apiLoadAttempted) return Promise.resolve();
+    apiLoadAttempted = true;
+    return new Promise((resolve) => {
+      if (window.YT && window.YT.Player) { YTready = true; return resolve(); }
+      const s = document.createElement('script');
+      s.src = "https://www.youtube.com/iframe_api";
+      s.async = true;
+      s.onerror = () => resolve();
+      document.head.appendChild(s);
+      window.onYouTubeIframeAPIReady = () => { YTready = true; resolve(); };
+      setTimeout(() => resolve(), 3000);
+    });
+  }
 })();
 </script>
-
 
 <!-- ==========================
      Navbar (always visible)
