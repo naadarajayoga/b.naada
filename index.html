@@ -652,12 +652,12 @@ YOUTUBE SHORTS SECTION
       background: #999;
     }
 
-    /* Mobile Styles - Instagram Style */
     @media (max-width: 768px) {
       #shorts {
         padding: 0;
         max-width: 100%;
         margin: 0;
+        position: relative;
       }
 
       .shorts-carousel {
@@ -685,12 +685,12 @@ YOUTUBE SHORTS SECTION
 
       .short iframe {
         width: 100%;
-        height: 55vh;
+        height: 50vh;
       }
 
       .carousel-indicators {
-        position: fixed;
-        bottom: 20px;
+        position: absolute;
+        bottom: 10px;
         left: 50%;
         transform: translateX(-50%);
         display: flex;
@@ -758,6 +758,8 @@ YOUTUBE SHORTS SECTION
     });
   </script>
 </section>
+
+
 <!-- ==========================
      Navbar (always visible)
      ========================== -->
