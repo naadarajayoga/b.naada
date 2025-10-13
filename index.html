@@ -738,15 +738,78 @@ YOUTUBE SHORTS SECTION
     // YOUTUBE SHORTS SECTION JAVASCRIPT
     const carousel = document.querySelector('.shorts-carousel');
     const indicators = document.querySelectorAll('.indicator');
+    let isScrolling = false;
+    let scrollTimeout;
+    let currentActiveIndex = 0;
 
-    carousel.addEventListener('scroll', () => {
+    function getVideoIframe(index) {
+      const shorts = document.querySelectorAll('.short');
+      return shorts[index]?.querySelector('iframe');
+    }
+
+    function postMessageToIframe(iframe, command) {
+      if (iframe) {
+        iframe.contentWindow.postMessage({
+          event: 'command',
+          func: command,
+          args: []
+        }, '*');
+      }
+    }
+
+    function playVideo(index) {
+      const iframe = getVideoIframe(index);
+      if (iframe) {
+        const src = iframe.src;
+        if (src.includes('?')) {
+          iframe.src = src.split('?')[0] + '?autoplay=1';
+        } else {
+          iframe.src = src + '?autoplay=1';
+        }
+      }
+    }
+
+    function pauseVideo(index) {
+      const iframe = getVideoIframe(index);
+      if (iframe) {
+        const src = iframe.src;
+        if (src.includes('?')) {
+          iframe.src = src.split('?')[0] + '?autoplay=0';
+        } else {
+          iframe.src = src + '?autoplay=0';
+        }
+      }
+    }
+
+    function updateCarousel() {
       const scrollPosition = carousel.scrollLeft;
       const cardWidth = carousel.offsetWidth || 215;
       const activeIndex = Math.round(scrollPosition / cardWidth);
-      
+
+      // Pause previous video
+      if (activeIndex !== currentActiveIndex) {
+        pauseVideo(currentActiveIndex);
+      }
+
+      // Play current video on mobile
+      if (window.innerWidth <= 768) {
+        playVideo(activeIndex);
+      }
+
+      currentActiveIndex = activeIndex;
+
       indicators.forEach((indicator, index) => {
         indicator.classList.toggle('active', index === activeIndex);
       });
+    }
+
+    carousel.addEventListener('scroll', () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        updateCarousel();
+      }, 150);
     });
 
     indicators.forEach(indicator => {
@@ -754,11 +817,39 @@ YOUTUBE SHORTS SECTION
         const index = parseInt(indicator.dataset.index);
         const cardWidth = carousel.offsetWidth || 215;
         carousel.scrollLeft = index * cardWidth;
+        
+        setTimeout(updateCarousel, 100);
       });
+    });
+
+    // Intersection Observer to detect when carousel comes into view
+    const shortsSection = document.querySelector('#shorts');
+    const observerOptions = {
+      threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && window.innerWidth <= 768) {
+          // Carousel is in view on mobile, play current video
+          playVideo(currentActiveIndex);
+        } else if (!entry.isIntersecting && window.innerWidth <= 768) {
+          // Carousel is out of view on mobile, pause current video
+          pauseVideo(currentActiveIndex);
+        }
+      });
+    }, observerOptions);
+
+    observer.observe(shortsSection);
+
+    // Pause all videos when leaving mobile view
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        pauseVideo(currentActiveIndex);
+      }
     });
   </script>
 </section>
-
 
 <!-- ==========================
      Navbar (always visible)
