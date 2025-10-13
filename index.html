@@ -760,11 +760,10 @@ YOUTUBE SHORTS SECTION
     function playVideo(index) {
       const iframe = getVideoIframe(index);
       if (iframe) {
-        const src = iframe.src;
-        if (src.includes('?')) {
-          iframe.src = src.split('?')[0] + '?autoplay=1';
-        } else {
-          iframe.src = src + '?autoplay=1';
+        const videoId = new URL(iframe.src).searchParams.get('embed/') || 
+                       iframe.src.split('/embed/')[1]?.split('?')[0];
+        if (videoId) {
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1`;
         }
       }
     }
@@ -772,11 +771,10 @@ YOUTUBE SHORTS SECTION
     function pauseVideo(index) {
       const iframe = getVideoIframe(index);
       if (iframe) {
-        const src = iframe.src;
-        if (src.includes('?')) {
-          iframe.src = src.split('?')[0] + '?autoplay=0';
-        } else {
-          iframe.src = src + '?autoplay=0';
+        const videoId = new URL(iframe.src).searchParams.get('embed/') || 
+                       iframe.src.split('/embed/')[1]?.split('?')[0];
+        if (videoId) {
+          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=0&controls=1`;
         }
       }
     }
