@@ -431,7 +431,9 @@ Header (loaded from common file)
 </html>
 
 
-<!-- BUTTONS SECTION -->
+<!-------------
+BUTTONS SECTION 
+-------------->
 <section id="buttons">
   <div class="btn-container">
     <a href="https://www.youtube.com/@NaadaRajaYoga" target="_blank" class="youtube-btn">
@@ -519,7 +521,9 @@ Header (loaded from common file)
   </style>
 </section>
 
-<!-- YOUTUBE SHORTS SECTION -->
+<!-------------------- 
+YOUTUBE SHORTS SECTION 
+--------------------->
 <section id="shorts">
   <div class="shorts-carousel">
     <div class="short">
@@ -648,10 +652,74 @@ Header (loaded from common file)
       background: #999;
     }
 
-    /* Show indicators on mobile only */
+    /* Mobile Styles - Instagram Style */
     @media (max-width: 768px) {
+      #shorts {
+        padding: 0;
+        max-width: 100%;
+        margin: 0;
+      }
+
+      .shorts-carousel {
+        gap: 0;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .short {
+        flex: 0 0 100%;
+        width: 100vw;
+        border-radius: 0;
+        box-shadow: none;
+        transition: none;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+      }
+
+      .short:hover {
+        transform: none;
+        box-shadow: none;
+      }
+
+      .short iframe {
+        width: 100%;
+        height: 100vh;
+      }
+
       .carousel-indicators {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
         display: flex;
+        justify-content: center;
+        gap: 8px;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.3);
+        padding: 8px 12px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+      }
+
+      .indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.6);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .indicator.active {
+        background: #FFFFFF;
+        width: 8px;
+        border-radius: 50%;
+      }
+
+      .indicator:hover {
+        background: rgba(255, 255, 255, 0.8);
       }
 
       /* Hide scrollbar on mobile */
@@ -673,7 +741,7 @@ Header (loaded from common file)
 
     carousel.addEventListener('scroll', () => {
       const scrollPosition = carousel.scrollLeft;
-      const cardWidth = 215; // 200px + 15px gap
+      const cardWidth = carousel.offsetWidth || 215;
       const activeIndex = Math.round(scrollPosition / cardWidth);
       
       indicators.forEach((indicator, index) => {
@@ -684,7 +752,7 @@ Header (loaded from common file)
     indicators.forEach(indicator => {
       indicator.addEventListener('click', () => {
         const index = parseInt(indicator.dataset.index);
-        const cardWidth = 215;
+        const cardWidth = carousel.offsetWidth || 215;
         carousel.scrollLeft = index * cardWidth;
       });
     });
