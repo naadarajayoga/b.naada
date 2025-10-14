@@ -521,6 +521,9 @@ BUTTONS SECTION
   </style>
 </section>
 
+<!----
+shorts 
+----->
 <section id="shorts">
   <div class="shorts-carousel">
     <div class="short" data-video-id="SYvQXu5onF0">
@@ -1019,25 +1022,36 @@ BUTTONS SECTION
 <!----------------------
 navbar (loaded from common file) 
 ------------------------------>
- <div id="navbar">
+
+<div id="navbar-container">
   <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    fetch("/navbar.html") // Root folder path
+  // Load navbar dynamically
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("/navbar.html")
       .then(response => {
-        if (!response.ok) {
-          throw new Error("Navbar failed to load: " + response.status);
-        }
+        if (!response.ok) throw new Error("Failed to load navbar");
         return response.text();
       })
       .then(data => {
-        document.getElementById("navbar").innerHTML = data;
+        document.getElementById("navbar-container").innerHTML = data;
+
+        // Re-run active link script after navbar loads
+        const currentUrl = window.location.href;
+        const navItems = document.querySelectorAll('.bottom-navbar .nav-item');
+        
+        navItems.forEach(item => {
+          item.classList.remove('active');
+          const href = item.getAttribute('href');
+          if (currentUrl.includes(href.split('b.naadaraja.com')[1])) {
+            item.classList.add('active');
+          }
+        });
       })
-      .catch(error => {
-        console.error("Error loading navbar:", error);
-      });
+      .catch(err => console.error("Navbar load error:", err));
   });
-</script>
- </div>
+  </script>
+</div>
+
 
 
 
