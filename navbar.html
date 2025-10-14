@@ -168,9 +168,8 @@ Navigation Section
             }
             itemPath = normalizePath(itemPath);
 
-            // Match: exact path OR prefix match for index-like routes
-            if (itemPath === currentPath ||
-                (itemPath !== '/' && currentPath.startsWith(itemPath + '/')) ) {
+            // NEW: Exact-match only — highlight only when paths are identical
+            if (itemPath === currentPath) {
               item.classList.add('active');
             }
 
@@ -209,4 +208,3 @@ Navigation Section
     });
   })();
 </script>
-
