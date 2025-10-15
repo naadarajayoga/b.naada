@@ -327,10 +327,8 @@ navbar (loaded from common file)
       })
       .then(data => {
         document.getElementById("navbar-container").innerHTML = data;
-        // Re-run the highlight function after navbar is inserted
-        if (window.highlightActiveNavItem) {
-          setTimeout(highlightActiveNavItem, 0);
-        }
+      })
+      .catch(err => console.error("Navbar load error:", err));
   });
 </script>
 
