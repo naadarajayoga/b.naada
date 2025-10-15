@@ -139,24 +139,34 @@ Navbar CSS
     }
   </style>
 
-<script>
-  // Get current URL
-  const currentUrl = window.location.href;
-  
-  // Remove any existing active classes
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active');
-  });
+<div id="navbar-script">
+  <script>
+    function highlightActiveNavItem() {
+      console.log('Highlighting nav item for:', window.location.href);
+      
+      // Get current URL
+      const currentUrl = window.location.href;
+      
+      // Remove any existing active classes
+      const navItems = document.querySelectorAll('.nav-item');
+      navItems.forEach(item => item.classList.remove('active'));
 
-  // Find and highlight the correct nav item
-  if (currentUrl === 'https://b.naadaraja.com/' || currentUrl === 'https://b.naadaraja.com') {
-    // Home page
-    document.querySelector('.nav-item[href="https://b.naadaraja.com"]')?.classList.add('active');
-  } else if (currentUrl.includes('/contact')) {
-    // Contact page
-    document.querySelector('.nav-item[href="https://b.naadaraja.com/contact"]')?.classList.add('active');
-  } else if (currentUrl.includes('/courses')) {
-    // Courses page
-    document.querySelector('.nav-item[href="https://b.naadaraja.com/courses"]')?.classList.add('active');
-  }
-</script>
+      // Find and highlight the correct nav item
+      if (currentUrl.includes('b.naadaraja.com')) {
+        if (currentUrl.endsWith('/contact')) {
+          document.querySelector('.nav-item[href="https://b.naadaraja.com/contact"]')?.classList.add('active');
+        } else if (currentUrl.endsWith('/courses')) {
+          document.querySelector('.nav-item[href="https://b.naadaraja.com/courses"]')?.classList.add('active');
+        } else if (currentUrl.match(/b\.naadaraja\.com\/?$/)) {
+          document.querySelector('.nav-item[href="https://b.naadaraja.com"]')?.classList.add('active');
+        }
+      }
+    }
+
+    // Call immediately if possible
+    highlightActiveNavItem();
+    
+    // Also call after a short delay to ensure DOM is ready
+    setTimeout(highlightActiveNavItem, 100);
+  </script>
+</div>
