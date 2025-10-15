@@ -7,7 +7,7 @@
     <span>Contact</span>
   </a>
 
-  <a class="nav-item" href="https://b.naadaraja.com" aria-label="Home">
+  <a class="nav-item" href="https://b.naadaraja.com/" aria-label="Home">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" aria-hidden="true" focusable="false">
       <path d="M541 229.16l-61-52.06V56c0-13.25-10.75-24-24-24h-72c-13.25 0-24 10.75-24 24v24L314.4 43c-15.9-13.6-39.3-13.6-55.2 0L35 229.2c-9.9 8.4-11.1 23.3-2.7 33.2s23.3 11.1 33.2 2.7L96 232.1V456c0 30.9 25.1 56 56 56h96V360h80v152h96c30.9 0 56-25.1 56-56V232l30.6 26c9.9 8.4 24.8 7.1 33.2-2.7 8.4-9.9 7.1-24.8-2.7-33.2z"/>
     </svg>
@@ -129,118 +129,97 @@
   (function () {
     'use strict';
 
-    // Normalize a pathname: remove query/hash, treat /index.html as /, remove trailing slash
-    function normalizePath(p) {
-      if (!p) return '/';
-      // Remove query string and hash
-      p = p.split('?')[0].split('#')[0];
-      // Ensure it starts with /
-      if (!p.startsWith('/')) p = '/' + p;
-      // Convert /index.html to /
-      if (p === '/index.html' || p === '/index.htm') {
+    function cleanPath(path) {
+      if (!path) return '/';
+      
+      // Remove query and hash
+      path = path.split('?')[0].split('#')[0];
+      
+      // Remove trailing slash (except for root)
+      if (path.length > 1 && path.endsWith('/')) {
+        path = path.slice(0, -1);
+      }
+      
+      // Normalize empty or index.html to root
+      if (path === '' || path === '/index.html' || path === '/index.htm') {
         return '/';
       }
-      // Remove trailing slash EXCEPT for root
-      if (p.length > 1 && p.endsWith('/')) {
-        p = p.slice(0, -1);
-      }
-      return p;
+      
+      return path;
     }
 
-    // Set active class on nav-items that match current page path
-    function setActiveNavItems(root = document) {
-      const currentPath = normalizePath(location.pathname);
-      const nav = root.querySelector('.bottom-navbar');
+    function setActiveNavItems() {
+      const nav = document.querySelector('.bottom-navbar');
       if (!nav) return;
 
-      const items = Array.from(nav.querySelectorAll('.nav-item'));
+      // Get current page path
+      const currentPath = cleanPath(window.location.pathname);
       
-      // Remove all active classes first
+      // Get all nav items
+      const items = nav.querySelectorAll('.nav-item');
+      
+      // Clear all active states first
       items.forEach(item => item.classList.remove('active'));
-
-      // Build array of items with their normalized paths
-      const itemsWithPaths = [];
       
-      for (const item of items) {
+      // Check each item for exact match
+      let matched = false;
+      items.forEach(item => {
+        if (matched) return; // Skip if we already found a match
+        
         const href = item.getAttribute('href');
-        if (!href) continue;
+        if (!href) return;
         
-        let linkPath = '';
         try {
-          const linkUrl = new URL(href, location.href);
-          linkPath = normalizePath(linkUrl.pathname);
-        } catch (e) {
-          // If it's a relative path, normalize it directly
-          linkPath = normalizePath(href);
-        }
-        
-        itemsWithPaths.push({ item, linkPath });
-      }
-
-      // Sort by path length descending (longest/most specific first)
-      itemsWithPaths.sort((a, b) => b.linkPath.length - a.linkPath.length);
-
-      // Activate ONLY the first exact match
-      for (const { item, linkPath } of itemsWithPaths) {
-        if (linkPath === currentPath) {
-          item.classList.add('active');
-          return; // Exit immediately after finding match
-        }
-      }
-    }
-
-    // Run when DOM ready
-    function domReady(fn) {
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', fn);
-      } else {
-        fn();
-      }
-    }
-
-    domReady(() => {
-      try {
-        // Initial setup
-        setActiveNavItems(document);
-
-        // Listen for custom event if navbar loaded dynamically
-        document.addEventListener('navbar:loaded', () => setActiveNavItems(document));
-
-        // Watch for nodes being added (dynamic insertion)
-        const observer = new MutationObserver((mutations) => {
-          for (const m of mutations) {
-            for (const node of m.addedNodes) {
-              if (!(node instanceof HTMLElement)) continue;
-              if (node.matches && node.matches('.bottom-navbar')) {
-                setActiveNavItems(document);
-                return;
-              }
-              if (node.querySelector && node.querySelector('.bottom-navbar')) {
-                setActiveNavItems(document);
-                return;
-              }
-            }
+          // Parse the link URL
+          const linkUrl = new URL(href, window.location.origin);
+          const linkPath = cleanPath(linkUrl.pathname);
+          
+          // Exact match only
+          if (linkPath === currentPath) {
+            item.classList.add('active');
+            matched = true;
           }
-        });
-        observer.observe(document.documentElement || document.body, { childList: true, subtree: true });
+        } catch (e) {
+          // Handle relative URLs
+          const linkPath = cleanPath(href);
+          if (linkPath === currentPath) {
+            item.classList.add('active');
+            matched = true;
+          }
+        }
+      });
+    }
 
-        // Accessibility: keyboard navigation
-        document.querySelectorAll('.bottom-navbar .nav-item').forEach(item => {
-          item.setAttribute('role', 'link');
-          item.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ') {
-              ev.preventDefault();
-              if (item.tagName.toLowerCase() === 'a' && item.href) {
-                window.location.href = item.href;
-              } else {
-                item.click();
-              }
-            }
-          });
-        });
-      } catch (err) {
-        console.error('Navbar script error:', err);
+    // Run on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setActiveNavItems);
+    } else {
+      setActiveNavItems();
+    }
+
+    // Re-run if navbar is dynamically added
+    const observer = new MutationObserver(() => {
+      if (document.querySelector('.bottom-navbar')) {
+        setActiveNavItems();
       }
     });
+    
+    observer.observe(document.body, { 
+      childList: true, 
+      subtree: true 
+    });
+
+    // Keyboard accessibility
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.bottom-navbar .nav-item').forEach(item => {
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            item.click();
+          }
+        });
+      });
+    });
+
   })();
 </script>
