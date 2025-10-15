@@ -139,3 +139,32 @@ Navbar CSS
     }
   </style>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get all navigation items
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    // Remove any existing 'active' classes
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    // Get current URL
+    const currentUrl = window.location.href.replace(/\/$/, ''); // Remove trailing slash if present
+    const baseUrl = 'https://b.naadaraja.com';
+    
+    // Find the matching nav item
+    navItems.forEach(item => {
+      let itemUrl = item.href.replace(/\/$/, ''); // Remove trailing slash if present
+      
+      // Special handling for home page
+      if (currentUrl === baseUrl || currentUrl === baseUrl + '/') {
+        if (itemUrl === baseUrl) {
+          item.classList.add('active');
+        }
+      }
+      // For other pages
+      else if (currentUrl === itemUrl) {
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
