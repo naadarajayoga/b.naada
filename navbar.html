@@ -140,17 +140,24 @@ Navbar CSS
   </style>
 
 <script>
-  // Script to highlight home button only on home page
+  // Script to highlight active button based on current page
   const path = window.location.pathname;
-  const homeLink = document.querySelector('.nav-item[href="https://b.naadaraja.com"]');
-  
-  // Remove any existing active classes
+
+  // Remove any existing active classes first
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
+
+    // Get the path from the href
+    const itemPath = new URL(item.href).pathname;
+    
+    // Check if this is the current page
+    if (
+      // Home page check
+      (itemPath === '/' && (path === '/' || path === '' || path === '/index.html')) ||
+      // Other pages check (like /contact, /courses)
+      (itemPath !== '/' && path.startsWith(itemPath))
+    ) {
+      item.classList.add('active');
+    }
   });
-  
-  // Only add active class to home button if we're on the home page
-  if (path === '/' || path === '' || path === '/index.html') {
-    homeLink.classList.add('active');
-  }
 </script>
