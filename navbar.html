@@ -132,33 +132,28 @@
   function setActiveNavItems() {
     const nav = document.querySelector('.bottom-navbar');
     if (!nav) return;
-    
-    // Get current path, removing trailing slash
-    const currentPath = window.location.pathname.replace(/\/$/, '');
+
+    // Get current location without trailing slash
+    const currentLocation = window.location.href.replace(/\/$/, '');
     
     nav.querySelectorAll('.nav-item').forEach(item => {
       // Remove active state first
       item.classList.remove('active');
       
-      // Get path from href
-      try {
-        const href = item.getAttribute('href');
-        if (!href) return;
-        
-        const url = new URL(href);
-        const path = url.pathname.replace(/\/$/, '');
-        
-        if (path === '') {
-          // Home link
-          if (currentPath === '' || currentPath === '/') {
-            item.classList.add('active');
-          }
-        } else if (path === currentPath) {
-          // Other pages - exact match only
+      const href = item.getAttribute('href')?.replace(/\/$/, '');
+      if (!href) return;
+
+      // Special case for home page
+      if (href === 'https://b.naadaraja.com') {
+        if (currentLocation === 'https://b.naadaraja.com') {
           item.classList.add('active');
         }
-      } catch (e) {
-        console.error('Invalid URL:', href);
+        return;
+      }
+
+      // For other pages
+      if (href === currentLocation) {
+        item.classList.add('active');
       }
     });
   }
