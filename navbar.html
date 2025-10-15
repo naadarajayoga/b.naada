@@ -129,61 +129,47 @@
   (function () {
     'use strict';
 
-    // Normalize a pathname: remove query/hash has already been stripped by URL,
-    // treat /index.html as / and remove trailing slash (except root).
+    // Normalize a pathname: remove query/hash, treat /index.html as /, remove trailing slash
     function normalizePath(p) {
       if (!p) return '/';
       p = p.split('#')[0].split('?')[0] || '/';
-      // Make sure it starts with '/'
       if (!p.startsWith('/')) p = '/' + p;
-      // convert /index.html => /
       p = p.replace(/\/index\.html$/i, '/');
-      // remove trailing slash except root
       if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
       return p;
     }
 
-    // Normalize origin: drop 'www.' for comparison simplicity
-    function normalizeOrigin(origin) {
-      try {
-        return origin.replace(/^https?:\/\/(www\.)?/i, 'https://');
-      } catch (_) {
-        return origin;
-      }
-    }
-
-    // Build a normalized "key" for a URL (origin + normalizedPath)
-    function normalizedKeyFromUrl(urlLike) {
-      try {
-        const u = new URL(urlLike, location.href); // supports relative + absolute
-        const origin = normalizeOrigin(u.origin);
-        const path = normalizePath(u.pathname);
-        return origin + path;
-      } catch (e) {
-        // if URL parsing fails, fall back to path-only normalization
-        const path = normalizePath(String(urlLike || ''));
-        return normalizeOrigin(location.origin) + path;
-      }
-    }
-
-    // Set active class on nav-items that exactly match current page
+    // Set active class on nav-items that match current page path
     function setActiveNavItems(root = document) {
-      const currentKey = normalizedKeyFromUrl(location.href);
+      const currentPath = normalizePath(location.pathname);
       const nav = root.querySelector('.bottom-navbar');
       if (!nav) return;
 
       const items = nav.querySelectorAll('.nav-item');
+      let foundMatch = false;
+
       items.forEach(item => {
         item.classList.remove('active');
 
         const href = item.getAttribute('href') || '';
-        if (!href) return;
+        if (!href || foundMatch) return;
 
-        const itemKey = normalizedKeyFromUrl(href);
+        try {
+          const linkUrl = new URL(href, location.href);
+          const linkPath = normalizePath(linkUrl.pathname);
 
-        // Exact-match only: origin + path must be equal
-        if (itemKey === currentKey) {
-          item.classList.add('active');
+          // Exact path match
+          if (linkPath === currentPath) {
+            item.classList.add('active');
+            foundMatch = true;
+          }
+        } catch (e) {
+          // If URL parsing fails, try simple path comparison
+          const linkPath = normalizePath(href);
+          if (linkPath === currentPath) {
+            item.classList.add('active');
+            foundMatch = true;
+          }
         }
       });
     }
@@ -202,10 +188,10 @@
         // Initial setup
         setActiveNavItems(document);
 
-        // Listen for a custom event if you load the navbar by fetch() later
+        // Listen for custom event if navbar loaded dynamically
         document.addEventListener('navbar:loaded', () => setActiveNavItems(document));
 
-        // Also watch for nodes being added (useful for dynamic insertion)
+        // Watch for nodes being added (dynamic insertion)
         const observer = new MutationObserver((mutations) => {
           for (const m of mutations) {
             for (const node of m.addedNodes) {
@@ -214,7 +200,6 @@
                 setActiveNavItems(document);
                 return;
               }
-              // if node contains the navbar somewhere deeper
               if (node.querySelector && node.querySelector('.bottom-navbar')) {
                 setActiveNavItems(document);
                 return;
@@ -224,13 +209,12 @@
         });
         observer.observe(document.documentElement || document.body, { childList: true, subtree: true });
 
-        // Accessibility: add keyboard click for each nav-item
+        // Accessibility: keyboard navigation
         document.querySelectorAll('.bottom-navbar .nav-item').forEach(item => {
           item.setAttribute('role', 'link');
           item.addEventListener('keydown', (ev) => {
             if (ev.key === 'Enter' || ev.key === ' ') {
               ev.preventDefault();
-              // be safe with anchor elements
               if (item.tagName.toLowerCase() === 'a' && item.href) {
                 window.location.href = item.href;
               } else {
@@ -240,7 +224,6 @@
           });
         });
       } catch (err) {
-        // never crash the host page
         console.error('Navbar script error:', err);
       }
     });
