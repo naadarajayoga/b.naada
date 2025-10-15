@@ -1,30 +1,6 @@
 <!-- ==========================
      Navbar (always visible)
      ========================== -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Get current page path
-    const currentPath = window.location.pathname;
-    
-    // Get all navigation items
-    const navItems = document.querySelectorAll('.nav-item');
-    
-    // Loop through nav items and highlight the current one
-    navItems.forEach(item => {
-      const href = item.getAttribute('href');
-      const hrefPath = new URL(href).pathname;
-      
-      // If we're on the homepage
-      if (currentPath === '/' && hrefPath === '/') {
-        item.classList.add('active');
-      }
-      // For other pages
-      else if (currentPath.endsWith(hrefPath) && hrefPath !== '/') {
-        item.classList.add('active');
-      }
-    });
-  });
-</script>
 <nav class="bottom-navbar" id="site-navbar" role="navigation" aria-label="Main navigation">
   <a class="nav-item" href="https://b.naadaraja.com/contact" aria-label="Contact">
     <!-- phone / contact SVG -->
@@ -130,12 +106,7 @@ Navbar CSS
     }
 
     .bottom-navbar .nav-item.active {
-      color: var(--accent) !important;
-      transform: translateY(-8px);
-    }
-    
-    .bottom-navbar .nav-item.active svg {
-      fill: var(--accent) !important;
+      color: var(--accent);
     }
 
     .bottom-navbar .nav-item.active svg {
@@ -167,4 +138,3 @@ Navbar CSS
       }
     }
   </style>
-
