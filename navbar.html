@@ -133,28 +133,32 @@
     const nav = document.querySelector('.bottom-navbar');
     if (!nav) return;
     
-    const currentUrl = window.location.href.replace(/\/$/, '');
-    const isHomePage = currentUrl === 'https://b.naadaraja.com' || 
-                      currentUrl === window.location.origin;
+    // Get current path, removing trailing slash
+    const currentPath = window.location.pathname.replace(/\/$/, '');
     
     nav.querySelectorAll('.nav-item').forEach(item => {
-      const href = item.getAttribute('href');
-      if (!href) return;
-      
-      const cleanHref = href.replace(/\/$/, '');
-      
       // Remove active state first
       item.classList.remove('active');
       
-      // Set active state based on URL match
-      if (cleanHref === 'https://b.naadaraja.com') {
-        // Home link - only active on homepage
-        if (isHomePage) {
+      // Get path from href
+      try {
+        const href = item.getAttribute('href');
+        if (!href) return;
+        
+        const url = new URL(href);
+        const path = url.pathname.replace(/\/$/, '');
+        
+        if (path === '') {
+          // Home link
+          if (currentPath === '' || currentPath === '/') {
+            item.classList.add('active');
+          }
+        } else if (path === currentPath) {
+          // Other pages - exact match only
           item.classList.add('active');
         }
-      } else if (cleanHref === currentUrl) {
-        // Other links - exact match only
-        item.classList.add('active');
+      } catch (e) {
+        console.error('Invalid URL:', href);
       }
     });
   }
