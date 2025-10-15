@@ -330,6 +330,7 @@ Header (loaded from common file)
 navbar (loaded from common file)
 ------------------------------>
 
+<!--------------------------------------
 <div id="navbar-container"></div>
 
 <script>
@@ -344,7 +345,31 @@ navbar (loaded from common file)
       })
       .catch(err => console.error("Navbar load error:", err));
   });
-</script>
+</script> 
+-------->
+
+
+<div id="navbar-container">
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("/navbar.html")
+      .then(response => {
+        if (!response.ok) throw new Error("Failed to load navbar");
+        return response.text();
+      })
+      .then(data => {
+        document.getElementById("navbar-container").innerHTML = data;
+
+        // Highlight only the Courses button
+        const courseLink = document.querySelector('.bottom-navbar .nav-item[href*="course"]');
+        if (courseLink) {
+          courseLink.classList.add('active');
+        }
+      })
+      .catch(err => console.error("Navbar load error:", err));
+  });
+  </script>
+</div>
 
 
 <!-- ==========================
