@@ -140,9 +140,11 @@ Navbar CSS
   </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  // Function to update active state
+  function updateActiveNavItem() {
     // Get all navigation items
     const navItems = document.querySelectorAll('.nav-item');
+    if (!navItems.length) return; // Exit if nav items not found
     
     // Remove any existing 'active' classes
     navItems.forEach(item => item.classList.remove('active'));
@@ -166,5 +168,28 @@ Navbar CSS
         item.classList.add('active');
       }
     });
+  }
+
+  // Run immediately if DOM is already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateActiveNavItem);
+  } else {
+    updateActiveNavItem();
+  }
+
+  // Also run when the navbar is dynamically inserted
+  // This is triggered after fetch() loads the navbar
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.addedNodes.length) {
+        updateActiveNavItem();
+      }
+    });
+  });
+
+  // Start observing the document for when navbar is inserted
+  observer.observe(document.body, { 
+    childList: true, 
+    subtree: true 
   });
 </script>
