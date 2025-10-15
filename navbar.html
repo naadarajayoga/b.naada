@@ -56,7 +56,6 @@ Navbar CSS
       background: var(--bg);
       color: var(--text);
       z-index: 9999;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
       backdrop-filter: blur(10px);
       border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -139,19 +138,4 @@ Navbar CSS
       }
     }
   </style>
-<!-- <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const currentPath = window.location.pathname;
-      const navItems = document.querySelectorAll('.bottom-navbar .nav-item');
-      
-      navItems.forEach(item => {
-        item.classList.remove('active');
-        const href = item.getAttribute('href');
-        const itemPath = href.split('b.naadaraja.com')[1] || '/';
-        
-        if (currentPath === itemPath) {
-          item.classList.add('active');
-        }
-      });
-    });
-  </script> -->
+
