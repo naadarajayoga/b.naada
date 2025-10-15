@@ -6,20 +6,20 @@
     // Get current page path
     const currentPath = window.location.pathname;
     
-    // Remove trailing slash and get the last segment of the path
-    const page = currentPath.replace(/\/$/, '').split('/').pop() || 'index';
-    
     // Get all navigation items
     const navItems = document.querySelectorAll('.nav-item');
     
     // Loop through nav items and highlight the current one
     navItems.forEach(item => {
       const href = item.getAttribute('href');
-      if (
-        (page === 'index' && href === 'https://b.naadaraja.com') ||
-        (page === 'contact' && href === 'https://b.naadaraja.com/contact') ||
-        (page === 'courses' && href === 'https://b.naadaraja.com/courses')
-      ) {
+      const hrefPath = new URL(href).pathname;
+      
+      // If we're on the homepage
+      if (currentPath === '/' && hrefPath === '/') {
+        item.classList.add('active');
+      }
+      // For other pages
+      else if (currentPath.endsWith(hrefPath) && hrefPath !== '/') {
         item.classList.add('active');
       }
     });
@@ -67,15 +67,6 @@ Navbar CSS
       --text: #ecf0f1;
       --accent: #f39c12;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-.nav-item.active {
-      color: var(--accent);
-      transform: translateY(-8px);
-}
-
-.nav-item.active svg {
-      fill: var(--accent);
-}
       
       position: fixed;
       left: 0;
@@ -139,7 +130,12 @@ Navbar CSS
     }
 
     .bottom-navbar .nav-item.active {
-      color: var(--accent);
+      color: var(--accent) !important;
+      transform: translateY(-8px);
+    }
+    
+    .bottom-navbar .nav-item.active svg {
+      fill: var(--accent) !important;
     }
 
     .bottom-navbar .nav-item.active svg {
