@@ -147,45 +147,58 @@
       return p;
     }
 
-    // Set active class on nav-items that match current page path
+    // Set active class on nav-items that match current page path.
+    // Rules:
+    // 1) Prefer exact matches (linkPath === currentPath).
+    // 2) If no exact match, prefer the longest non-root prefix match (e.g. /courses for /courses/xyz).
+    // 3) Only activate the root (/) link when the current path is exactly '/'. Do NOT use root as a fallback.
     function setActiveNavItems(root = document) {
       const currentPath = normalizePath(location.pathname);
       const nav = root.querySelector('.bottom-navbar');
       if (!nav) return;
 
       const items = Array.from(nav.querySelectorAll('.nav-item'));
-      
       // Remove all active classes first
       items.forEach(item => item.classList.remove('active'));
 
       // Build array of items with their normalized paths
       const itemsWithPaths = [];
-      
       for (const item of items) {
         const href = item.getAttribute('href');
         if (!href) continue;
-        
         let linkPath = '';
         try {
           const linkUrl = new URL(href, location.href);
           linkPath = normalizePath(linkUrl.pathname);
         } catch (e) {
-          // If it's a relative path, normalize it directly
           linkPath = normalizePath(href);
         }
-        
         itemsWithPaths.push({ item, linkPath });
       }
 
-      // Sort by path length descending (longest/most specific first)
-      itemsWithPaths.sort((a, b) => b.linkPath.length - a.linkPath.length);
+      // 1) Exact match
+      const exact = itemsWithPaths.find(x => x.linkPath === currentPath);
+      if (exact) {
+        exact.item.classList.add('active');
+        return;
+      }
 
-      // Activate ONLY the first exact match
-      for (const { item, linkPath } of itemsWithPaths) {
-        if (linkPath === currentPath) {
-          item.classList.add('active');
-          return; // Exit immediately after finding match
-        }
+      // 2) Longest non-root prefix match
+      const prefixMatches = itemsWithPaths.filter(x => {
+        if (x.linkPath === '/') return false; // exclude root
+        if (currentPath === '/') return false;
+        return currentPath === x.linkPath || currentPath.startsWith(x.linkPath + '/');
+      });
+      if (prefixMatches.length) {
+        prefixMatches.sort((a, b) => b.linkPath.length - a.linkPath.length);
+        prefixMatches[0].item.classList.add('active');
+        return;
+      }
+
+      // 3) Only activate root if we're actually on the root
+      if (currentPath === '/') {
+        const rootItem = itemsWithPaths.find(x => x.linkPath === '/');
+        if (rootItem) rootItem.item.classList.add('active');
       }
     }
 
