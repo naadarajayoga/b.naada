@@ -140,56 +140,23 @@ Navbar CSS
   </style>
 
 <script>
-  // Function to update active state
-  function updateActiveNavItem() {
-    // Get all navigation items
-    const navItems = document.querySelectorAll('.nav-item');
-    if (!navItems.length) return; // Exit if nav items not found
+  // Simple script to highlight the active nav item
+  const currentPath = window.location.pathname;
+  const isHomePage = currentPath === '/' || currentPath === '';
+  
+  // Find the appropriate nav item to highlight
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    // Remove any existing active classes first
+    item.classList.remove('active');
     
-    // Remove any existing 'active' classes
-    navItems.forEach(item => item.classList.remove('active'));
-    
-    // Get current URL
-    const currentUrl = window.location.href.replace(/\/$/, ''); // Remove trailing slash if present
-    const baseUrl = 'https://b.naadaraja.com';
-    
-    // Find the matching nav item
-    navItems.forEach(item => {
-      let itemUrl = item.href.replace(/\/$/, ''); // Remove trailing slash if present
-      
-      // Special handling for home page
-      if (currentUrl === baseUrl || currentUrl === baseUrl + '/') {
-        if (itemUrl === baseUrl) {
-          item.classList.add('active');
-        }
-      }
-      // For other pages
-      else if (currentUrl === itemUrl) {
-        item.classList.add('active');
-      }
-    });
-  }
-
-  // Run immediately if DOM is already loaded
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateActiveNavItem);
-  } else {
-    updateActiveNavItem();
-  }
-
-  // Also run when the navbar is dynamically inserted
-  // This is triggered after fetch() loads the navbar
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.addedNodes.length) {
-        updateActiveNavItem();
-      }
-    });
-  });
-
-  // Start observing the document for when navbar is inserted
-  observer.observe(document.body, { 
-    childList: true, 
-    subtree: true 
+    // For home page
+    if (isHomePage && item.getAttribute('href') === 'https://b.naadaraja.com') {
+      item.classList.add('active');
+    }
+    // For other pages
+    else if (!isHomePage && item.getAttribute('href').endsWith(currentPath)) {
+      item.classList.add('active');
+    }
   });
 </script>
