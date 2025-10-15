@@ -318,16 +318,6 @@ navbar (loaded from common file)
 
 <div id="navbar-container"></div>
 
-<style>
-  #navbar-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
-</style>
-
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     fetch("/navbar.html")
@@ -341,7 +331,6 @@ navbar (loaded from common file)
         if (window.highlightActiveNavItem) {
           setTimeout(highlightActiveNavItem, 0);
         }
-      });
   });
 </script>
 
@@ -394,7 +383,7 @@ navbar (loaded from common file)
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 10px 18px; /* slightly tighter */
-  padding-bottom: calc(var(--bar-h) + 20px); /* increased padding to prevent overlap */
+  padding-bottom: calc(var(--bar-h) + 2px); /* clears navbar, almost no gap */
   text-align: center;
   box-sizing: border-box;
 }
