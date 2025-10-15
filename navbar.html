@@ -1,6 +1,30 @@
 <!-- ==========================
      Navbar (always visible)
      ========================== -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get current page path
+    const currentPath = window.location.pathname;
+    
+    // Remove trailing slash and get the last segment of the path
+    const page = currentPath.replace(/\/$/, '').split('/').pop() || 'index';
+    
+    // Get all navigation items
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    // Loop through nav items and highlight the current one
+    navItems.forEach(item => {
+      const href = item.getAttribute('href');
+      if (
+        (page === 'index' && href === 'https://b.naadaraja.com') ||
+        (page === 'contact' && href === 'https://b.naadaraja.com/contact') ||
+        (page === 'courses' && href === 'https://b.naadaraja.com/courses')
+      ) {
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
 <nav class="bottom-navbar" id="site-navbar" role="navigation" aria-label="Main navigation">
   <a class="nav-item" href="https://b.naadaraja.com/contact" aria-label="Contact">
     <!-- phone / contact SVG -->
@@ -43,6 +67,15 @@ Navbar CSS
       --text: #ecf0f1;
       --accent: #f39c12;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+.nav-item.active {
+      color: var(--accent);
+      transform: translateY(-8px);
+}
+
+.nav-item.active svg {
+      fill: var(--accent);
+}
       
       position: fixed;
       left: 0;
@@ -139,25 +172,3 @@ Navbar CSS
     }
   </style>
 
-<script>
-  // Script to highlight active button based on current page
-  const path = window.location.pathname;
-
-  // Remove any existing active classes first
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active');
-
-    // Get the path from the href
-    const itemPath = new URL(item.href).pathname;
-    
-    // Check if this is the current page
-    if (
-      // Home page check
-      (itemPath === '/' && (path === '/' || path === '' || path === '/index.html')) ||
-      // Other pages check (like /contact, /courses)
-      (itemPath !== '/' && path.startsWith(itemPath))
-    ) {
-      item.classList.add('active');
-    }
-  });
-</script>
