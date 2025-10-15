@@ -140,23 +140,24 @@ Navbar CSS
   </style>
 
 <script>
-  // Get current URL
-  const currentUrl = window.location.href;
-  
-  // Remove any existing active classes
+  // Script to highlight active button based on current page
+  const path = window.location.pathname;
+
+  // Remove any existing active classes first
   document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
-  });
 
-  // Find and highlight the correct nav item
-  if (currentUrl === 'https://b.naadaraja.com/' || currentUrl === 'https://b.naadaraja.com') {
-    // Home page
-    document.querySelector('.nav-item[href="https://b.naadaraja.com"]')?.classList.add('active');
-  } else if (currentUrl.includes('/contact')) {
-    // Contact page
-    document.querySelector('.nav-item[href="https://b.naadaraja.com/contact"]')?.classList.add('active');
-  } else if (currentUrl.includes('/courses')) {
-    // Courses page
-    document.querySelector('.nav-item[href="https://b.naadaraja.com/courses"]')?.classList.add('active');
-  }
+    // Get the path from the href
+    const itemPath = new URL(item.href).pathname;
+    
+    // Check if this is the current page
+    if (
+      // Home page check
+      (itemPath === '/' && (path === '/' || path === '' || path === '/index.html')) ||
+      // Other pages check (like /contact, /courses)
+      (itemPath !== '/' && path.startsWith(itemPath))
+    ) {
+      item.classList.add('active');
+    }
+  });
 </script>
