@@ -1025,8 +1025,8 @@ navbar (loaded from common file)
 
 
 
-<div id="navbar-container"></div>
-<script>
+<div id="navbar-container">
+  <script>
   document.addEventListener("DOMContentLoaded", () => {
     fetch("/navbar.html")
       .then(response => {
@@ -1036,15 +1036,17 @@ navbar (loaded from common file)
       .then(data => {
         document.getElementById("navbar-container").innerHTML = data;
 
-         // Highlight only the home button
-        const HomeLink = document.querySelector('.bottom-navbar .nav-item[href*="Home"]');
-        if (HomeLink) {
-          HomeLink.classList.add('active');
+        // Always highlight the Home button
+        const homeLink = document.querySelector('.bottom-navbar .nav-item[href="/"], .bottom-navbar .nav-item[href="https://b.naadaraja.com/"]');
+        if (homeLink) {
+          homeLink.classList.add('active');
         }
       })
       .catch(err => console.error("Navbar load error:", err));
   });
-</script>
+  </script>
+</div>
+
 
 
 
