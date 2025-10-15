@@ -316,9 +316,8 @@ Header (loaded from common file)
 navbar (loaded from common file)
 ------------------------------>
 
-<div id="navbar-container"></div>
-
-<script>
+<div id="navbar-container">
+  <script>
   document.addEventListener("DOMContentLoaded", () => {
     fetch("/navbar.html")
       .then(response => {
@@ -327,10 +326,17 @@ navbar (loaded from common file)
       })
       .then(data => {
         document.getElementById("navbar-container").innerHTML = data;
+
+        // Highlight only the Contact button
+        const contactLink = document.querySelector('.bottom-navbar .nav-item[href*="contact"]');
+        if (contactLink) {
+          contactLink.classList.add('active');
+        }
       })
       .catch(err => console.error("Navbar load error:", err));
   });
-</script>
+  </script>
+</div>
 
 
 
