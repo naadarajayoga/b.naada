@@ -1037,9 +1037,9 @@ navbar (loaded from common file)
         document.getElementById("navbar-container").innerHTML = data;
 
          // Highlight only the home button
-        const homeLink = document.querySelector('.bottom-navbar .nav-item[href*="Home"]');
-        if (homeLink) {
-          homeLink.classList.add('active');
+        const HomeLink = document.querySelector('.bottom-navbar .nav-item[href*="Home"]');
+        if (HomeLink) {
+          HomeLink.classList.add('active');
         }
       })
       .catch(err => console.error("Navbar load error:", err));
