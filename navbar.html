@@ -10,7 +10,7 @@
     <span>Contact</span>
   </a>
 
-  <a class="nav-item active" href="https://b.naadaraja.com" aria-label="Home">
+  <a class="nav-item" href="https://b.naadaraja.com" aria-label="Home">
     <!-- home SVG -->
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
         <path d="M541 229.16l-61-52.06V56c0-13.25-10.75-24-24-24h-72c-13.25 
@@ -140,23 +140,17 @@ Navbar CSS
   </style>
 
 <script>
-  // Simple script to highlight the active nav item
-  const currentPath = window.location.pathname;
-  const isHomePage = currentPath === '/' || currentPath === '';
+  // Script to highlight home button only on home page
+  const path = window.location.pathname;
+  const homeLink = document.querySelector('.nav-item[href="https://b.naadaraja.com"]');
   
-  // Find the appropriate nav item to highlight
-  const navItems = document.querySelectorAll('.nav-item');
-  navItems.forEach(item => {
-    // Remove any existing active classes first
+  // Remove any existing active classes
+  document.querySelectorAll('.nav-item').forEach(item => {
     item.classList.remove('active');
-    
-    // For home page
-    if (isHomePage && item.getAttribute('href') === 'https://b.naadaraja.com') {
-      item.classList.add('active');
-    }
-    // For other pages
-    else if (!isHomePage && item.getAttribute('href').endsWith(currentPath)) {
-      item.classList.add('active');
-    }
   });
+  
+  // Only add active class to home button if we're on the home page
+  if (path === '/' || path === '' || path === '/index.html') {
+    homeLink.classList.add('active');
+  }
 </script>
