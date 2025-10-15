@@ -132,10 +132,18 @@
     // Normalize a pathname: remove query/hash, treat /index.html as /, remove trailing slash
     function normalizePath(p) {
       if (!p) return '/';
-      p = p.split('#')[0].split('?')[0] || '/';
+      // Remove query string and hash
+      p = p.split('?')[0].split('#')[0];
+      // Ensure it starts with /
       if (!p.startsWith('/')) p = '/' + p;
-      p = p.replace(/\/index\.html$/i, '/');
-      if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+      // Convert /index.html to /
+      if (p === '/index.html' || p === '/index.htm') {
+        return '/';
+      }
+      // Remove trailing slash EXCEPT for root
+      if (p.length > 1 && p.endsWith('/')) {
+        p = p.slice(0, -1);
+      }
       return p;
     }
 
@@ -150,29 +158,33 @@
       // Remove all active classes first
       items.forEach(item => item.classList.remove('active'));
 
-      // Build array of items with their paths and path lengths
-      const itemsWithPaths = items.map(item => {
-        const href = item.getAttribute('href') || '';
-        let linkPath = '';
+      // Build array of items with their normalized paths
+      const itemsWithPaths = [];
+      
+      for (const item of items) {
+        const href = item.getAttribute('href');
+        if (!href) continue;
         
+        let linkPath = '';
         try {
           const linkUrl = new URL(href, location.href);
           linkPath = normalizePath(linkUrl.pathname);
         } catch (e) {
+          // If it's a relative path, normalize it directly
           linkPath = normalizePath(href);
         }
         
-        return { item, linkPath, length: linkPath.length };
-      });
+        itemsWithPaths.push({ item, linkPath });
+      }
 
-      // Sort by path length (longest first) to prioritize more specific paths
-      itemsWithPaths.sort((a, b) => b.length - a.length);
+      // Sort by path length descending (longest/most specific first)
+      itemsWithPaths.sort((a, b) => b.linkPath.length - a.linkPath.length);
 
-      // Find and activate only the first exact match
+      // Activate ONLY the first exact match
       for (const { item, linkPath } of itemsWithPaths) {
         if (linkPath === currentPath) {
           item.classList.add('active');
-          break; // Stop after first match
+          return; // Exit immediately after finding match
         }
       }
     }
