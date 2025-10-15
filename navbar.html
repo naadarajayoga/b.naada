@@ -139,34 +139,34 @@ Navbar CSS
     }
   </style>
 
-<div id="navbar-script">
-  <script>
-    function highlightActiveNavItem() {
-      console.log('Highlighting nav item for:', window.location.href);
-      
-      // Get current URL
-      const currentUrl = window.location.href;
-      
-      // Remove any existing active classes
-      const navItems = document.querySelectorAll('.nav-item');
-      navItems.forEach(item => item.classList.remove('active'));
-
-      // Find and highlight the correct nav item
-      if (currentUrl.includes('b.naadaraja.com')) {
-        if (currentUrl.endsWith('/contact')) {
-          document.querySelector('.nav-item[href="https://b.naadaraja.com/contact"]')?.classList.add('active');
-        } else if (currentUrl.endsWith('/courses')) {
-          document.querySelector('.nav-item[href="https://b.naadaraja.com/courses"]')?.classList.add('active');
-        } else if (currentUrl.match(/b\.naadaraja\.com\/?$/)) {
-          document.querySelector('.nav-item[href="https://b.naadaraja.com"]')?.classList.add('active');
+<script>
+  // Function to highlight the active navigation item
+  function updateNavHighlight() {
+    // Get the current path (e.g., /, /contact, /courses)
+    const path = window.location.pathname;
+    
+    // Get all nav items
+    const navItems = document.querySelectorAll('.nav-item');
+    
+    // Remove existing active classes
+    navItems.forEach(item => item.classList.remove('active'));
+    
+    // Add active class based on current path
+    navItems.forEach(item => {
+      if (path === '/' || path === '') {
+        // Home page
+        if (item.getAttribute('href') === 'https://b.naadaraja.com') {
+          item.classList.add('active');
+        }
+      } else {
+        // Other pages
+        if (item.getAttribute('href').endsWith(path)) {
+          item.classList.add('active');
         }
       }
-    }
+    });
+  }
 
-    // Call immediately if possible
-    highlightActiveNavItem();
-    
-    // Also call after a short delay to ensure DOM is ready
-    setTimeout(highlightActiveNavItem, 100);
-  </script>
-</div>
+  // Run the highlight function
+  updateNavHighlight();
+</script>

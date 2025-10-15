@@ -337,9 +337,9 @@ navbar (loaded from common file)
       })
       .then(data => {
         document.getElementById("navbar-container").innerHTML = data;
-        // Re-run the highlight function after navbar is inserted
-        if (window.highlightActiveNavItem) {
-          setTimeout(highlightActiveNavItem, 0);
+        // Call the highlight function after navbar is loaded
+        if (typeof updateNavHighlight === 'function') {
+          updateNavHighlight();
         }
       });
   });
