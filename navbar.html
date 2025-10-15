@@ -145,33 +145,36 @@
       const nav = root.querySelector('.bottom-navbar');
       if (!nav) return;
 
-      const items = nav.querySelectorAll('.nav-item');
-      let foundMatch = false;
+      const items = Array.from(nav.querySelectorAll('.nav-item'));
+      
+      // Remove all active classes first
+      items.forEach(item => item.classList.remove('active'));
 
-      items.forEach(item => {
-        item.classList.remove('active');
-
+      // Build array of items with their paths and path lengths
+      const itemsWithPaths = items.map(item => {
         const href = item.getAttribute('href') || '';
-        if (!href || foundMatch) return;
-
+        let linkPath = '';
+        
         try {
           const linkUrl = new URL(href, location.href);
-          const linkPath = normalizePath(linkUrl.pathname);
-
-          // Exact path match
-          if (linkPath === currentPath) {
-            item.classList.add('active');
-            foundMatch = true;
-          }
+          linkPath = normalizePath(linkUrl.pathname);
         } catch (e) {
-          // If URL parsing fails, try simple path comparison
-          const linkPath = normalizePath(href);
-          if (linkPath === currentPath) {
-            item.classList.add('active');
-            foundMatch = true;
-          }
+          linkPath = normalizePath(href);
         }
+        
+        return { item, linkPath, length: linkPath.length };
       });
+
+      // Sort by path length (longest first) to prioritize more specific paths
+      itemsWithPaths.sort((a, b) => b.length - a.length);
+
+      // Find and activate only the first exact match
+      for (const { item, linkPath } of itemsWithPaths) {
+        if (linkPath === currentPath) {
+          item.classList.add('active');
+          break; // Stop after first match
+        }
+      }
     }
 
     // Run when DOM ready
