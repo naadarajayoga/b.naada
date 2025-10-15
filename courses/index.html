@@ -327,12 +327,12 @@ Header (loaded from common file)
 
 
 <!----------------------
-navbar (loaded from common file) 
+navbar (loaded from common file)
 ------------------------------>
 
-<div id="navbar-container">
-  <script>
-  // Load navbar dynamically
+<div id="navbar-container"></div>
+
+<script>
   document.addEventListener("DOMContentLoaded", () => {
     fetch("/navbar.html")
       .then(response => {
@@ -341,23 +341,10 @@ navbar (loaded from common file)
       })
       .then(data => {
         document.getElementById("navbar-container").innerHTML = data;
-
-        // Re-run active link script after navbar loads
-        const currentUrl = window.location.href;
-        const navItems = document.querySelectorAll('.bottom-navbar .nav-item');
-        
-        navItems.forEach(item => {
-          item.classList.remove('active');
-          const href = item.getAttribute('href');
-          if (currentUrl.includes(href.split('b.naadaraja.com')[1])) {
-            item.classList.add('active');
-          }
-        });
       })
       .catch(err => console.error("Navbar load error:", err));
   });
-  </script>
-</div>
+</script>
 
 
 <!-- ==========================
