@@ -1025,16 +1025,6 @@ navbar (loaded from common file)
 
 <div id="navbar-container"></div>
 
-<style>
-  #navbar-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-  }
-</style>
-
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     fetch("/navbar.html")
@@ -1044,11 +1034,6 @@ navbar (loaded from common file)
       })
       .then(data => {
         document.getElementById("navbar-container").innerHTML = data;
-        // Call the highlight function after navbar is loaded
-        if (typeof updateNavHighlight === 'function') {
-          updateNavHighlight();
-        }
-      });
       })
       .catch(err => console.error("Navbar load error:", err));
   });
