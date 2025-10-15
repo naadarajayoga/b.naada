@@ -141,14 +141,15 @@ Navbar CSS
   </style>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const currentUrl = window.location.href;
+      const currentPath = window.location.pathname;
       const navItems = document.querySelectorAll('.bottom-navbar .nav-item');
       
       navItems.forEach(item => {
         item.classList.remove('active');
         const href = item.getAttribute('href');
+        const itemPath = href.split('b.naadaraja.com')[1] || '/';
         
-        if (currentUrl.includes(href.split('b.naadaraja.com')[1])) {
+        if (currentPath === itemPath) {
           item.classList.add('active');
         }
       });
