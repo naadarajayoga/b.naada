@@ -130,30 +130,42 @@
   'use strict';
 
   function setActiveNavItems() {
+    // Find navbar
     const nav = document.querySelector('.bottom-navbar');
     if (!nav) return;
-
-    // Get current location without trailing slash
-    const currentLocation = window.location.href.replace(/\/$/, '');
     
+    // First, remove all active states
     nav.querySelectorAll('.nav-item').forEach(item => {
-      // Remove active state first
       item.classList.remove('active');
-      
-      const href = item.getAttribute('href')?.replace(/\/$/, '');
-      if (!href) return;
+    });
 
-      // Special case for home page
-      if (href === 'https://b.naadaraja.com') {
-        if (currentLocation === 'https://b.naadaraja.com') {
+    // Get all nav items for processing
+    const navItems = nav.querySelectorAll('.nav-item');
+    const homeLink = Array.from(navItems).find(item => 
+      item.getAttribute('href') === 'https://b.naadaraja.com');
+    
+    // Check if we're on the home page
+    const isHomePage = document.title.includes('Home') || 
+                      document.title === 'B.Naadaraja' ||
+                      !window.location.pathname || 
+                      window.location.pathname === '/' ||
+                      window.location.pathname === '/index.html';
+
+    // Set active states
+    navItems.forEach(item => {
+      const href = item.getAttribute('href');
+      if (!href) return;
+      
+      if (item === homeLink) {
+        // For home link
+        if (isHomePage) {
           item.classList.add('active');
         }
-        return;
-      }
-
-      // For other pages
-      if (href === currentLocation) {
-        item.classList.add('active');
+      } else {
+        // For other links
+        if (window.location.href.startsWith(href)) {
+          item.classList.add('active');
+        }
       }
     });
   }
