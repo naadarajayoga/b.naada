@@ -4,69 +4,49 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Naada Raja Yoga</title>
-  <meta name="description" content="Naada Raja Yoga — personalized online classes" />
-  <link rel="manifest" href="/manifest.json">
-  <link rel="icon" href="/favicon.ico/favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
 
-
+  <!-- minimal: we intentionally do not include visual CSS for header/footer/navbar here.
+       Their CSS lives inside the templates below or inside the container files. -->
   <style>
-    /* :root { --bottom-bar-h: 65px; --content-max-w:1100px; --accent:#f39c12; }
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto;}
-    body{background:#fff;color:#222;-webkit-font-smoothing:antialiased}
-    img{max-width:100%;display:block} */
-
-    /* layout slots */
-    /* #page-root{min-height:100vh;display:flex;flex-direction:column} */
-    header{padding:20px;border-bottom:1px solid #eee;display:flex;justify-content:center}
-    .branding{display:flex;align-items:center;gap:12px;max-width:var(--content-max-w);width:100%;justify-content:center}
-    .branding img{width:80px}
-    .branding h1{font-family:'Marcellus',serif;margin:0;font-size:1.9rem}
-    .branding p{font-family:'Playfair Display',serif;margin:0;color:#555;font-style:italic}
-
+    /* minimal structural styles only (you said you don't want a common CSS) */
+    :root{ --content-max-w:1100px }
+    html,body{height:100%;margin:0;font-family:Arial,system-ui,-apple-system,Segoe UI,Roboto}
+    img{max-width:100%;display:block}
+    #page-root{min-height:100vh;display:flex;flex-direction:column}
+    /* slots for injected header/footer/navbar (templates include visual CSS) */
+    #header-slot,#navbar-slot,#footer-slot{width:100%}
+    /* main dynamic area — containers will bring their own styles */
     main#app{width:100%;max-width:var(--content-max-w);margin:20px auto;padding:12px 18px;box-sizing:border-box;flex:1 0 auto}
-
-    /* bottom navbar (fixed) */
-    .bottom-navbar{
-      --bar-h:var(--bottom-bar-h);
-      position:fixed;left:0;right:0;bottom:0;height:var(--bar-h);
-      display:flex;justify-content:center;align-items:center;gap:40px;
-      background:linear-gradient(135deg,#2c3e50 0%,#34495e 100%);color:#ecf0f1;
-      z-index:9999;backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.08);
-    }
-    .nav-item{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;border-radius:12px;color:inherit;text-decoration:none;cursor:pointer;font-weight:600;position:relative;transition:all .25s}
-    .nav-item::before{content:"";position:absolute;inset:0;border-radius:12px;background:rgba(243,156,18,0.08);opacity:0;transition:all .25s;z-index:-1}
-    .nav-item:hover{transform:translateY(-3px);color:var(--accent)}
-    .nav-item:hover::before{opacity:1}
-    .nav-item svg{width:24px;height:24px;fill:currentColor}
-    .nav-item.active{color:var(--accent)}
-    .nav-item.active svg{transform:scale(1.08);filter:drop-shadow(0 0 8px rgba(243,156,18,0.45))}
-
-    @media (max-width:520px){
-      .bottom-navbar{--bar-h:70px;gap:10px;justify-content:space-around}
-      .nav-item{padding:6px 8px}
-      .nav-item svg{width:22px;height:22px}
-    }
-
-    /* peek footer */
-    .peek-footer{background:#fff;color:#000}
-    .peek-footer__spacer{height:4px;width:100%}
-    .peek-footer__hidden{max-width:var(--content-max-w);margin:0 auto;padding:10px 18px;padding-bottom:calc(var(--bottom-bar-h)+2px);text-align:center;box-sizing:border-box}
-    .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
-    .footer-links a{color:#bdbdbd;text-decoration:none;padding:4px 6px;border-radius:6px}
-    .footer-links a:hover{color:#000;text-decoration:underline}
-
-    /* loading */
-    .loader{padding:28px;text-align:center;color:#666}
-
-    /* small utility */
-    .container-section{max-width:var(--content-max-w);margin:0 auto;padding:8px 6px;box-sizing:border-box}
+    /* small loader style */
+    .naada-loader{padding:24px;text-align:center;color:#666}
   </style>
 </head>
 <body>
   <div id="page-root">
-    <!-- header (static) -->
+    <!-- placeholders -->
+    <div id="header-slot" aria-hidden="true"></div>
+    <main id="app" role="main" aria-live="polite"></main>
+    <div id="footer-slot" aria-hidden="true"></div>
+    <div id="navbar-slot" aria-hidden="true"></div>
+  </div>
+
+  <!-- ======= TEMPLATES (header / navbar / footer) =======
+       Each template contains its own CSS so you keep visual styles local.
+       If you already maintain these as separate files, you can copy their contents here.
+  -->
+
+  <!-- header template (contains its own visual CSS) -->
+  <template id="tmpl-header">
+    <style>
+      /* header visual styles (kept local inside template) */
+      header{padding:20px;border-bottom:1px solid #eee;display:flex;justify-content:center}
+      .branding{display:flex;gap:12px;align-items:center;max-width:1100px;width:100%;justify-content:center}
+      .branding img{width:80px}
+      .branding h1{font-family:'Marcellus',serif;margin:0;font-size:1.9rem}
+      .branding p{font-family:'Playfair Display',serif;margin:0;color:#555;font-style:italic}
+      @media (max-width:700px){ .branding img{width:65px} .branding h1{font-size:1.6rem} }
+    </style>
+
     <header role="banner">
       <div class="branding">
         <img src="/images/Naada Raja Yoga Logo.png" alt="Naada Raja Yoga Logo">
@@ -76,49 +56,74 @@
         </div>
       </div>
     </header>
+  </template>
 
-    <!-- dynamic container area -->
-    <main id="app" role="main" aria-live="polite"></main>
+  <!-- navbar template (contains its own visual CSS) -->
+  <template id="tmpl-navbar">
+    <style>
+      .bottom-navbar {
+        position: fixed; left:0; right:0; bottom:0;
+        height: 65px; display:flex; justify-content:center; align-items:center; gap:40px;
+        background: linear-gradient(135deg,#2c3e50 0%,#34495e 100%); color:#ecf0f1;
+        z-index: 9999; backdrop-filter: blur(10px); border-top:1px solid rgba(255,255,255,0.08);
+      }
+      .bottom-navbar .nav-item{display:inline-flex;flex-direction:column;align-items:center;gap:4px;padding:8px 12px;border-radius:12px;color:inherit;text-decoration:none;cursor:pointer;font-weight:600;position:relative;transition:all .25s}
+      .bottom-navbar .nav-item::before{content:"";position:absolute;inset:0;border-radius:12px;background:rgba(243,156,18,0.08);opacity:0;transition:all .25s;z-index:-1}
+      .bottom-navbar .nav-item:hover{transform:translateY(-3px);color:#f39c12}
+      .bottom-navbar .nav-item:hover::before{opacity:1}
+      .bottom-navbar svg{width:24px;height:24px;fill:currentColor}
+      .bottom-navbar .nav-item.active{color:#f39c12}
+      .bottom-navbar .nav-item.active svg{transform:scale(1.08);filter:drop-shadow(0 0 8px rgba(243,156,18,0.45))}
+      @media (max-width:520px){ .bottom-navbar{height:70px;gap:10px;justify-content:space-around} .bottom-navbar svg{width:22px;height:22px} }
+    </style>
 
-    <!-- peek footer -->
-    <footer class="peek-footer" id="site-footer" aria-label="Site footer">
-      <div class="peek-footer__spacer" aria-hidden="true"></div>
-      <div class="peek-footer__hidden" role="region" aria-label="Footer expanded links">
-        <nav class="footer-links" aria-label="Footer links">
-          <!-- data-target used by JS to map to container -->
-          <a href="https://naadaraja.com/privacy" data-target="privacy">Privacy Policy</a>
-          <a href="https://naadaraja.com/terms" data-target="terms">Terms &amp; Conditions</a>
-          <a href="https://naadaraja.com/refund" data-target="refund">Refund Policy</a>
-        </nav>
-      </div>
-    </footer>
-
-    <!-- bottom navbar (static in index) -->
     <nav class="bottom-navbar" id="site-navbar" role="navigation" aria-label="Main navigation">
-      <a class="nav-item" href="/contact" data-target="contact" aria-label="Contact">
+      <a class="nav-item" href="#/contact" data-target="contact" aria-label="Contact">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.2a15.05 15.05 0 006.2 6.2l1.8-1.8a1 1 0 01.9-.24c1 .25 2 .38 3 .38a1 1 0 011 1v3a1 1 0 01-1 1C9.2 23 1 14.8 1 3a1 1 0 011-1h3a1 1 0 011 1c0 1.1.13 2.1.38 3a1 1 0 01-.24.9L6.6 10.2z"/></svg>
         <span>Contact</span>
       </a>
 
-      <a class="nav-item" href="/" data-target="home" aria-label="Home">
+      <a class="nav-item" href="#/home" data-target="home" aria-label="Home">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" aria-hidden="true"><path d="M541 229.16l-61-52.06V56c0-13.25-10.75-24-24-24h-72c-13.25 0-24 10.75-24 24v24L314.4 43c-15.9-13.6-39.3-13.6-55.2 0L35 229.2c-9.9 8.4-11.1 23.3-2.7 33.2s23.3 11.1 33.2 2.7L96 232.1V456c0 30.9 25.1 56 56 56h96V360h80v152h96c30.9 0 56-25.1 56-56V232l30.6 26c9.9 8.4 24.8 7.1 33.2-2.7 8.4-9.9 7.1-24.8-2.7-33.2z"/></svg>
         <span>Home</span>
       </a>
 
-      <a class="nav-item" href="/courses" data-target="courses" aria-label="Courses">
+      <a class="nav-item" href="#/courses" data-target="courses" aria-label="Courses">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" aria-hidden="true"><path d="M320 96a64 64 0 1 0 0-128 64 64 0 1 0 0 128zM528 352h-56l-41-82c-6-12-19-18-32-14s-21 16-19 29l20 99H240l20-99c2-13-5-25-19-29s-26 2-32 14l-41 82H112c-27 0-48 21-48 48s21 48 48 48h416c27 0 48-21 48-48s-21-48-48-48z"/></svg>
         <span>Courses</span>
       </a>
     </nav>
-  </div>
+  </template>
 
-  <!-- ==========================
-       Router + dynamic loader
-       ========================== -->
+  <!-- footer template (contains its own visual CSS) -->
+  <template id="tmpl-footer">
+    <style>
+      .peek-footer{background:#fff;color:#000}
+      .peek-footer__spacer{height:4px;width:100%}
+      .peek-footer__hidden{max-width:1100px;margin:0 auto;padding:10px 18px;padding-bottom:calc(65px + 2px);text-align:center;box-sizing:border-box}
+      .footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+      .footer-links a{color:#bdbdbd;text-decoration:none;padding:4px 6px;border-radius:6px}
+      .footer-links a:hover{color:#000;text-decoration:underline}
+    </style>
+
+    <footer class="peek-footer" id="site-footer" aria-label="Site footer">
+      <div class="peek-footer__spacer" aria-hidden="true"></div>
+      <div class="peek-footer__hidden" role="region" aria-label="Footer expanded links">
+        <nav class="footer-links" aria-label="Footer links">
+          <a href="#/privacy" data-target="privacy">Privacy Policy</a>
+          <a href="#/terms" data-target="terms">Terms &amp; Conditions</a>
+          <a href="#/refund" data-target="refund">Refund Policy</a>
+        </nav>
+      </div>
+    </footer>
+  </template>
+
+  <!-- ========== minimal runtime: inject static templates + fetch and inject containers ========== -->
+
   <script>
-  (function () {
-    // Map route key -> file to fetch (adjust paths if different)
-    const containerMap = {
+  (function(){
+    // mapping of routeKey -> external file path
+    const containerFiles = {
       home:    '/home.html',
       contact: '/contact.html',
       courses: '/courses.html',
@@ -127,222 +132,260 @@
       refund:  '/refund.html'
     };
 
-    const cache = {}; // in-memory cache of fetched HTML string
+    const headerSlot = document.getElementById('header-slot');
+    const navbarSlot = document.getElementById('navbar-slot');
+    const footerSlot = document.getElementById('footer-slot');
     const app = document.getElementById('app');
-    const navbar = document.getElementById('site-navbar');
-    const footer = document.getElementById('site-footer');
 
-    // Utility: show loader while fetching
-    function showLoader() {
-      app.innerHTML = '<div class="loader">Loading…</div>';
+    // simple in-memory cache for fetched container HTML
+    const cache = {};
+
+    // inject a template into the target slot and execute inline styles/scripts contained in slot
+    function injectTemplate(templateId, slot) {
+      const tpl = document.getElementById(templateId);
+      if (!tpl) return;
+      // clone and append
+      const clone = tpl.content.cloneNode(true);
+      slot.appendChild(clone);
+      // execute inline scripts that are now in the slot
+      const scripts = slot.querySelectorAll('script');
+      scripts.forEach(oldScript => {
+        const s = document.createElement('script');
+        for (let i = 0; i < oldScript.attributes.length; i++) {
+          const a = oldScript.attributes[i];
+          s.setAttribute(a.name, a.value);
+        }
+        s.text = oldScript.textContent;
+        oldScript.parentNode.replaceChild(s, oldScript);
+      });
     }
 
-    // Adjust #app bottom padding so content never hides behind navbar + footer
-    function adjustAppPadding() {
-      const navRect = navbar ? navbar.getBoundingClientRect() : {height: 0};
-      const footRect = footer ? footer.getBoundingClientRect() : {height: 0};
-      const extra = 16; // extra gap
-      const pb = Math.ceil((navRect.height || 0) + (footRect.height || 0) + extra);
-      app.style.paddingBottom = pb + 'px';
-    }
-    window.addEventListener('resize', adjustAppPadding);
+    // inject static chrome
+    function initChrome() {
+      injectTemplate('tmpl-header', headerSlot);
+      injectTemplate('tmpl-footer', footerSlot);
+      injectTemplate('tmpl-navbar', navbarSlot);
 
-    // Parse HTML string into a DocumentFragment and return it
-    function parseHTMLToFragment(htmlString) {
-      const template = document.createElement('template');
-      template.innerHTML = htmlString.trim();
-      return template.content;
+      // after navbar exists, set up its click listener below
     }
 
-    // Insert fragment into #app and execute scripts contained in it
-    function injectFragment(fragment) {
-      // Clear app
+    // helper: set active nav item by data-target
+    function setActiveNav(name) {
+      const nav = document.getElementById('site-navbar');
+      if (!nav) return;
+      nav.querySelectorAll('.nav-item').forEach(it => {
+        if (it.dataset.target === name) it.classList.add('active'); else it.classList.remove('active');
+      });
+    }
+
+    // show loader
+    function showLoading() {
+      app.innerHTML = '<div class="naada-loader">Loading…</div>';
+      adjustSpacing();
+    }
+
+    // adjust #app padding-bottom so footer and navbar don't overlap content
+    function adjustSpacing() {
+      const nav = document.getElementById('site-navbar');
+      const foot = document.getElementById('site-footer');
+      const navH = nav ? nav.getBoundingClientRect().height : 0;
+      const footH = foot ? foot.getBoundingClientRect().height : 0;
+      const extra = 12;
+      app.style.paddingBottom = Math.ceil(navH + footH + extra) + 'px';
+    }
+    window.addEventListener('resize', adjustSpacing);
+
+    // fetch external container file and return HTML string
+    async function fetchContainerFile(routeKey) {
+      if (!containerFiles[routeKey]) throw new Error('Unknown route ' + routeKey);
+      if (cache[routeKey]) return cache[routeKey];
+      const url = containerFiles[routeKey];
+      const res = await fetch(url, {cache: 'no-store'});
+      if (!res.ok) throw new Error('Failed to fetch ' + url + ' (' + res.status + ')');
+      const text = await res.text();
+      cache[routeKey] = text;
+      return text;
+    }
+
+    // parse HTML and extract the container element (by id ending with '-container')
+    function extractContainerFragment(htmlText) {
+      // Use template to parse HTML
+      const tmp = document.createElement('template');
+      tmp.innerHTML = htmlText;
+      // Find first element whose id ends with "-container"
+      const root = Array.from(tmp.content.children).find(el => el.id && el.id.endsWith('-container'));
+      if (!root) {
+        // If not found, we will inject entire parsed content
+        return tmp.content;
+      }
+      // Create a fragment containing that root and its siblings maybe? We'll return only the root
+      const frag = document.createDocumentFragment();
+      frag.appendChild(root.cloneNode(true));
+      return frag;
+    }
+
+    // Inject fragment into #app and execute scripts inside it
+    function injectFragmentAndRunScripts(fragment) {
+      // clear app
       while (app.firstChild) app.removeChild(app.firstChild);
 
-      // Move nodes from fragment into app
-      // But we must handle <script> nodes specially: clone and execute inline or load external src.
+      // Collect scripts from fragment, append others
       const scripts = [];
-      const nodes = Array.from(fragment.childNodes);
-      nodes.forEach(node => {
-        // If it's a script, collect it and skip appending now
-        if (node.nodeName === 'SCRIPT') {
-          scripts.push(node);
-        } else {
-          // append the node (this will include <style> tags, <link>, normal markup)
-          app.appendChild(node.cloneNode(true));
-        }
+      Array.from(fragment.childNodes).forEach(node => {
+        // If the node or its descendants contain script tags we must handle them.
+        // We'll append node, then find script tags inside app and move them to head to execute.
+        app.appendChild(node.cloneNode(true));
       });
 
-      // Now execute collected scripts in order
-      (function runScripts(i) {
-        if (i >= scripts.length) {
-          // After scripts run, focus first heading for accessibility
+      // Find and run scripts inside app (in-order)
+      const appScripts = Array.from(app.querySelectorAll('script'));
+      (function run(i){
+        if (i >= appScripts.length) {
+          // focus first heading
           const firstHeading = app.querySelector('h1, h2, [role="main"]');
           if (firstHeading) {
             firstHeading.setAttribute('tabindex', '-1');
             firstHeading.focus({preventScroll: true});
           }
-          adjustAppPadding();
+          adjustSpacing();
           return;
         }
-
-        const script = scripts[i];
+        const s = appScripts[i];
         const newScript = document.createElement('script');
-
-        // copy attributes (like type or src)
-        for (let j = 0; j < script.attributes.length; j++) {
-          const a = script.attributes[j];
+        for (let j = 0; j < s.attributes.length; j++) {
+          const a = s.attributes[j];
           newScript.setAttribute(a.name, a.value);
         }
-
-        if (script.src) {
-          // external script: set src, attach onload to continue
-          newScript.src = script.src;
-          newScript.onload = () => runScripts(i + 1);
-          newScript.onerror = () => {
-            console.error('Failed to load script:', script.src);
-            runScripts(i + 1);
-          };
+        if (s.src) {
+          newScript.src = s.src;
+          newScript.onload = () => run(i+1);
+          newScript.onerror = () => { console.error('Script load failed', s.src); run(i+1); };
           document.head.appendChild(newScript);
         } else {
-          // inline script: set text and append (executes immediately)
-          newScript.text = script.textContent;
+          // inline
+          newScript.text = s.textContent;
           document.head.appendChild(newScript);
-          // Remove it after execution to avoid buildup (optional)
           document.head.removeChild(newScript);
-          // proceed immediately
-          runScripts(i + 1);
+          run(i+1);
         }
       })(0);
     }
 
-    // Fetch container (with caching); returns HTML string
-    async function fetchContainer(name) {
-      // validate
-      if (!containerMap[name]) throw new Error('Unknown container: ' + name);
-      if (cache[name]) return cache[name];
-
-      const url = containerMap[name];
-      const resp = await fetch(url, {cache: 'no-store'});
-      if (!resp.ok) throw new Error('Failed to fetch ' + url + ' (' + resp.status + ')');
-      const text = await resp.text();
-      cache[name] = text;
-      return text;
-    }
-
-    // Load a container into #app by name, update active nav and history
-    async function loadContainer(name, pushState = true) {
-      if (!containerMap[name]) name = 'home';
-      setActiveNav(name);
-      showLoader();
-      adjustAppPadding();
+    // Load route by key (hash routing). pushHistory=false when handling popstate
+    async function loadRoute(routeKey, pushHistory = true) {
+      if (!containerFiles[routeKey]) routeKey = 'home';
+      setActiveNav(routeKey);
+      showLoading();
 
       try {
-        const html = await fetchContainer(name);
-        // parse and inject
-        const frag = parseHTMLToFragment(html);
-        injectFragment(frag);
+        const html = await fetchContainerFile(routeKey);
+        const frag = extractContainerFragment(html);
+        injectFragmentAndRunScripts(frag);
 
-        // update history (push the "pretty" path)
-        if (pushState) {
-          const path = (name === 'home') ? '/' : '/' + name;
-          try { history.pushState({page: name}, '', path); } catch (e) {}
+        // update hash (push only when requested)
+        if (pushHistory) {
+          // use hash like #/contact
+          const newHash = '#/' + routeKey;
+          if (location.hash !== newHash) location.hash = newHash;
         }
       } catch (err) {
         console.error(err);
-        app.innerHTML = '<div class="loader">Could not load content. Please try again later.</div>';
+        app.innerHTML = '<div class="naada-loader">Could not load content. Please try again later.</div>';
       }
     }
 
-    // Set active class on navbar buttons
-    function setActiveNav(name) {
-      const items = navbar.querySelectorAll('.nav-item');
-      items.forEach(it => {
-        if (it.dataset.target === name) it.classList.add('active');
-        else it.classList.remove('active');
-      });
-    }
-
-    // Resolve pathname to route key
-    function routeForPath(pathname) {
-      const p = (pathname || '/').replace(/^\/+|\/+$/g, '');
-      if (p === '') return 'home';
-      if (containerMap[p]) return p;
-      // If path contains privacy/terms/refund fragments (like full domain),
-      // try to match those keywords
-      if (p.includes('privacy')) return 'privacy';
-      if (p.includes('terms')) return 'terms';
-      if (p.includes('refund')) return 'refund';
-      // fallback
+    // Determine route from location.hash
+    function routeFromHash(h) {
+      const hash = (h || location.hash || '#/home').replace(/^#\/?/, '');
+      if (!hash) return 'home';
+      if (containerFiles[hash]) return hash;
+      // match keywords
+      if (hash.includes('privacy')) return 'privacy';
+      if (hash.includes('terms')) return 'terms';
+      if (hash.includes('refund')) return 'refund';
       return 'home';
     }
 
-    // Intercept clicks on navbar: load container instead of full navigation
-    navbar.addEventListener('click', (ev) => {
-      const a = ev.target.closest('.nav-item');
-      if (!a) return;
-      ev.preventDefault();
-      const targetName = a.dataset.target;
-      if (!targetName) return;
-      // if clicking the already active target, scroll app to top
-      if (a.classList.contains('active')) {
-        app.scrollIntoView({behavior: 'smooth'});
-        return;
-      }
-      loadContainer(targetName, true);
-    });
-
-    // Intercept footer clicks (data-target) to refresh container
-    footer.addEventListener('click', (ev) => {
-      const a = ev.target.closest('a[data-target]');
-      if (!a) return;
-      ev.preventDefault();
-      const tgt = a.dataset.target;
-      if (!tgt) return;
-      loadContainer(tgt, true);
-    });
-
-    // Intercept same-origin link clicks inside app (for links that point to our known routes),
-    // so clicking a link inside a loaded container that points to /privacy etc will load container.
-    document.addEventListener('click', (ev) => {
-      const a = ev.target.closest('a');
-      if (!a) return;
-      // ignore links with target=_blank or download or external origins
-      if (a.target === '_blank' || a.hasAttribute('download')) return;
-      const href = a.getAttribute('href');
-      if (!href) return;
-      // allow anchors that start with '#' to behave normally
-      if (href.startsWith('#')) return;
-      // create a URL relative to current location to inspect origin/path
-      let url;
-      try { url = new URL(href, location.href); } catch (e) { return; }
-      if (url.origin !== location.origin) return; // external link -> let browser handle
-
-      // If path matches one of our container keys, intercept
-      const pathKey = routeForPath(url.pathname);
-      if (pathKey && containerMap[pathKey]) {
+    // Intercept clicks on navbar (delegated)
+    function setupNavClicks() {
+      const nav = document.getElementById('site-navbar');
+      if (!nav) return;
+      nav.addEventListener('click', (ev) => {
+        const a = ev.target.closest('.nav-item');
+        if (!a) return;
         ev.preventDefault();
-        loadContainer(pathKey, true);
-      }
+        const key = a.dataset.target || routeFromHash(a.getAttribute('href'));
+        if (!key) return;
+        // if active clicked, scroll to top of app
+        if (a.classList.contains('active')) {
+          app.scrollIntoView({behavior: 'smooth'});
+          return;
+        }
+        loadRoute(key, true);
+      });
+    }
+
+    // Intercept footer links (delegated)
+    function setupFooterClicks() {
+      const foot = document.getElementById('site-footer');
+      if (!foot) return;
+      foot.addEventListener('click', (ev) => {
+        const a = ev.target.closest('a[data-target]');
+        if (!a) return;
+        ev.preventDefault();
+        const key = a.dataset.target;
+        if (!key) return;
+        loadRoute(key, true);
+      });
+    }
+
+    // Intercept anchor clicks inside app to handle same-origin container links
+    function setupAppLinkDelegation() {
+      document.addEventListener('click', (ev) => {
+        const a = ev.target.closest('a');
+        if (!a) return;
+        // ignore external, target=_blank, download
+        if (a.target === '_blank' || a.hasAttribute('download')) return;
+        const href = a.getAttribute('href');
+        if (!href) return;
+        // ignore fragment anchors
+        if (href.startsWith('#')) return;
+        let url;
+        try { url = new URL(href, location.href); } catch (e) { return; }
+        if (url.origin !== location.origin) return;
+        // convert pathname to route key if matches; otherwise do nothing
+        const path = url.pathname.replace(/^\/+|\/+$/g, '');
+        const candidate = path || 'home';
+        if (containerFiles[candidate]) {
+          ev.preventDefault();
+          loadRoute(candidate, true);
+        }
+      });
+    }
+
+    // handle hashchange/back-forward
+    window.addEventListener('hashchange', () => {
+      const route = routeFromHash(location.hash);
+      loadRoute(route, false);
     });
 
-    // Handle back/forward
-    window.addEventListener('popstate', (ev) => {
-      const state = ev.state || {};
-      const page = state.page || routeForPath(location.pathname);
-      loadContainer(page, false);
-    });
-
-    // Initial load: determine route from location.pathname
+    // initialize
     document.addEventListener('DOMContentLoaded', () => {
-      adjustAppPadding();
-      const initial = routeForPath(location.pathname);
-      loadContainer(initial, false);
+      initChrome();
+      // small timeout to ensure navbar/footer elements exist
+      setTimeout(() => {
+        setupNavClicks();
+        setupFooterClicks();
+        setupAppLinkDelegation();
+        adjustSpacing();
+        // initial route from hash or default to 'home'
+        const initial = routeFromHash(location.hash);
+        loadRoute(initial, false);
+      }, 0);
     });
 
-    // expose for debug
-    window.__naada = { loadContainer, containerMap, cache };
-
+    // expose for debugging
+    window.__naada = { loadRoute, cache, containerFiles };
   })();
   </script>
 </body>
